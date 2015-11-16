@@ -101,9 +101,25 @@
     <Compile Include="ModelConverterFactory.cs" />
     <Compile Include="IModelConverterFactory.cs" />
     <Compile Include="IModelConverter.cs" />
+    <Compile Include="Attributes\DynamicColumnsAttribute.cs" />
+    <Compile Include="Attributes\ExcelRowAttribute.cs" />
+    <Compile Include="Attributes\ExcelSheetAttribute.cs" />
+    <Compile Include="Converters\BlockPlanConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Converters\Extensions.cs" />
+    <Compile Include="Converters\IConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Converters\MiddleData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\ExcelHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\IValidationRuleResult.cs" />
     <Compile Include="Validation\Rules\LocalizableValidationRuleBase.cs" />
+    <Compile Include="ViewModels\BlockPlan.cs" />
+    <Compile Include="ViewModels\TSDV.cs" />
     <Compile Include="Validation\Rules\ValidationRuleBase.cs" />
     <Compile Include="Validation\DefaultSequentialRuleValidator.cs" />
     <Compile Include="Validation\Rules\ValidationRuleResult.cs" />
