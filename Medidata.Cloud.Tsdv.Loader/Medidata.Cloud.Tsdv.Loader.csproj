@@ -46,9 +46,6 @@
       <HintPath>..\packages\Medidata.Interfaces.0.1.0\lib\net40\Medidata.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Medidata.MsExcel2003.Xml">
-      <HintPath>..\packages\Medidata.MsExcel2003.Xml.1.0.0\lib\net40\Medidata.MsExcel2003.Xml.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -87,12 +84,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\DynamicColumnsAttribute.cs" />
-    <Compile Include="Attributes\ExcelRowAttribute.cs" />
-    <Compile Include="Attributes\ExcelSheetAttribute.cs" />
+    <Compile Include="Attributes\ExcelSheetAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Converters\BlockPlanConverter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\DefaultConverter.cs" />
     <Compile Include="Converters\Extensions.cs" />
     <Compile Include="Converters\IConverter.cs">
       <SubType>Code</SubType>
@@ -117,7 +115,9 @@
   <ItemGroup>
     <None Include="_CreateNewNuGetPackage\DoNotModify\NuGet.exe" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Styles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>REM Create a NuGet package for this project and place the .nupkg file in the project's output directory.

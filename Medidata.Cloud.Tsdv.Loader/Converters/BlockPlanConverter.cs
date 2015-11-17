@@ -7,12 +7,16 @@ using Medidata.Interfaces.TSDV;
 
 namespace Medidata.Cloud.Tsdv.Loader.Converters
 {
-    public class BlockPlanConverter :IConverter 
+    public class BlockPlanConverter :IConverter
     {
+        //public Object Localizer { get; set; }
         public object ConvertBack(MiddleData data)
         {
             var rowData = data.RowData;
             var columnNames = data.ColumnNames;
+
+            //TODO: Utilize realColumnNames
+            var realColumnNames = data.RealColumnNames;
             return new BlockPlan()
             {
                 Name = rowData[columnNames.IndexFor("Block Plan Name")],
@@ -65,7 +69,8 @@ namespace Medidata.Cloud.Tsdv.Loader.Converters
                 blockPlan.MatrixName,
                 blockPlan.DateEstimated.ToString()
             };
-            return new MiddleData(columnData,rowData);
+            //TODO: Add RealNames
+            return new MiddleData(columnData,rowData,columnData);
         }
     }
 }
