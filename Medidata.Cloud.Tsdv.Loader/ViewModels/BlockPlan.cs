@@ -6,7 +6,7 @@ using Medidata.Interfaces.TSDV;
 
 namespace Medidata.Cloud.Tsdv.Loader.ViewModels
 {
-    public class BlockPlan : IBlockPlan
+    public class BlockPlan
     {
         public string Name { get; set; }
         public string BlockPlanType { get; set; }
@@ -19,5 +19,22 @@ namespace Medidata.Cloud.Tsdv.Loader.ViewModels
         public decimal CoveragePercent { get; set; }
         public string MatrixName { get; set; }
         public DateTime? DateEstimated { get; set; }
+
+        public BlockPlan() { }
+        public BlockPlan(IBlockPlan blockPlan)
+        {
+            var bp = blockPlan;
+            Name = bp.Name;
+            BlockPlanType = bp.BlockPlanType;
+            ObjectName = bp.ObjectName;
+            IsProdInUse = bp.IsProdInUse;
+            RoleName = bp.RoleName;
+            Activated = bp.Activated;
+            ActivatedUserName = bp.ActivatedUserName;
+            AverageSubjectPerSite = bp.AverageSubjectPerSite;
+            CoveragePercent = bp.CoveragePercent;
+            MatrixName = bp.MatrixName;
+            DateEstimated = bp.DateEstimated;
+        }
     }
 }

@@ -9,7 +9,6 @@ namespace Medidata.Cloud.Tsdv.Loader.ViewModels
 {
     public class TSDV
     {
-        [ExcelSheet(SheetName = "Block Plans", ConverterType = typeof(BlockPlanConverter))]
         public List<BlockPlan> BlockPlans { get; set; }
     }
 

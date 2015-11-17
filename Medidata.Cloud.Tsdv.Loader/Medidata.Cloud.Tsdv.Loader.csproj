@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IWorkbookParser.cs" />
+    <Compile Include="Attributes\ExcelSheetAttribute.cs">
     <Compile Include="IWorksheetParser.cs" />
     <Compile Include="ModelConverters\BlockPlanConverter.cs" />
     <Compile Include="ModelConverters\MatchedPropertyInfo.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Converters\BlockPlanConverter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\DefaultConverter.cs" />
     <Compile Include="Converters\Extensions.cs" />
     <Compile Include="Converters\IConverter.cs">
       <SubType>Code</SubType>
@@ -152,7 +154,9 @@
   <ItemGroup>
     <None Include="_CreateNewNuGetPackage\DoNotModify\NuGet.exe" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Styles\" />
+  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
