@@ -1,4 +1,5 @@
 /packages
 obj
 bin
-/*.suo
+*.suo
+*.coverage
