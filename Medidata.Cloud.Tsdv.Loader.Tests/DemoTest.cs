@@ -42,7 +42,7 @@ namespace Medidata.Cloud.Tsdv.Loader.Tests
         public void Demo2()
         {
             var helper = new ExcelHelper();
-            TSDV tsdv = helper.ConvertFromExcel<TSDV>(@"TestHelpers\\tsdv_test.xlsx");
+            TSDV tsdv = helper.ConvertFromExcel<TSDV>(@"TestHelpers\tsdv_test.xlsx");
             Assert.IsNotNull(tsdv);
             Assert.IsNotNull(tsdv.BlockPlans);
             Assert.AreEqual(1,tsdv.BlockPlans.Count);

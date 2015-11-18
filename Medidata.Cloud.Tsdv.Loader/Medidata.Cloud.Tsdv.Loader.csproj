@@ -98,7 +98,9 @@
     <Compile Include="Converters\MiddleData.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensions\ReflectionExtentions.cs" />
     <Compile Include="Helpers\ExcelHelper.cs" />
+    <Compile Include="Localization\EchoLocalizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BlockPlan.cs" />
     <Compile Include="ViewModels\TSDV.cs" />

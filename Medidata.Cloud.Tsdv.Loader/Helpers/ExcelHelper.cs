@@ -79,9 +79,10 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
                     {
                         var cell = new Cell();
                         //TODO: Add Localization Logic
-                        cell.SetAttribute(new OpenXmlAttribute("RealName","mdsol",c));;
+                        cell.SetAttribute(new OpenXmlAttribute("LocalizationKey","mdsol",c.LocalizationKey));
+                        cell.SetAttribute(new OpenXmlAttribute("RealName", "mdsol", c.RealName));
                         cell.DataType = CellValues.String;
-                        cell.CellValue = new CellValue(c);
+                        cell.CellValue = new CellValue(c.Name);
                         row.AppendChild(cell);
                     }
                     sheetData.Append(row);
@@ -145,7 +146,7 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
                 var worksheetPart = doc.WorkbookPart.GetPartById(sheetID) as WorksheetPart;
                 var sheetData = worksheetPart.Worksheet.Elements<SheetData>().First();
                 var propertyInfo = obj.GetType().GetProperty(propertyName);
-                propertyInfo.SetValue(obj, GetObjetsFromSheetData(obj, sheetData, propertyInfo), null);
+                propertyInfo.SetValue(obj, GetObjetsFromSheetData(sheetData, propertyInfo), null);
             }
             return obj;
         }
@@ -158,7 +159,7 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
             }
         }
 
-        public IList GetObjetsFromSheetData(object parentObject, SheetData sheetData, PropertyInfo pi)
+        private IList GetObjetsFromSheetData(SheetData sheetData, PropertyInfo pi)
         {
             if (!typeof (IList).IsAssignableFrom(pi.PropertyType))
             {
@@ -175,18 +176,15 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
                 sheetData.Descendants<Row>()
                     .First()
                     .Descendants<Cell>()
-                    .Select(cell => cell.CellValue.Text.ToLower())
+                    .Select(
+                        cell =>
+                            new ColumnName(cell.CellValue.Text.ToLower(),
+                                cell.GetAttributes().Any(a => a.LocalName == "RealName")? cell.GetAttribute("RealName", "mdsol").Value: cell.CellValue.Text,
+                                cell.GetAttributes().Any(a => a.LocalName == "LocalizationKey") ? cell.GetAttribute("LocalizationKey", "mdsol").Value : cell.CellValue.Text))
                     .ToList();
-            var realColumnNames =
-                sheetData.Descendants<Row>()
-                    .First()
-                    .Descendants<Cell>()
-                    .Select(cell => cell.GetAttributes().Any(a=>a.LocalName=="RealName")? cell.GetAttribute("RealName","mdsol").Value.ToLower(): cell.CellValue.Text.ToLower() )
-                    .ToList();
-
             var rowData = new List<string>();
 
-            var data = new MiddleData(columnNames, rowData, realColumnNames);
+            var data = new MiddleData(columnNames, rowData);
             foreach (var row in sheetData.Descendants<Row>().Skip(1))
             {
                 rowData.Clear();
@@ -195,5 +193,6 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
             }
             return resultList;
         }
+
     }
 }
