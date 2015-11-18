@@ -107,6 +107,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DemoTest.cs" />
     <Compile Include="Helpers\FakeClass.cs" />
     <Compile Include="Helpers\FakeModel.cs" />
     <Compile Include="Helpers\FakeNotImplClass.cs" />

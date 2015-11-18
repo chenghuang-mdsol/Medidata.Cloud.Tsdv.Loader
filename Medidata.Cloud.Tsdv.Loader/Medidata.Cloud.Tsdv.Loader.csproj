@@ -86,10 +86,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ExcelColumnAttribute.cs" />
     <Compile Include="IWorkbookParser.cs" />
-    <Compile Include="Attributes\ExcelSheetAttribute.cs">
+    <Compile Include="Attributes\ExcelSheetAttribute.cs" />
     <Compile Include="IWorksheetParser.cs" />
     <Compile Include="ModelConverters\BlockPlanConverter.cs" />
     <Compile Include="ModelConverters\MatchedPropertyInfo.cs" />
@@ -102,9 +104,6 @@
     <Compile Include="ModelConverterFactory.cs" />
     <Compile Include="IModelConverterFactory.cs" />
     <Compile Include="IModelConverter.cs" />
-    <Compile Include="Attributes\DynamicColumnsAttribute.cs" />
-    <Compile Include="Attributes\ExcelRowAttribute.cs" />
-    <Compile Include="Attributes\ExcelSheetAttribute.cs" />
     <Compile Include="Converters\BlockPlanConverter.cs">
       <SubType>Code</SubType>
     </Compile>
