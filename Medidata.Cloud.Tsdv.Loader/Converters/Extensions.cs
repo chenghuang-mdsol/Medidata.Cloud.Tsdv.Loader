@@ -8,7 +8,7 @@ namespace Medidata.Cloud.Tsdv.Loader.Converters
     {
         public static int IndexFor(this IList<string> list, string name)
         {
-            int idx = list.IndexOf(name.ToLower());
+            int idx = list.IndexOf(name);
             if (idx < 0)
             {
                 throw new Exception(String.Format("Missing required column mapped to: {0}.", name));

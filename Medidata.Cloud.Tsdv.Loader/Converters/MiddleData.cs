@@ -6,16 +6,27 @@ using System.Text;
 
 namespace Medidata.Cloud.Tsdv.Loader.Converters
 {
+    public class ColumnName
+    {
+        public string Name { get; set; }
+        public string LocalizationKey { get; set; }
+        public string RealName { get; set; }
+        public ColumnName(string name, string realName, string localizationKey)
+        {
+            Name = name;
+            RealName = realName;
+            LocalizationKey = localizationKey;
+        }
+    }
+
     public class MiddleData
     {
-        public IList<string> ColumnNames { get; set; }
+        public IList<ColumnName> ColumnNames { get; set; }
         public IList<string> RowData { get; set; }
-        public IList<string> RealColumnNames { get; set; }
-        public MiddleData(IList<string> columnNames, IList<string> rowData, IList<string> realColumnNames)
+        public MiddleData(IList<ColumnName> columnNames, IList<string> rowData, string locale = null)
         {
             ColumnNames = columnNames;
             RowData = rowData;
-            RealColumnNames = realColumnNames;
         }
         public MiddleData() { }
     }

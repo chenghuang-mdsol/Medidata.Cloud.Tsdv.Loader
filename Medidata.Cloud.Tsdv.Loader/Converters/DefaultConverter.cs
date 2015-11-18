@@ -11,7 +11,7 @@ namespace Medidata.Cloud.Tsdv.Loader.Converters
         
         public object ConvertBack(MiddleData data)
         {
-            var columnNames = data.ColumnNames;
+            var columnNames = data.ColumnNames.Select(o=>o.Name).ToList();
             var rowData = data.RowData;
             var propDict = Object.GetType().GetProperties().ToDictionary(p => p.Name.ToLower());
             foreach (var c in columnNames)
@@ -26,15 +26,15 @@ namespace Medidata.Cloud.Tsdv.Loader.Converters
 
         public MiddleData Convert(object obj)
         {
-            IList<string> columnNames = new List<string>();
+            IList<ColumnName> columnNames = new List<ColumnName>();
             IList<string> rowData = new List<string>();
             var pinfos = obj.GetType().GetProperties();
             foreach (PropertyInfo pi in pinfos)
             {
-                columnNames.Add(pi.Name);
+                columnNames.Add(new ColumnName(pi.Name,pi.Name, pi.Name));
                 rowData.Add(pi.GetValue(obj,null).ToString());
             }
-            return new MiddleData(columnNames, rowData, columnNames);
+            return new MiddleData(columnNames,rowData);
         }
     }
 }

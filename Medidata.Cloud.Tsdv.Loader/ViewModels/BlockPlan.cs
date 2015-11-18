@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Medidata.Cloud.Tsdv.Loader.Attributes;
 using Medidata.Interfaces.TSDV;
 
 namespace Medidata.Cloud.Tsdv.Loader.ViewModels
 {
     public class BlockPlan
     {
+        [ExcelColumn(LocalizationKey = "tsdv_BlockPlanName")]
         public string Name { get; set; }
+        [ExcelColumn(LocalizationKey = "tsdv_BlockPlanType")]
         public string BlockPlanType { get; set; }
         public string ObjectName { get; set; }
         public bool IsProdInUse { get; set; }
@@ -36,5 +39,7 @@ namespace Medidata.Cloud.Tsdv.Loader.ViewModels
             MatrixName = bp.MatrixName;
             DateEstimated = bp.DateEstimated;
         }
+
+        public Dictionary<string, string> LocalizationDict { get; set; }
     }
 }

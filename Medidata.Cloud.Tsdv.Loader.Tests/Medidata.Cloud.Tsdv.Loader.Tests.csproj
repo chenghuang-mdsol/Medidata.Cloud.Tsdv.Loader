@@ -117,6 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestHelpers\tsdv_test.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Medidata.Cloud.Tsdv.Loader\Medidata.Cloud.Tsdv.Loader.csproj">
