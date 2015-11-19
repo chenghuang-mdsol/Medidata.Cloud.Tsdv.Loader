@@ -7,14 +7,16 @@ using ImpromptuInterface;
 
 namespace Medidata.Cloud.Tsdv.Loader.ModelConverters
 {
-    public class PropNameMatchBaseConverter<TInterface, TModel> : IModelConverter where TInterface : class where TModel: class
+    public class PropNameMatchBaseConverter<TInterface, TModel> : IModelConverter
+        where TInterface : class
+        where TModel : class
     {
         private readonly IList<MatchedPropertyInfo> _matchedProperties;
 
         public PropNameMatchBaseConverter()
         {
-            InterfaceType = typeof(TInterface);
-            ModelType = typeof(TModel);
+            InterfaceType = typeof (TInterface);
+            ModelType = typeof (TModel);
             if (!InterfaceType.IsInterface) throw new ArgumentException("Must be an interface type", "TInterface");
             if (!ModelType.IsClass) throw new ArgumentException("Must be a class type", "TModel");
 
@@ -23,18 +25,26 @@ namespace Medidata.Cloud.Tsdv.Loader.ModelConverters
             _matchedProperties = (from interfaceProp in interfaceProperties
                 from modelProp in modelProperties
                 where interfaceProp.Name == modelProp.Name
-                select new MatchedPropertyInfo{InterfaceProperty =  interfaceProp, ModelProperty = modelProp})
+                select new MatchedPropertyInfo {InterfaceProperty = interfaceProp, ModelProperty = modelProp})
                 .ToList();
         }
 
         public Type InterfaceType { get; private set; }
         public Type ModelType { get; private set; }
 
-        public virtual object ConvertToModel(object target)
+        public object ConvertToModel(object target)
         {
-            if (!InterfaceType.IsInstanceOfType(target)) throw new ArgumentException("Not an instanc of type " + InterfaceType, "target");
-            var model = Activator.CreateInstance<TModel>();
+            return ConvertToModel((TInterface) target);
+        }
 
+        public virtual object ConvertFromModel(object model)
+        {
+            return ConvertFromModel((TModel) model);
+        }
+
+        protected virtual TModel ConvertToModel(TInterface target)
+        {
+            var model = Activator.CreateInstance<TModel>();
             foreach (var propertyInfo in _matchedProperties)
             {
                 var propValue = propertyInfo.InterfaceProperty.GetValue(target);
@@ -43,9 +53,8 @@ namespace Medidata.Cloud.Tsdv.Loader.ModelConverters
             return model;
         }
 
-        public virtual object ConvertFromModel(object model)
+        protected virtual TInterface ConvertFromModel(TModel model)
         {
-            if (!ModelType.IsInstanceOfType(model)) throw new ArgumentException("Not an instanc of type " + ModelType, "model");
             IDictionary<string, object> expando = new ExpandoObject();
             foreach (var propertyInfo in _matchedProperties)
             {

@@ -1,7 +1,6 @@
 ﻿using System;
 using Medidata.Cloud.Tsdv.Loader.ModelConverters;
 using Medidata.Cloud.Tsdv.Loader.Tests.Helpers;
-using Medidata.Interfaces.TSDV;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoRhinoMock;
@@ -45,10 +44,10 @@ namespace Medidata.Cloud.Tsdv.Loader.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
-        public void ConvertToModel_NotImplementingInterface_ArgumentException()
+        [ExpectedException(typeof (InvalidCastException))]
+        public void ConvertToModel_NotImplementingInterface_InvalidCastException()
         {
-            var target = new FakeNotImplClass {Name = _fixture.Create<string>()};
+            var target = new FakeNotImplClass();
 
             var model = _sut.ConvertToModel(target);
         }
@@ -67,10 +66,10 @@ namespace Medidata.Cloud.Tsdv.Loader.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentException))]
-        public void ConvertFromModel_NotInstanceOfModel_ArgumentException()
+        [ExpectedException(typeof (InvalidCastException))]
+        public void ConvertFromModel_NotInstanceOfModel_InvalidCastException()
         {
-            var model = new FakeNotImplClass {Name = _fixture.Create<string>()};
+            var model = new FakeNotImplClass();
 
             var target = _sut.ConvertFromModel(model);
         }

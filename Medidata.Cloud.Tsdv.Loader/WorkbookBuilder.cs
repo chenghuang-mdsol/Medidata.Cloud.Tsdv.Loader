@@ -14,8 +14,8 @@ namespace Medidata.Cloud.Tsdv.Loader
         private readonly IModelConverterFactory _modelConverterFactory;
         private readonly IExcelConverterFactory _excelConverterFactory;
 
-        private readonly IDictionary<string, object> _sheets =
-            new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<string, IWorksheetBuilder> _sheets =
+            new Dictionary<string, IWorksheetBuilder>(StringComparer.OrdinalIgnoreCase);
 
         public WorkbookBuilder(IModelConverterFactory modelConverterFactory, IExcelConverterFactory excelConverterFactory)
         {
@@ -25,15 +25,15 @@ namespace Medidata.Cloud.Tsdv.Loader
             _excelConverterFactory = excelConverterFactory;
         }
 
-        public IWorksheetBuilder<T> EnsureWorksheet<T>(string sheetName) where T : class
+        public IList<T> EnsureWorksheet<T>(string sheetName) where T : class
         {
-            object worksheetBuilder;
+            IWorksheetBuilder worksheetBuilder;
             if (!_sheets.TryGetValue(sheetName, out worksheetBuilder))
             {
                 worksheetBuilder = new WorksheetBuilder<T>(_modelConverterFactory,_excelConverterFactory);
                 _sheets.Add(sheetName, worksheetBuilder);
             }
-            return (IWorksheetBuilder<T>)worksheetBuilder;
+            return (IList<T>)worksheetBuilder;
         }
 
         public Workbook ToWorkbook(string workbookName, SpreadsheetDocument doc)

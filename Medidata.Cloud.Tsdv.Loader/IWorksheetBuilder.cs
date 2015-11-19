@@ -4,9 +4,8 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Medidata.Cloud.Tsdv.Loader
 {
-    public interface IWorksheetBuilder<T> where T: class
+    public interface IWorksheetBuilder
     {
-        void AddObject(T target);
-        Worksheet ToWorksheet();
+        Worksheet ToWorksheet(string name);
     }
 }

@@ -6,7 +6,7 @@ using Medidata.Cloud.Tsdv.Loader.Helpers;
 
 namespace Medidata.Cloud.Tsdv.Loader
 {
-    public class WorksheetBuilder<T> : IWorksheetBuilder<T> where T : class
+    public class WorksheetBuilder<T> : List<T>, IWorksheetBuilder
     {
         private readonly IModelConverterFactory _modelConverterFactory;
         private readonly IExcelConverterFactory _excelConverterFactory;
@@ -22,13 +22,7 @@ namespace Medidata.Cloud.Tsdv.Loader
             _excelConverterFactory = excelConverterFactory;
         }
 
-
-        public void AddObject(T target)
-        {
-            _objects.Add(target);
-        }
-
-        public Worksheet ToWorksheet()
+        public Worksheet ToWorksheet(string name)
         {
             var converter = _modelConverterFactory.ProduceConverter(_objectType);
             var excelConverter = _excelConverterFactory.ProduceConverter(typeof (T));
@@ -39,7 +33,6 @@ namespace Medidata.Cloud.Tsdv.Loader
             var result = helper.ConvertToWorkSheet(models, excelConverter);
             sheet.AppendChild(result);
             return sheet;
-
         }
     }
 }

@@ -94,8 +94,16 @@
     <Compile Include="Attributes\ExcelSheetAttribute.cs" />
     <Compile Include="IWorksheetParser.cs" />
     <Compile Include="ModelConverters\BlockPlanConverter.cs" />
+    <Compile Include="ModelConverters\BlockPlanSettingConverter.cs" />
+    <Compile Include="Models\BlockPlanSettingModel.cs" />
+    <Compile Include="ModelConverters\CustomTierConverter.cs" />
+    <Compile Include="Models\CustomTierModel.cs" />
+    <Compile Include="ModelConverters\ExcludedStatusConverter.cs" />
+    <Compile Include="Models\ExcludeStatusModel.cs" />
     <Compile Include="ModelConverters\MatchedPropertyInfo.cs" />
     <Compile Include="ModelConverters\PropNameMatchBaseConverter.cs" />
+    <Compile Include="ModelConverters\RuleConverter.cs" />
+    <Compile Include="Models\RuleModel.cs" />
     <Compile Include="ModelConverters\TierFormConverter.cs" />
     <Compile Include="Models\TierFormModel.cs" />
     <Compile Include="Models\BlockPlanModel.cs" />

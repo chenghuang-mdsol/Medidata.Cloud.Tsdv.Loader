@@ -1,0 +1,18 @@
+using System.Collections.Generic;
+using System.IO;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+
+namespace Medidata.Cloud.Tsdv.Loader
+{
+    public interface IWorkbookBuilder
+    {
+<<<<<<< HEAD
+        IWorksheetBuilder<T> EnsureWorksheet<T>(string sheetName) where T : class;
+        Workbook ToWorkbook(string workbookName, SpreadsheetDocument spreadsheet);
+=======
+        IList<T> EnsureWorksheet<T>(string sheetName) where T : class;
+        Workbook ToWorkbook(string workbookName);
+>>>>>>> 7ac7b53c54fdad3dde3b19d1015c054e4fcabb16
+    }
+}

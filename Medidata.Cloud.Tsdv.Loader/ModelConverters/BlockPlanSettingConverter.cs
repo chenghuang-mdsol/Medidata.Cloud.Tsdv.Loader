@@ -3,7 +3,7 @@ using Medidata.Interfaces.TSDV;
 
 namespace Medidata.Cloud.Tsdv.Loader.ModelConverters
 {
-    public class TierFormConverter : PropNameMatchBaseConverter<ITierForm, TierFormModel>
+    public class BlockPlanSettingConverter : PropNameMatchBaseConverter<IBlockPlanSetting, BlockPlanSettingModel>
     {
     }
 }
