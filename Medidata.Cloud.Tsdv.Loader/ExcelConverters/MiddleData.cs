@@ -4,17 +4,17 @@ using System.Linq;
 
 using System.Text;
 
-namespace Medidata.Cloud.Tsdv.Loader.Converters
+namespace Medidata.Cloud.Tsdv.Loader.ExcelConverters
 {
     public class ColumnName
     {
         public string Name { get; set; }
         public string LocalizationKey { get; set; }
-        public string RealName { get; set; }
-        public ColumnName(string name, string realName, string localizationKey)
+        public string PropertyName { get; set; }
+        public ColumnName(string name, string propertyName, string localizationKey)
         {
             Name = name;
-            RealName = realName;
+            PropertyName = propertyName;
             LocalizationKey = localizationKey;
         }
     }

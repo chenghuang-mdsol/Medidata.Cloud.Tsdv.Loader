@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Medidata.Cloud.Tsdv.Loader.Converters;
 
-namespace Medidata.Cloud.Tsdv.Loader.Converters
+namespace Medidata.Cloud.Tsdv.Loader.ExcelConverters
 {
-    public class DefaultConverter: IConverter
+    public class DefaultConverter: IExcelConverter
     {
         public object Object { get; set; }
 

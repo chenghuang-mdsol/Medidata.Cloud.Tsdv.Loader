@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Medidata.Cloud.Tsdv.Loader.ExcelConverters;
 using Medidata.Cloud.Tsdv.Loader.Helpers;
 using Medidata.Cloud.Tsdv.Loader.ViewModels;
+using Medidata.Interfaces.TSDV;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Medidata.Cloud.Tsdv.Loader.Tests
@@ -47,6 +49,19 @@ namespace Medidata.Cloud.Tsdv.Loader.Tests
             Assert.IsNotNull(tsdv.BlockPlans);
             Assert.AreEqual(1,tsdv.BlockPlans.Count);
             Assert.AreEqual("Study", tsdv.BlockPlans[0].BlockPlanType);
+        }
+
+        [TestMethod]
+        public void Demo3()
+        {
+            IModelConverterFactory modelConverterFactory = new ModelConverterFactory(new IModelConverter[]{});
+            IExcelConverterFactory excelConverterFactory = new ExcelConverterFactory(new IExcelConverter[]{});
+
+            IWorkbookBuilder builder = new WorkbookBuilder(modelConverterFactory,excelConverterFactory);
+            var blockPlanBuilder = builder.EnsureWorksheet<IBlockPlan>("BlockPlan");
+            var tierFormBuilder = builder.EnsureWorksheet<ITierForm>("TierForm");
+            
+            
         }
     }
 }

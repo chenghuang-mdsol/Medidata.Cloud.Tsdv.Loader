@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Medidata.Cloud.Tsdv.Loader.ExcelConverters;
 using Medidata.Cloud.Tsdv.Loader.ModelConverters;
+using BlockPlanConverter = Medidata.Cloud.Tsdv.Loader.ModelConverters.BlockPlanConverter;
 
 namespace Medidata.Cloud.Tsdv.Loader
 {
@@ -21,6 +23,27 @@ namespace Medidata.Cloud.Tsdv.Loader
         }
 
         public IModelConverter ProduceConverter(Type type)
+        {
+            return _converters[type];
+        }
+    }
+
+    public class ExcelConverterFactory : IExcelConverterFactory
+    {
+        private readonly IDictionary<Type, IExcelConverter> _converters = new Dictionary<Type, IExcelConverter>();
+
+        public ExcelConverterFactory(IExcelConverter[] customConverters)
+        {
+            var converters = new IExcelConverter[]
+            {
+                new ExcelConverters.BlockPlanConverter(),
+            };
+            if (customConverters == null) return;
+            _converters = converters.Union(customConverters).ToDictionary(x => x.GetType(), x => x);
+        }
+
+
+        public IExcelConverter ProduceConverter(Type type)
         {
             return _converters[type];
         }

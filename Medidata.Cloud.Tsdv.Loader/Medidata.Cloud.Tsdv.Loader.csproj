@@ -104,15 +104,15 @@
     <Compile Include="ModelConverterFactory.cs" />
     <Compile Include="IModelConverterFactory.cs" />
     <Compile Include="IModelConverter.cs" />
-    <Compile Include="Converters\BlockPlanConverter.cs">
+    <Compile Include="ExcelConverters\BlockPlanConverter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\DefaultConverter.cs" />
-    <Compile Include="Converters\Extensions.cs" />
-    <Compile Include="Converters\IConverter.cs">
+    <Compile Include="ExcelConverters\DefaultConverter.cs" />
+    <Compile Include="Extensions\ExcelExtensions.cs" />
+    <Compile Include="ExcelConverters\IExcelConverter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\MiddleData.cs">
+    <Compile Include="ExcelConverters\MiddleData.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\ReflectionExtentions.cs" />

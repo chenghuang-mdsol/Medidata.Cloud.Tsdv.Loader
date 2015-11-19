@@ -5,36 +5,23 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Medidata.Cloud.Tsdv.Loader.Attributes;
+using Medidata.Cloud.Tsdv.Loader.Converters;
 using Medidata.Cloud.Tsdv.Loader.Extensions;
 using Medidata.Cloud.Tsdv.Loader.Localization;
 using Medidata.Cloud.Tsdv.Loader.ViewModels;
 using Medidata.Interfaces.Localization;
 
 
-namespace Medidata.Cloud.Tsdv.Loader.Converters
+namespace Medidata.Cloud.Tsdv.Loader.ExcelConverters
 {
-        //public string Name { get; set; }
-        //public string BlockPlanType { get; set; }
-        //public string ObjectName { get; set; }
-        //public bool IsProdInUse { get; set; }
-        //public string RoleName { get; set; }
-        //public bool Activated { get; set; }
-        //public string ActivatedUserName { get; set; }
-        //public decimal AverageSubjectPerSite { get; set; }
-        //public decimal CoveragePercent { get; set; }
-        //public string MatrixName { get; set; }
-        //public DateTime? DateEstimated { get; set; }
-
-
-
-    public class BlockPlanConverter :IConverter
+    public class BlockPlanConverter :IExcelConverter
     {
         //TODO: Replace the hardcoded EchoLocalizer
         public ILocalization _localization = new EchoLocalizer();
         public object ConvertBack(MiddleData data)
         {
             var rowData = data.RowData;
-            var names = data.ColumnNames.Select(o=>o.RealName).ToList();
+            var names = data.ColumnNames.Select(o=>o.PropertyName).ToList();
             return new BlockPlan()
             {
                 Name = rowData[names.IndexFor("Name")],
@@ -105,7 +92,6 @@ namespace Medidata.Cloud.Tsdv.Loader.Converters
                 blockPlan.MatrixName,
                 blockPlan.DateEstimated.ToString()
             };
-            //TODO: Add RealNames
             return new MiddleData(columnData,rowData);
         }
     }

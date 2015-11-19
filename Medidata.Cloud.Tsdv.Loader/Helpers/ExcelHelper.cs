@@ -9,11 +9,13 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Medidata.Cloud.Tsdv.Loader.Attributes;
 using Medidata.Cloud.Tsdv.Loader.Converters;
+using Medidata.Cloud.Tsdv.Loader.ExcelConverters;
 
 namespace Medidata.Cloud.Tsdv.Loader.Helpers
 {
     public class ExcelHelper
     {
+        private string _customNamespaceUri = "msdol";
         public SpreadsheetDocument ConvertToExcel(object obj, Stream stream)
         {
             var doc = SpreadsheetDocument.Create(stream, SpreadsheetDocumentType.Workbook);
@@ -62,7 +64,11 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
             }
         }
 
-        public SheetData ConvertToWorkSheet(IList objects, IConverter converter)
+        public ExcelHelper()
+        {
+            
+        }
+        public SheetData ConvertToWorkSheet(IList objects, IExcelConverter converter)
         {
             if (objects == null || objects.Count == 0)
             {
@@ -79,8 +85,8 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
                     {
                         var cell = new Cell();
                         //TODO: Add Localization Logic
-                        cell.SetAttribute(new OpenXmlAttribute("LocalizationKey","mdsol",c.LocalizationKey));
-                        cell.SetAttribute(new OpenXmlAttribute("RealName", "mdsol", c.RealName));
+                        cell.SetAttribute(new OpenXmlAttribute("LocalizationKey","http://www.msdol.com",c.LocalizationKey));
+                        cell.SetAttribute(new OpenXmlAttribute("PropertyName", "http://www.msdol.com", c.PropertyName));
                         cell.DataType = CellValues.String;
                         cell.CellValue = new CellValue(c.Name);
                         row.AppendChild(cell);
@@ -101,9 +107,9 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
             return sheetData;
         }
 
-        private IConverter GetConverter(PropertyInfo pi)
+        private IExcelConverter GetConverter(PropertyInfo pi)
         {
-            IConverter converter;
+            IExcelConverter converter;
             if (Attribute.IsDefined(pi, typeof (ExcelSheetAttribute), true))
             {
                 var attr =
@@ -111,7 +117,7 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
                 var converterType = attr.ConverterType;
                 if (converterType != null)
                 {
-                    converter = (IConverter) Activator.CreateInstance(converterType);
+                    converter = (IExcelConverter) Activator.CreateInstance(converterType);
                 }
                 else
                 {
@@ -179,8 +185,8 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
                     .Select(
                         cell =>
                             new ColumnName(cell.CellValue.Text.ToLower(),
-                                cell.GetAttributes().Any(a => a.LocalName == "RealName")? cell.GetAttribute("RealName", "mdsol").Value: cell.CellValue.Text,
-                                cell.GetAttributes().Any(a => a.LocalName == "LocalizationKey") ? cell.GetAttribute("LocalizationKey", "mdsol").Value : cell.CellValue.Text))
+                                cell.GetAttributes().Any(a => a.LocalName == "PropertyName")? cell.GetAttribute("PropertyName", "http://www.mdsol.com").Value: cell.CellValue.Text,
+                                cell.GetAttributes().Any(a => a.LocalName == "LocalizationKey") ? cell.GetAttribute("LocalizationKey", "http://www.mdsol.com").Value : cell.CellValue.Text))
                     .ToList();
             var rowData = new List<string>();
 

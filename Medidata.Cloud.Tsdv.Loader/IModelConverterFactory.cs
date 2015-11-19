@@ -1,4 +1,5 @@
 using System;
+using Medidata.Cloud.Tsdv.Loader.ExcelConverters;
 
 namespace Medidata.Cloud.Tsdv.Loader
 {
@@ -6,4 +7,11 @@ namespace Medidata.Cloud.Tsdv.Loader
     {
         IModelConverter ProduceConverter(Type type);
     }
+
+    public interface IExcelConverterFactory
+    {
+        IExcelConverter ProduceConverter(Type type);
+    }
+
+
 }
