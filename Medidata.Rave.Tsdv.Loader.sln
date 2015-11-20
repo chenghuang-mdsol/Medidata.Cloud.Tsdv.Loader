@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1F95AEE4-6BF1-4D5C-9C30-96ECB6CD81E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medidata.Rave.Tsdv.Loader", "Medidata.Rave.Tsdv.Loader\Medidata.Rave.Tsdv.Loader.csproj", "{ABC3AD09-99B9-4CCF-B771-75B9597C05AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medidata.Cloud.ExcelLoader", "Medidata.Cloud.ExcelLoader\Medidata.Cloud.ExcelLoader.csproj", "{9B06A417-162E-45D4-AD93-7E274857599C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medidata.Rave.Tsdv.Loader.Tests", "Medidata.Rave.Tsdv.Loader.Tests\Medidata.Rave.Tsdv.Loader.Tests.csproj", "{47E9C7C0-6B7A-47FA-A91F-B340D00B671D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medidata.Cloud.ExcelLoader.Tests", "Medidata.Cloud.ExcelLoader.Tests\Medidata.Cloud.ExcelLoader.Tests.csproj", "{C5FA2F6D-D43C-4A79-AC84-9A6F4AA58784}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABC3AD09-99B9-4CCF-B771-75B9597C05AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABC3AD09-99B9-4CCF-B771-75B9597C05AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABC3AD09-99B9-4CCF-B771-75B9597C05AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABC3AD09-99B9-4CCF-B771-75B9597C05AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B06A417-162E-45D4-AD93-7E274857599C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B06A417-162E-45D4-AD93-7E274857599C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B06A417-162E-45D4-AD93-7E274857599C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B06A417-162E-45D4-AD93-7E274857599C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47E9C7C0-6B7A-47FA-A91F-B340D00B671D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47E9C7C0-6B7A-47FA-A91F-B340D00B671D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47E9C7C0-6B7A-47FA-A91F-B340D00B671D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47E9C7C0-6B7A-47FA-A91F-B340D00B671D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5FA2F6D-D43C-4A79-AC84-9A6F4AA58784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5FA2F6D-D43C-4A79-AC84-9A6F4AA58784}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5FA2F6D-D43C-4A79-AC84-9A6F4AA58784}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5FA2F6D-D43C-4A79-AC84-9A6F4AA58784}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
