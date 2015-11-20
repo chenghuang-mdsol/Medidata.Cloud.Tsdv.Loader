@@ -43,10 +43,10 @@ namespace Medidata.Cloud.Tsdv.Loader
         {
             var converters = new IExcelConverter[]
             {
-                new ExcelConverters.BlockPlanConverter(),
+                new BlockPlanConverter2(),
             };
             if (customConverters == null) return;
-            _converters = converters.Union(customConverters).ToDictionary(x => x.GetType(), x => x);
+            _converters = converters.Union(customConverters).ToDictionary(x => x.InterfaceType, x => x);
         }
 
 

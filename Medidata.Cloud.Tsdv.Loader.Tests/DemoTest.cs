@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using ImpromptuInterface;
 using Medidata.Cloud.Tsdv.Loader.ExcelConverters;
 using Medidata.Cloud.Tsdv.Loader.Helpers;
-using Medidata.Cloud.Tsdv.Loader.ViewModels;
+using Medidata.Cloud.Tsdv.Loader.Models;
 using Medidata.Interfaces.TSDV;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,52 +18,36 @@ namespace Medidata.Cloud.Tsdv.Loader.Tests
     public class DemoTest
     {
         [TestMethod]
-        public void Demo1()
+        public void Demo()
         {
-            var blockPlans = new List<BlockPlan>
+            var blockPlan = new BlockPlanModel()
             {
-                new BlockPlan
-                {
-                    Activated = true,
-                    ActivatedUserName = "cheng",
-                    AverageSubjectPerSite = 15,
-                    BlockPlanType = "Study",
-                    CoveragePercent = 95,
-                    DateEstimated = DateTime.Now,
-                    IsProdInUse = true,
-                    MatrixName = "DefaultMatrix",
-                    Name = "Plan A",
-                    ObjectName = "ObjectName1",
-                    RoleName = "Role 1"
-                }
+                Activated = true,
+                ActivatedUserName = "cheng",
+                AverageSubjectPerSite = 15,
+                BlockPlanType = "Study",
+                CoveragePercent = 95,
+                DateEstimated = DateTime.Now,
+                IsProdInUse = true,
+                MatrixName = "DefaultMatrix",
+                Name = "Plan A",
+                ObjectName = "ObjectName1",
+                RoleName = "Role 1"
             };
-            var tsdv = new TSDV();
-            tsdv.BlockPlans = blockPlans;
-            var helper = new ExcelHelper();
-            helper.ConvertToExcelAndSave(@"c:\temp\tsdv_test.xlsx",tsdv);
-        }
 
-        [TestMethod]
-        public void Demo2()
-        {
-            var helper = new ExcelHelper();
-            TSDV tsdv = helper.ConvertFromExcel<TSDV>(@"TestHelpers\tsdv_test.xlsx");
-            Assert.IsNotNull(tsdv);
-            Assert.IsNotNull(tsdv.BlockPlans);
-            Assert.AreEqual(1,tsdv.BlockPlans.Count);
-            Assert.AreEqual("Study", tsdv.BlockPlans[0].BlockPlanType);
-        }
-
-        [TestMethod]
-        public void Demo3()
-        {
+            var bl = blockPlan.ActLike<IBlockPlan>();
             IModelConverterFactory modelConverterFactory = new ModelConverterFactory(new IModelConverter[]{});
             IExcelConverterFactory excelConverterFactory = new ExcelConverterFactory(new IExcelConverter[]{});
 
             IWorkbookBuilder builder = new WorkbookBuilder(modelConverterFactory,excelConverterFactory);
-            var blockPlanBuilder = builder.EnsureWorksheet<IBlockPlan>("BlockPlan");
-            var tierFormBuilder = builder.EnsureWorksheet<ITierForm>("TierForm");
+            var blockPlans = builder.EnsureWorksheet<IBlockPlan>("BlockPlan");
             
+            blockPlans.Add(bl);
+            using (SpreadsheetDocument doc = SpreadsheetDocument.Create(@"c:\temp\newtest.xlsx",SpreadsheetDocumentType.Workbook))
+            {
+                var wb = builder.ToWorkbook("TSDV WorkBook",doc);
+                
+            }
             
         }
     }

@@ -25,7 +25,7 @@ namespace Medidata.Cloud.Tsdv.Loader
             _excelConverterFactory = excelConverterFactory;
         }
 
-        public IList<T> EnsureWorksheet<T>(string sheetName) where T : class
+        public ICollection<T> EnsureWorksheet<T>(string sheetName) where T : class
         {
             IWorksheetBuilder worksheetBuilder;
             if (!_sheets.TryGetValue(sheetName, out worksheetBuilder))
@@ -33,22 +33,21 @@ namespace Medidata.Cloud.Tsdv.Loader
                 worksheetBuilder = new WorksheetBuilder<T>(_modelConverterFactory,_excelConverterFactory);
                 _sheets.Add(sheetName, worksheetBuilder);
             }
-            return (IList<T>)worksheetBuilder;
+            return ((ICollection<T>)worksheetBuilder);
         }
 
         public Workbook ToWorkbook(string workbookName, SpreadsheetDocument doc)
         {
             var workbookpart = doc.AddWorkbookPart();
             workbookpart.Workbook = new Workbook();
-            var workbook = new Workbook();
-            workbook.AppendChild(new Sheets());
+            
             foreach (var sheetInfo in _sheets)
             {
                 var sheetName = sheetInfo.Key;
-                dynamic sheetBuilder = sheetInfo.Value;
-                Worksheet sheetData = (Worksheet)sheetBuilder.ToWorksheet();
+                IWorksheetBuilder sheetBuilder = sheetInfo.Value;
+                Worksheet sheetData = sheetBuilder.ToWorksheet(sheetName);
                 var newWorksheetPart = doc.WorkbookPart.AddNewPart<WorksheetPart>();
-                newWorksheetPart.Worksheet = new Worksheet(sheetData);
+                newWorksheetPart.Worksheet = sheetData;
                 var sheets = doc.WorkbookPart.Workbook.AppendChild(new Sheets());
 
                 uint sheetId = 1;
@@ -63,9 +62,10 @@ namespace Medidata.Cloud.Tsdv.Loader
                     Name = sheetName
                 };
                 sheets.Append(sheet);
-                workbookpart.Workbook.Save();
+                
             }
-            return workbook;
+            workbookpart.Workbook.Save();
+            return workbookpart.Workbook;
         }
     }
 }

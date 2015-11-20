@@ -15,7 +15,7 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
 {
     public class ExcelHelper
     {
-        private string _customNamespaceUri = "msdol";
+        private string _customNamespaceUri = "http://www.mdsol.com";
         public SpreadsheetDocument ConvertToExcel(object obj, Stream stream)
         {
             var doc = SpreadsheetDocument.Create(stream, SpreadsheetDocumentType.Workbook);
@@ -25,8 +25,6 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
 
             var props = obj.GetType().GetProperties();
 
-            var workbook = new Workbook();
-            workbook.AppendChild(new Sheets());
             foreach (var prop in props)
             {
                 var list = (IList) prop.GetValue(obj, null);
@@ -64,10 +62,6 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
             }
         }
 
-        public ExcelHelper()
-        {
-            
-        }
         public SheetData ConvertToWorkSheet(IList objects, IExcelConverter converter)
         {
             if (objects == null || objects.Count == 0)
@@ -85,8 +79,8 @@ namespace Medidata.Cloud.Tsdv.Loader.Helpers
                     {
                         var cell = new Cell();
                         //TODO: Add Localization Logic
-                        cell.SetAttribute(new OpenXmlAttribute("LocalizationKey","http://www.msdol.com",c.LocalizationKey));
-                        cell.SetAttribute(new OpenXmlAttribute("PropertyName", "http://www.msdol.com", c.PropertyName));
+                        cell.SetAttribute(new OpenXmlAttribute("LocalizationKey",_customNamespaceUri,c.LocalizationKey));
+                        cell.SetAttribute(new OpenXmlAttribute("PropertyName", _customNamespaceUri, c.PropertyName));
                         cell.DataType = CellValues.String;
                         cell.CellValue = new CellValue(c.Name);
                         row.AppendChild(cell);

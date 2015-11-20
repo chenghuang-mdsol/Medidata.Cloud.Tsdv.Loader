@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Medidata.Cloud.Tsdv.Loader.Converters;
+using Medidata.Interfaces.Localization;
 
 namespace Medidata.Cloud.Tsdv.Loader.ExcelConverters
 {
@@ -9,7 +11,10 @@ namespace Medidata.Cloud.Tsdv.Loader.ExcelConverters
     {
         public object Object { get; set; }
 
-        
+
+        public Type InterfaceType { get; set; }
+        public ILocalization Localization { get; set; }
+
         public object ConvertBack(MiddleData data)
         {
             var columnNames = data.ColumnNames.Select(o=>o.Name).ToList();

@@ -59,5 +59,25 @@ namespace Medidata.Cloud.Tsdv.Loader.Extensions
             return (T) result;
 
         }
+
+        public static object GetProperty(this object obj, string propertyName)
+        {
+            var pi = obj.GetType().GetProperty(propertyName);
+            if (pi == null)
+            {
+                throw new ArgumentException(string.Format("Could not find property {0} in class {1}", propertyName, obj.GetType().FullName));
+            }
+            object result = pi.GetValue(obj, null);
+            return result;
+
+        }
+
+
+        public static List<string> GetAllPropertyNames(this object obj)
+        {
+            var pi = obj.GetType().GetProperties();
+            return pi.Select(p => p.Name).ToList();
+
+        }
     }
 }
