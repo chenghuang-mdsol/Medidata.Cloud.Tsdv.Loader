@@ -6,3 +6,4 @@ bin
 *.vsp
 *.user
 *.DotSettings
+New-NuGetPackages
