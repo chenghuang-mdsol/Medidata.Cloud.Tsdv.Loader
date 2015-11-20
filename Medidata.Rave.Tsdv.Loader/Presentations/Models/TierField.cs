@@ -1,6 +1,6 @@
-using Medidata.Rave.Tsdv.Loader.SheetInterfaces;
+using Medidata.Rave.Tsdv.Loader.Presentations.Interfaces;
 
-namespace Medidata.Rave.Tsdv.Loader.SheetModels
+namespace Medidata.Rave.Tsdv.Loader.Presentations.Models
 {
     public class TierField : ITierField
     {

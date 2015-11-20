@@ -1,4 +1,4 @@
-namespace Medidata.Rave.Tsdv.Loader.SheetInterfaces
+namespace Medidata.Rave.Tsdv.Loader.Presentations.Interfaces
 {
     public interface IExcludedStatus
     {
