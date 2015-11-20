@@ -23,7 +23,7 @@ namespace Medidata.Cloud.Tsdv.Loader.ExcelConverters
     {
         public IList<ColumnName> ColumnNames { get; set; }
         public IList<string> RowData { get; set; }
-        public MiddleData(IList<ColumnName> columnNames, IList<string> rowData, string locale = null)
+        public MiddleData(IList<ColumnName> columnNames, IList<string> rowData)
         {
             ColumnNames = columnNames;
             RowData = rowData;
