@@ -15,6 +15,7 @@
     <tags>TSDV parser loader</tags>
     <dependencies>
       <dependency id="Medidata.Interfaces" version="0.1.1" />
+      <dependency id="Medidata.Cloud.ExcelLoader" version="0.1.0" />
     </dependencies>
   </metadata>
 </package>
