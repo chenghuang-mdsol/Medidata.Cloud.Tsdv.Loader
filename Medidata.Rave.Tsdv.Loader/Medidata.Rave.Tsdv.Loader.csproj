@@ -81,6 +81,22 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StringValidationMessageExtensions.cs" />
+    <Compile Include="SheetModels\BlockPlan.cs" />
+    <Compile Include="SheetModels\BlockPlanSetting.cs" />
+    <Compile Include="SheetModels\CustomTier.cs" />
+    <Compile Include="SheetModels\ExcludedStatus.cs" />
+    <Compile Include="SheetInterfaces\IBlockPlan.cs" />
+    <Compile Include="SheetInterfaces\IBlockPlanSetting.cs" />
+    <Compile Include="SheetInterfaces\ICustomTier.cs" />
+    <Compile Include="SheetInterfaces\IExcludedStatus.cs" />
+    <Compile Include="SheetInterfaces\IRule.cs" />
+    <Compile Include="SheetInterfaces\ITierField.cs" />
+    <Compile Include="SheetInterfaces\ITierFolder.cs" />
+    <Compile Include="SheetInterfaces\ITierForm.cs" />
+    <Compile Include="SheetModels\Rule.cs" />
+    <Compile Include="SheetModels\TierField.cs" />
+    <Compile Include="SheetModels\TierFolder.cs" />
+    <Compile Include="SheetModels\TierForm.cs" />
     <Compile Include="Validation\DefaultSequentialRuleValidator.cs" />
     <Compile Include="Validation\IValidationError.cs" />
     <Compile Include="Validation\IValidationMessage.cs" />

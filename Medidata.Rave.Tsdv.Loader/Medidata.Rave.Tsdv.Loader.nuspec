@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<package >
+
+<package>
   <metadata>
     <id>Medidata.Rave.Tsdv.Loader</id>
     <version>0.1.0</version>
@@ -13,7 +14,7 @@
     <copyright>Copyright 2015</copyright>
     <tags>TSDV parser loader</tags>
     <dependencies>
-      <dependency id="Medidata.Interfaces" version="0.1.1"/>
+      <dependency id="Medidata.Interfaces" version="0.1.1" />
     </dependencies>
   </metadata>
 </package>
