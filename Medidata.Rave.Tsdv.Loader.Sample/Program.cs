@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
+using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.Presentations.Interfaces;
 using Medidata.Rave.Tsdv.Loader.Presentations.Models;
@@ -16,9 +17,10 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
     {
         private static void Main(string[] args)
         {
+            var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
             // Use builder to create a .xlxs file
             var localizationService = ResolveLocalizationService();
-            var builder = new TsdvReportExcelBuilder(localizationService);
+            var builder = new TsdvReportExcelBuilder(cellTypeValueConverterFactory, localizationService);
 
             var sheet = builder.AddSheet<IBlockPlan>("BlockPlan");
             sheet.Add(new BlockPlan
@@ -38,6 +40,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             sheet2.Add(new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"});
 
             var filePath = @"C:\Github\test.xlsx";
+            File.Delete(filePath);
             using (var fs = new FileStream(filePath, FileMode.Create))
             {
                 builder.Save(fs);
@@ -47,7 +50,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             IList<IBlockPlan> blockPlans;
             IList<IBlockPlanSetting> blockPlanSettings;
             using (var fs = new FileStream(filePath, FileMode.Open))
-            using (var parser = new ExcelParser())
+            using (var parser = new ExcelParser(cellTypeValueConverterFactory))
             {
                 parser.Load(fs);
 
