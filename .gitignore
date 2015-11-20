@@ -5,3 +5,5 @@ bin
 *.coverage
 *.vsp
 *.user
+*.DotSettings
+New-NuGetPackages

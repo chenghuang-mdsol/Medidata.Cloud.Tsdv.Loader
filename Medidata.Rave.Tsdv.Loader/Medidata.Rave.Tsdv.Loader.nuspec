@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<package>
+  <metadata>
+    <id>Medidata.Rave.Tsdv.Loader</id>
+    <version>0.1.0</version>
+    <title>Medidata.Rave.Tsdv.Loader</title>
+    <authors>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</authors>
+    <owners>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</owners>
+    <projectUrl>https://github.com/junshao/Medidata.Cloud.Tsdv.Loader</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Medidata TSDV Excel report unloading and downloading</description>
+    <releaseNotes>First version.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>TSDV parser loader</tags>
+    <dependencies>
+      <dependency id="Medidata.Interfaces" version="0.1.1" />
+      <dependency id="Medidata.Cloud.ExcelLoader" version="0.1.0" />
+    </dependencies>
+  </metadata>
+</package>
