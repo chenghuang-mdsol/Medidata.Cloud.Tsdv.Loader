@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LocalizedExcelBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StringValidationMessageExtensions.cs" />
     <Compile Include="SheetModels\BlockPlan.cs" />
@@ -123,6 +124,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="_CreateNewNuGetPackage\DoNotModify\NuGet.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Medidata.Cloud.ExcelLoader\Medidata.Cloud.ExcelLoader.csproj">
+      <Project>{9B06A417-162E-45D4-AD93-7E274857599C}</Project>
+      <Name>Medidata.Cloud.ExcelLoader</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
