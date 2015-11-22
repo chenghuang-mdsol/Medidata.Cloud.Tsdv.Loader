@@ -42,6 +42,10 @@
       <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ImpromptuInterface, Version=6.2.2.0, Culture=neutral, PublicKeyToken=0b1781c923b2975b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImpromptuInterface.6.2.2\lib\net40\ImpromptuInterface.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Medidata.Interfaces, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Medidata.Interfaces.0.1.1\lib\net40\Medidata.Interfaces.dll</HintPath>
       <Private>True</Private>
@@ -92,22 +96,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Presentations\Models\BlockPlan.cs" />
-    <Compile Include="Presentations\Models\BlockPlanSetting.cs" />
-    <Compile Include="Presentations\Models\CustomTier.cs" />
-    <Compile Include="Presentations\Models\ExcludedStatus.cs" />
-    <Compile Include="Presentations\Interfaces\IBlockPlan.cs" />
-    <Compile Include="Presentations\Interfaces\IBlockPlanSetting.cs" />
-    <Compile Include="Presentations\Interfaces\ICustomTier.cs" />
-    <Compile Include="Presentations\Interfaces\IExcludedStatus.cs" />
-    <Compile Include="Presentations\Interfaces\IRule.cs" />
-    <Compile Include="Presentations\Interfaces\ITierField.cs" />
-    <Compile Include="Presentations\Interfaces\ITierFolder.cs" />
-    <Compile Include="Presentations\Interfaces\ITierForm.cs" />
-    <Compile Include="Presentations\Models\Rule.cs" />
-    <Compile Include="Presentations\Models\TierField.cs" />
-    <Compile Include="Presentations\Models\TierFolder.cs" />
-    <Compile Include="Presentations\Models\TierForm.cs" />
+    <Compile Include="SheetSharps\IBlockPlan.cs" />
+    <Compile Include="SheetSharps\IBlockPlanSetting.cs" />
+    <Compile Include="SheetSharps\ICustomTier.cs" />
+    <Compile Include="SheetSharps\IExcludedStatus.cs" />
+    <Compile Include="SheetSharps\IRule.cs" />
+    <Compile Include="SheetSharps\ITierField.cs" />
+    <Compile Include="SheetSharps\ITierFolder.cs" />
+    <Compile Include="SheetSharps\ITierForm.cs" />
     <Compile Include="Validation\DefaultSequentialRuleValidator.cs" />
     <Compile Include="Validation\IValidationError.cs" />
     <Compile Include="Validation\IValidationMessage.cs" />

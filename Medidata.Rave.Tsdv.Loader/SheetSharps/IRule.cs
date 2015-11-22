@@ -1,4 +1,4 @@
-namespace Medidata.Rave.Tsdv.Loader.Presentations.Interfaces
+namespace Medidata.Rave.Tsdv.Loader.SheetSharps
 {
     public interface IRule
     {

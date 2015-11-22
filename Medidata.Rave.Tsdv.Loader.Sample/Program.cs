@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ImpromptuInterface;
 using Medidata.Cloud.ExcelLoader;
-using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Interfaces.Localization;
-using Medidata.Rave.Tsdv.Loader.Presentations.Interfaces;
-using Medidata.Rave.Tsdv.Loader.Presentations.Models;
+using Medidata.Rave.Tsdv.Loader.SheetSharps;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoRhinoMock;
 using Rhino.Mocks;
@@ -23,21 +22,21 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             var builder = new TsdvReportExcelBuilder(cellTypeValueConverterFactory, localizationService);
 
             var sheet = builder.AddSheet<IBlockPlan>("BlockPlan");
-            sheet.Add(new BlockPlan
+            sheet.Add(new 
             {
                 BlockPlanName = "xxx",
                 UsingMatrix = false,
                 EstimatedDate = DateTime.Now,
                 EstimatedCoverage = 0.85
-            });
-            sheet.Add(new {BlockPlanName = "yyy", EstimatedCoverage = 0.65});
-            sheet.Add(new {BlockPlanName = "zzz"});
+            }.ActLike<IBlockPlan>());
+            sheet.Add(new { BlockPlanName = "yyy", EstimatedCoverage = 0.65 }.ActLike<IBlockPlan>());
+            sheet.Add(new { BlockPlanName = "zzz" }.ActLike<IBlockPlan>());
 
             var headers = new[] {"tsdv_BlockPlanName", "tsdv_Blocks", "tsdv_BlockSubjectCount", "tsdv_Repeated"};
             var sheet2 = builder.AddSheet<IBlockPlanSetting>("BlockPlanSetting", headers);
-            sheet2.Add(new {BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCound = 99});
-            sheet2.Add(new BlockPlanSetting {BlockPlanName = "111", Repeated = true, BlockSubjectCound = 100});
-            sheet2.Add(new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"});
+            sheet2.Add(new { BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCound = 99 }.ActLike<IBlockPlanSetting>());
+            sheet2.Add(new {BlockPlanName = "111", Repeated = true, BlockSubjectCound = 100}.ActLike<IBlockPlanSetting>());
+            sheet2.Add(new {BlockPlanName = "ccc", Blocks = "fasdf"}.ActLike<IBlockPlanSetting>());
 
             var filePath = @"C:\Github\test.xlsx";
             File.Delete(filePath);
