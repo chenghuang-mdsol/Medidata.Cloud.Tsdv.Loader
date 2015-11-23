@@ -4,16 +4,15 @@ using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Medidata.Cloud.ExcelLoader;
-using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Interfaces.Localization;
 
-namespace Medidata.Rave.Tsdv.Loader
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
 {
-    public class TsdvReportExcelBuilder : ExcelBuilder
+    internal class TsdvReportGenericBuilder : ExcelBuilder
     {
         private readonly ILocalization _localization;
 
-        public TsdvReportExcelBuilder(ICellTypeValueConverterFactory converterFactory, ILocalization localization)
+        public TsdvReportGenericBuilder(ICellTypeValueConverterFactory converterFactory, ILocalization localization)
             : base(converterFactory)
         {
             if (localization == null) throw new ArgumentNullException("localization");
