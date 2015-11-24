@@ -31,10 +31,10 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             loader.BlockPlans.Add(new {BlockPlanName = "zzz"}.ActLike<IBlockPlan>());
 
             loader.BlockPlanSettings.Add(
-                new {BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCound = 99}
+                new {BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCount = 99}
                     .ActLike<IBlockPlanSetting>());
             loader.BlockPlanSettings.Add(
-                new {BlockPlanName = "111", Repeated = true, BlockSubjectCound = 100}.ActLike<IBlockPlanSetting>());
+                new {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100}.ActLike<IBlockPlanSetting>());
             loader.BlockPlanSettings.Add(new {BlockPlanName = "ccc", Blocks = "fasdf"}.ActLike<IBlockPlanSetting>());
 
             var filePath = @"C:\Github\test.xlsx";
