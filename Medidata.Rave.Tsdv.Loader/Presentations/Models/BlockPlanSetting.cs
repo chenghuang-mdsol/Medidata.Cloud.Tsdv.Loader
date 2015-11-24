@@ -6,7 +6,7 @@ namespace Medidata.Rave.Tsdv.Loader.Presentations.Models
     {
         public string BlockPlanName { get; set; }
         public string Blocks { get; set; }
-        public int BlockSubjectCound { get; set; }
+        public int BlockSubjectCount { get; set; }
         public bool Repeated { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     {
         string BlockPlanName { get; }
         string Blocks { get; }
-        int BlockSubjectCound { get; }
+        int BlockSubjectCount { get; }
         bool Repeated { get; }
     }
 }

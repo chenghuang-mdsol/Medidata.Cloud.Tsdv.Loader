@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Interfaces.Localization;
+using DocumentFormat.OpenXml;
 
 namespace Medidata.Rave.Tsdv.Loader
 {
@@ -25,36 +26,26 @@ namespace Medidata.Rave.Tsdv.Loader
                 : columnNames.Select(x => _localization.GetLocalString(x)).ToArray();
         }
 
-        protected override void AddCoverSheet(SpreadsheetDocument doc)
+        protected override SpreadsheetDocument CreateDocument(Stream outStream)
         {
-            return;
-
-            var coverWorkbookPart = GetCoverWorksheetPart();
-
-            var tempSheet = SpreadsheetDocument.Create(new MemoryStream(), doc.DocumentType);
-            var tempWorkbookPart = tempSheet.AddWorkbookPart();
-            var tempWorksheetPart = tempWorkbookPart.AddPart(coverWorkbookPart);
-            var clonedSheetPart = doc.WorkbookPart.AddPart(tempWorksheetPart);
-
-            var sheets = doc.WorkbookPart.Workbook.GetFirstChild<Sheets>();
-            var copiedSheet = new Sheet
-            {
-                Name = _localization.GetLocalString("Cover"),
-                Id = doc.WorkbookPart.GetIdOfPart(clonedSheetPart),
-                SheetId = (uint) sheets.ChildElements.Count + 1
-            };
-            sheets.Append(copiedSheet);
+            //return;
+            var sheetBytes = Resource.CoverSheet;
+            outStream.Write(sheetBytes, 0, sheetBytes.Length);
+            SpreadsheetDocument ss = SpreadsheetDocument.Open(outStream, true);
+            return ss;
+            
         }
-
         private WorksheetPart GetCoverWorksheetPart()
         {
             var sheetBytes = Resource.CoverSheet;
             using (var ms = new MemoryStream())
             {
                 ms.Write(sheetBytes, 0, sheetBytes.Length);
-                var ss = SpreadsheetDocument.Open(ms, false);
-                var coverSheetId = ss.WorkbookPart.Workbook.Descendants<Sheet>().First().Id;
-                return (WorksheetPart) ss.WorkbookPart.GetPartById(coverSheetId);
+                using (SpreadsheetDocument ss = SpreadsheetDocument.Open(ms,true))
+                {
+                    var coverSheetId = ss.WorkbookPart.Workbook.Descendants<Sheet>().First().Id;
+                    return (WorksheetPart)ss.WorkbookPart.GetPartById(coverSheetId);
+                }
             }
         }
     }
