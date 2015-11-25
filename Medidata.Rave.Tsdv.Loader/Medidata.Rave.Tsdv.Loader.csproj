@@ -89,9 +89,7 @@
   <ItemGroup>
     <None Include="Medidata.Rave.Tsdv.Loader.nuspec" />
     <None Include="packages.config" />
-    <None Include="Resources\CoverSheet.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Resources\CoverSheet.xlsx" />
     <None Include="_CreateNewNuGetPackage\Config.ps1" />
     <None Include="_CreateNewNuGetPackage\DoNotModify\CreateNuGetPackage.ps1" />
     <None Include="_CreateNewNuGetPackage\DoNotModify\New-NuGetPackage.ps1" />

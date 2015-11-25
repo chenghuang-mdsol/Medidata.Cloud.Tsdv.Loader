@@ -36,18 +36,5 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
             return ss;
             
         }
-        private WorksheetPart GetCoverWorksheetPart()
-        {
-            var sheetBytes = Resource.CoverSheet;
-            using (var ms = new MemoryStream())
-            {
-                ms.Write(sheetBytes, 0, sheetBytes.Length);
-                using (SpreadsheetDocument ss = SpreadsheetDocument.Open(ms,true))
-                {
-                    var coverSheetId = ss.WorkbookPart.Workbook.Descendants<Sheet>().First().Id;
-                    return (WorksheetPart)ss.WorkbookPart.GetPartById(coverSheetId);
-                }
-            }
-        }
     }
 }
