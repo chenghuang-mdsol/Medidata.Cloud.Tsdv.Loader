@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
+using Medidata.Cloud.ExcelLoader.CellStyleProviders;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.Helpers;
 
@@ -11,12 +12,12 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
     {
         private readonly ICellTypeValueConverterFactory _converterFactory;
         private readonly ILocalization _localization;
-
-        public TsdvReportV1Loader(ICellTypeValueConverterFactory converterFactory, ILocalization localization)
+        private readonly ICellStyleProvider _styleProvider;
+        public TsdvReportV1Loader(ICellTypeValueConverterFactory converterFactory, ILocalization localization, ICellStyleProvider styleProvider)
         {
             _converterFactory = converterFactory;
             _localization = localization;
-
+            _styleProvider = styleProvider;
             BlockPlans = new List<IBlockPlan>();
             BlockPlanSettings = new List<IBlockPlanSetting>();
             CustomTiers = new List<ICustomTier>();
@@ -38,7 +39,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 
         public void Save(Stream outStream)
         {
-            var builder = new TsdvReportGenericBuilder(_converterFactory, _localization);
+            var builder = new TsdvReportGenericBuilder(_converterFactory, _localization, _styleProvider);
 
             builder.AddSheet<IBlockPlan>("BlockPlans").AddRange(BlockPlans);
             builder.AddSheet<IBlockPlanSetting>("BlockPlanSettings").AddRange(BlockPlanSettings);
