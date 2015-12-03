@@ -10,17 +10,29 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
     public class TsdvReportLoader : ITsdvReportLoader
     {
-        private readonly IExcelBuilder _builder;
-        private readonly IExcelParser _parser;
+        private IExcelBuilder _builder;
+        private IExcelParser _parser;
 
-        public TsdvReportLoader(ILocalization localization, ICellTypeValueConverterFactory converterFactory = null)
+        public TsdvReportLoader(ILocalization localization)
         {
-            var cvtrFactory = converterFactory ?? new CellTypeValueConverterFactory();
-            var styleProvider = new ExtractedCellStyleProvider();
-            var sheetBuilderFactory = new SheetBuilderFactory(cvtrFactory, styleProvider);
-            _builder = new TsdvReportGenericBuilder(styleProvider, sheetBuilderFactory, localization);
-            _parser = new ExcelParser(cvtrFactory);
+            var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
+            var styleProvider = new EmbeddedCellStyleProvider();
+            var sheetBuilderFactory = new SheetBuilderFactory(cellTypeValueConverterFactory, styleProvider);
+            var builder = new TsdvReportGenericBuilder(styleProvider, sheetBuilderFactory, localization);
+            var parser = new ExcelParser(cellTypeValueConverterFactory);
 
+            Initialize(builder, parser);
+        }
+
+        internal TsdvReportLoader(IExcelBuilder builder, IExcelParser parser)
+        {
+            Initialize(builder, parser);
+        }
+
+        private void Initialize(IExcelBuilder builder, IExcelParser parser)
+        {
+            _builder = builder;
+            _parser = parser;
             BlockPlans = new List<IBlockPlan>();
             BlockPlanSettings = new List<IBlockPlanSetting>();
             CustomTiers = new List<ICustomTier>();
