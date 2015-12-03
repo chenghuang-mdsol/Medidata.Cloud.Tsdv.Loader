@@ -12,12 +12,13 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
     internal class TsdvReportGenericBuilder : ExcelBuilder
     {
         private readonly ILocalization _localization;
-
-        public TsdvReportGenericBuilder(ICellTypeValueConverterFactory converterFactory, ILocalization localization)
-            : base(converterFactory)
+        private readonly ICellStyleProvider _cellStyleProvider;
+        public TsdvReportGenericBuilder(ICellTypeValueConverterFactory converterFactory, ILocalization localization, ICellStyleProvider cellStyleProvider)
+            : base(converterFactory, cellStyleProvider)
         {
             if (localization == null) throw new ArgumentNullException("localization");
             _localization = localization;
+            _cellStyleProvider = cellStyleProvider;
         }
 
         protected override string[] GetPropertyNames<T>(string[] columnNames)
@@ -29,12 +30,11 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
 
         protected override SpreadsheetDocument CreateDocument(Stream outStream)
         {
-            //return;
             var sheetBytes = Resource.CoverSheet;
             outStream.Write(sheetBytes, 0, sheetBytes.Length);
             SpreadsheetDocument ss = SpreadsheetDocument.Open(outStream, true);
             return ss;
-            
+
         }
     }
 }
