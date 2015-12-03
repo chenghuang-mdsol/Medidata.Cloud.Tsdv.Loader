@@ -2,8 +2,6 @@
 using System.IO;
 using System.Linq;
 using ImpromptuInterface;
-using Medidata.Cloud.ExcelLoader;
-using Medidata.Cloud.ExcelLoader.CellStyleProviders;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Ploeh.AutoFixture;
@@ -16,11 +14,9 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
     {
         private static void Main(string[] args)
         {
-            var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
-            var styleProvider = new ExtractedCellStyleProvider();
             // Use builder to create a .xlxs file
             var localizationService = ResolveLocalizationService();
-            var loader = new TsdvReportV1Loader(cellTypeValueConverterFactory, localizationService, styleProvider);
+            var loader = new TsdvReportLoader(localizationService);
 
             loader.BlockPlans.Add(new
             {
@@ -47,7 +43,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             }
 
             // Use parser to load a .xlxs file
-            loader = new TsdvReportV1Loader(cellTypeValueConverterFactory, localizationService, styleProvider);
+            loader = new TsdvReportLoader(localizationService);
             using (var fs = new FileStream(filePath, FileMode.Open))
             {
                 loader.Load(fs);

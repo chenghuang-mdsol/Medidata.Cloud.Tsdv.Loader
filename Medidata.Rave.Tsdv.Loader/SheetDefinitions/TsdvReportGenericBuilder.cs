@@ -2,30 +2,27 @@
 using System.IO;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Interfaces.Localization;
-using DocumentFormat.OpenXml;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
 {
     internal class TsdvReportGenericBuilder : ExcelBuilder
     {
         private readonly ILocalization _localization;
-        private readonly ICellStyleProvider _cellStyleProvider;
-        public TsdvReportGenericBuilder(ICellTypeValueConverterFactory converterFactory, ILocalization localization, ICellStyleProvider cellStyleProvider)
-            : base(converterFactory, cellStyleProvider)
+
+        public TsdvReportGenericBuilder(ICellStyleProvider cellStyleProvider, ISheetBuilderFactory sheetBuilderFactory,
+            ILocalization localization)
+            : base(cellStyleProvider, sheetBuilderFactory)
         {
             if (localization == null) throw new ArgumentNullException("localization");
             _localization = localization;
-            if (cellStyleProvider == null) throw new ArgumentNullException("cellStyleProvider");
-            _cellStyleProvider = cellStyleProvider;
         }
 
-        protected override string[] GetPropertyNames<T>(string[] columnNames)
+        protected override string[] GetColumnNames<T>(string[] columnNames)
         {
             return columnNames == null
-                ? base.GetPropertyNames<T>(null)
+                ? base.GetColumnNames<T>(null)
                 : columnNames.Select(x => _localization.GetLocalString(x)).ToArray();
         }
 
@@ -33,9 +30,8 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
         {
             var sheetBytes = Resource.CoverSheet;
             outStream.Write(sheetBytes, 0, sheetBytes.Length);
-            SpreadsheetDocument ss = SpreadsheetDocument.Open(outStream, true);
+            var ss = SpreadsheetDocument.Open(outStream, true);
             return ss;
-
         }
     }
 }
