@@ -40,15 +40,16 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         public void Save(Stream outStream)
         {
             var builder = new TsdvReportGenericBuilder(_converterFactory, _localization, _styleProvider);
-
-            builder.AddSheet<IBlockPlan>("BlockPlans").AddRange(BlockPlans);
-            builder.AddSheet<IBlockPlanSetting>("BlockPlanSettings").AddRange(BlockPlanSettings);
-            builder.AddSheet<ICustomTier>("CustomTiers").AddRange(CustomTiers);
-            builder.AddSheet<ITierField>("TierFields").AddRange(TierFields);
-            builder.AddSheet<ITierForm>("TierForms").AddRange(TierForms);
-            builder.AddSheet<ITierFolder>("TierFolders").AddRange(TierFolders);
-            builder.AddSheet<IExcludedStatus>("ExcludedStatuses").AddRange(ExcludedStatuses);
-            builder.AddSheet<IRule>("Rules").AddRange(Rules);
+            string headerStyleName = "Output";
+            string textStyleName = "Normal";
+            builder.AddSheet<IBlockPlan>("BlockPlans", headerStyleName, textStyleName).AddRange(BlockPlans);
+            builder.AddSheet<IBlockPlanSetting>("BlockPlanSettings", headerStyleName, textStyleName).AddRange(BlockPlanSettings);
+            builder.AddSheet<ICustomTier>("CustomTiers", headerStyleName, textStyleName).AddRange(CustomTiers);
+            builder.AddSheet<ITierField>("TierFields", headerStyleName, textStyleName).AddRange(TierFields);
+            builder.AddSheet<ITierForm>("TierForms", headerStyleName, textStyleName).AddRange(TierForms);
+            builder.AddSheet<ITierFolder>("TierFolders", headerStyleName, textStyleName).AddRange(TierFolders);
+            builder.AddSheet<IExcludedStatus>("ExcludedStatuses", headerStyleName, textStyleName).AddRange(ExcludedStatuses);
+            builder.AddSheet<IRule>("Rules", headerStyleName, textStyleName).AddRange(Rules);
 
             builder.Save(outStream);
         }

@@ -18,6 +18,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
         {
             if (localization == null) throw new ArgumentNullException("localization");
             _localization = localization;
+            if (cellStyleProvider == null) throw new ArgumentNullException("cellStyleProvider");
             _cellStyleProvider = cellStyleProvider;
         }
 
