@@ -54,7 +54,9 @@
   <ItemGroup>
     <Compile Include="Helpers\ListExtensions.cs" />
     <Compile Include="ITsdvReportLoader.cs" />
-    <Compile Include="SheetDefinitions\v1\TsdvReportV1Loader.cs" />
+    <Compile Include="SheetDefinitions\v1\SheetBuilderFactory.cs" />
+    <Compile Include="SheetDefinitions\v1\TsdvSheetBuilder.cs" />
+    <Compile Include="SheetDefinitions\v1\TsdvReportLoader.cs" />
     <Compile Include="SheetDefinitions\TsdvReportGenericBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StringValidationMessageExtensions.cs" />
