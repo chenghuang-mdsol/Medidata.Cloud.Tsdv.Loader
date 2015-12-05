@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ImpromptuInterface;
@@ -17,7 +18,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             // Use builder to create a .xlxs file
             var localizationService = ResolveLocalizationService();
             var loader = new TsdvReportLoader(localizationService);
-
+            
             loader.BlockPlans.Add(new
             {
                 BlockPlanName = "xxx",
@@ -34,7 +35,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             loader.BlockPlanSettings.Add(
                 new {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100}.ActLike<IBlockPlanSetting>());
             loader.BlockPlanSettings.Add(new {BlockPlanName = "ccc", Blocks = "fasdf"}.ActLike<IBlockPlanSetting>());
-
+            
+            loader.TierFolders.Add(new {TierName = "Folder1", FolderOid = "id001", DynamicFields = new List<string>(){"x","y","z"}, DynamicColumnNames = new string[]{"Screening", "30 days", "60 days"}}.ActLike<ITierFolder>());
             var filePath = @"C:\Github\test.xlsx";
             File.Delete(filePath);
             using (var fs = new FileStream(filePath, FileMode.Create))

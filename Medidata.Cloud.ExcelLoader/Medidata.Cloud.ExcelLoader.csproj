@@ -64,6 +64,9 @@
     <Compile Include="CellTypeConverters\NumberConverter.cs" />
     <Compile Include="CellTypeConverters\StringConverter.cs" />
     <Compile Include="Helpers\TypeExtensions.cs" />
+    <Compile Include="IDynamicFields.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IExcelParser.cs" />
     <Compile Include="ISheetBuilderFactory.cs" />
     <Compile Include="ISheetParser.cs" />

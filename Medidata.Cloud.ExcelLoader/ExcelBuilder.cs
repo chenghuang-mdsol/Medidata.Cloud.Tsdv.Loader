@@ -64,8 +64,7 @@ namespace Medidata.Cloud.ExcelLoader
             }
         }
 
-
-        private IList<T> AddSheet<T>(string sheetName, bool hasHeaderRow, string[] columnNames)
+        private IList<T> AddSheet<T>(string sheetName, bool hasHeaderRow, string[] columnNames, IDynamicFields obj = null)
             where T : class
         {
             if (_sheetBuilders.Any(x => x.SheetName == sheetName))
@@ -78,6 +77,25 @@ namespace Medidata.Cloud.ExcelLoader
             _sheetBuilders.Add(worksheetBuilder);
 
             return (IList<T>) worksheetBuilder;
+        }
+
+        public void GenerateDynamicColumnNames()
+        {
+            foreach (ISheetBuilder builder in _sheetBuilders)
+            {
+                if (builder.Count > 0 && builder[0] is IDynamicFields)
+                {
+                    AddDynamicColumnNames(builder, ((IDynamicFields)builder[0]).DynamicColumnNames);
+                }
+            }
+        }
+
+        private void AddDynamicColumnNames (ISheetBuilder builder, string[] columnNames)
+        {
+            var list = new List<string>();
+            list.AddRange(builder.ColumnNames);
+            list.AddRange(columnNames.ToList());
+            builder.ColumnNames = list.ToArray();
         }
 
         protected virtual string[] GetColumnNames<T>(string[] columnNames)

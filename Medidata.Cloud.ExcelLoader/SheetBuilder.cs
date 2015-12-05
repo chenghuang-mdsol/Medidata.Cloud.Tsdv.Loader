@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -97,6 +98,24 @@ namespace Medidata.Cloud.ExcelLoader
             return cell;
         }
 
+        protected Cell CreateDynamicCell(object field)
+        {
+            var cell = new Cell();
+            var converter = _converterFactory.Produce(field.GetType());
+            var cellType = converter.CellType;
+            var cellValue = converter.GetCellValue(field);
+            cell.DataType = cellType;
+            if (cellType == CellValues.InlineString)
+            {
+                cell.InlineString = new InlineString { Text = new Text(cellValue) };
+            }
+            else
+            {
+                cell.CellValue = new CellValue(cellValue);
+            }
+            return cell;
+        }
+
         //TODO: Find a way to change the catch-and-release logic, it's dirty and it might hurt the performance
         private object GetPropertyValue(PropertyDescriptor property, object target)
         {
@@ -114,13 +133,26 @@ namespace Medidata.Cloud.ExcelLoader
         {
             var row = new Row();
             var properties = model.GetType().GetPropertyDescriptors();
+            IList dynamicFields;
             foreach (var prop in properties)
             {
+                //Ignore Generic Collection, they are dynamic and should be added to the end of the row
+                if(typeof(IList).IsAssignableFrom(prop.PropertyType))
+                {
+                    continue;
+                }
                 var cell = CreateCell(model, prop);
+                row.AppendChild(cell);
+            }
+            if (!model.TryGetDynamicFields(out dynamicFields)) return row;
+            foreach (var field in dynamicFields)
+            {
+                var cell = CreateDynamicCell(field);
                 row.AppendChild(cell);
             }
             return row;
         }
+        
 
         protected virtual Row CreateHeaderRow()
         {

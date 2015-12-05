@@ -63,9 +63,10 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
             _builder.AddSheet<IExcludedStatus>("ExcludedStatuses").AddRange(ExcludedStatuses);
             _builder.AddSheet<IRule>("Rules").AddRange(Rules);
 
+            _builder.GenerateDynamicColumnNames();
             _builder.Save(outStream);
         }
-
+        
         public void Load(Stream source)
         {
             _parser.Load(source);
