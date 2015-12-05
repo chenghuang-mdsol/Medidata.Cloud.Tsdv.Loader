@@ -21,7 +21,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         protected override Cell CreateCell(T model, PropertyDescriptor property)
         {
             var cell = base.CreateCell(model, property);
-            cell.StyleIndex = _styleProvider.GetStyleIndex(TextStyleName);
+            cell.StyleIndex = _styleProvider.GetStyleIndex(Document, TextStyleName);
             return cell;
         }
 
@@ -30,7 +30,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
             var row = base.CreateHeaderRow();
             foreach (var cell in row.Descendants<Cell>())
             {
-                cell.StyleIndex = _styleProvider.GetStyleIndex(HeaderStyleName);
+                cell.StyleIndex = _styleProvider.GetStyleIndex(Document, HeaderStyleName);
             }
             return row;
         }

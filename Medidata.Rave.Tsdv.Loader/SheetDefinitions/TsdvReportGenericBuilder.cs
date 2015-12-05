@@ -11,9 +11,8 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
     {
         private readonly ILocalization _localization;
 
-        public TsdvReportGenericBuilder(ICellStyleProvider cellStyleProvider, ISheetBuilderFactory sheetBuilderFactory,
-            ILocalization localization)
-            : base(cellStyleProvider, sheetBuilderFactory)
+        public TsdvReportGenericBuilder(ISheetBuilderFactory sheetBuilderFactory, ILocalization localization)
+            : base(sheetBuilderFactory)
         {
             if (localization == null) throw new ArgumentNullException("localization");
             _localization = localization;
