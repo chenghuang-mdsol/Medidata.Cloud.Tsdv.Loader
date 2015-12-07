@@ -18,7 +18,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
             var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
             var styleProvider = new EmbeddedCellStyleProvider();
             var sheetBuilderFactory = new SheetBuilderFactory(cellTypeValueConverterFactory, styleProvider);
-            var builder = new TsdvReportGenericBuilder(styleProvider, sheetBuilderFactory, localization);
+            var builder = new TsdvReportGenericBuilder(sheetBuilderFactory, localization);
             var parser = new ExcelParser(cellTypeValueConverterFactory);
 
             Initialize(builder, parser);
