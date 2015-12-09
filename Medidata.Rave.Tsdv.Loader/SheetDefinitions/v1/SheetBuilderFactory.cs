@@ -7,18 +7,19 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
     {
         private readonly ICellTypeValueConverterFactory _converterFactory;
         private readonly ICellStyleProvider _styleProvider;
-
-        public SheetBuilderFactory(ICellTypeValueConverterFactory converterFactory, ICellStyleProvider styleProvider)
+        private readonly IAutoFilterProvider _autoFilterProvider;
+        public SheetBuilderFactory(ICellTypeValueConverterFactory converterFactory, ICellStyleProvider styleProvider, IAutoFilterProvider autoFilterProvider)
         {
             if (converterFactory == null) throw new ArgumentNullException("converterFactory");
             if (styleProvider == null) throw new ArgumentNullException("styleProvider");
             _converterFactory = converterFactory;
             _styleProvider = styleProvider;
+            _autoFilterProvider = autoFilterProvider;
         }
 
         public ISheetBuilder Create<T>() where T : class
         {
-            return new TsdvSheetBuilder<T>(_converterFactory, _styleProvider);
+            return new TsdvSheetBuilder<T>(_converterFactory, _styleProvider,_autoFilterProvider);
         }
     }
 }
