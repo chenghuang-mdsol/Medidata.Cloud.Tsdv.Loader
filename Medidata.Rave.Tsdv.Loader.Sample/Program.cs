@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ImpromptuInterface;
+using Medidata.Cloud.ExcelLoader;
+using Medidata.Cloud.ExcelLoader.Helpers;
+using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Ploeh.AutoFixture;
@@ -14,43 +18,48 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
     {
         private static void Main(string[] args)
         {
+
+            var excelBuilderX = new TsdvReportLoader(null);
+
+            excelBuilderX.BlockPlans.AddAnonymous(
+                new
+                {
+                    BlockPlanName = "xxx",
+                    UsingMatrix = false,
+                    EstimatedDate = DateTime.Now,
+                    EstimatedCoverage = 0.85
+                },
+                new { BlockPlanName = "yyy", EstimatedCoverage = 0.65 }, 
+                new { BlockPlanName = "zzz" });
+            excelBuilderX.BlockPlanSettings.AddAnonymous(
+                new { BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCount = 99 },
+                new { BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100 },
+                new { BlockPlanName = "ccc", Blocks = "fasdf" }
+                );
+
+            var filePathX = @"C:\Github\test.xlsx";
+            File.Delete(filePathX);
+            using (var fs = new FileStream(filePathX, FileMode.Create))
+            {
+                excelBuilderX.Save(fs);
+            }
+//            return;
             // Use builder to create a .xlxs file
             var localizationService = ResolveLocalizationService();
             var loader = new TsdvReportLoader(localizationService);
 
-            loader.BlockPlans.Add(new
-            {
-                BlockPlanName = "xxx",
-                UsingMatrix = false,
-                EstimatedDate = DateTime.Now,
-                EstimatedCoverage = 0.85
-            }.ActLike<IBlockPlan>());
-            loader.BlockPlans.Add(new {BlockPlanName = "yyy", EstimatedCoverage = 0.65}.ActLike<IBlockPlan>());
-            loader.BlockPlans.Add(new {BlockPlanName = "zzz"}.ActLike<IBlockPlan>());
-
-            loader.BlockPlanSettings.Add(
-                new {BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCount = 99}
-                    .ActLike<IBlockPlanSetting>());
-            loader.BlockPlanSettings.Add(
-                new {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100}.ActLike<IBlockPlanSetting>());
-            loader.BlockPlanSettings.Add(new {BlockPlanName = "ccc", Blocks = "fasdf"}.ActLike<IBlockPlanSetting>());
-
-            var filePath = @"C:\Github\test.xlsx";
-            File.Delete(filePath);
-            using (var fs = new FileStream(filePath, FileMode.Create))
-            {
-                loader.Save(fs);
-            }
-
             // Use parser to load a .xlxs file
             loader = new TsdvReportLoader(localizationService);
-            using (var fs = new FileStream(filePath, FileMode.Open))
+            using (var fs = new FileStream(filePathX, FileMode.Open))
             {
                 loader.Load(fs);
             }
 
             Console.WriteLine(loader.BlockPlans.Count);
             Console.WriteLine(loader.BlockPlanSettings.Count);
+            Console.WriteLine(loader.Rules.Count);
+
+            Console.Read();
         }
 
         private static ILocalization ResolveLocalizationService()

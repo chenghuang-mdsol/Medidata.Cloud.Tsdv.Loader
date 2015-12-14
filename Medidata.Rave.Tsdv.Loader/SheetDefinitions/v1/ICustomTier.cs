@@ -1,4 +1,6 @@
-﻿namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
+﻿using System.Dynamic;
+
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
     public interface ICustomTier
     {

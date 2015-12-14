@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
-using Medidata.Cloud.ExcelLoader.CellStyleProviders;
+using Medidata.Cloud.ExcelLoader.Helpers;
+using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
-using Medidata.Rave.Tsdv.Loader.Helpers;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
@@ -12,14 +12,21 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
     {
         private IExcelBuilder _builder;
         private IExcelParser _parser;
+        private readonly ISheetBuilder _defaultSheetBuilder;
 
         public TsdvReportLoader(ILocalization localization)
         {
             var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
-            var styleProvider = new EmbeddedCellStyleProvider();
-            var autoFilterProvider = new HeaderAutoFilterProvider();
-            var sheetBuilderFactory = new SheetBuilderFactory(cellTypeValueConverterFactory, styleProvider, autoFilterProvider);
-            var builder = new TsdvReportGenericBuilder(sheetBuilderFactory, localization);
+
+            _defaultSheetBuilder = new SheetBuilder(new CellTypeValueConverterFactory())
+                .Decorate(new HeaderSheetDecorator())
+                .Decorate(new AutoFilterSheetDecorator())
+                .Decorate(new TextStyleSheetDecorator("Normal"))
+                .Decorate(new HeaderStyleSheetDecorator("Output"))
+                .Decorate(new AutoFitWidthSheetDecorator());
+
+            var builder = new TemplatedExcelBuilder();
+
             var parser = new ExcelParser(cellTypeValueConverterFactory);
 
             Initialize(builder, parser);
@@ -28,20 +35,6 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         internal TsdvReportLoader(IExcelBuilder builder, IExcelParser parser)
         {
             Initialize(builder, parser);
-        }
-
-        private void Initialize(IExcelBuilder builder, IExcelParser parser)
-        {
-            _builder = builder;
-            _parser = parser;
-            BlockPlans = new List<IBlockPlan>();
-            BlockPlanSettings = new List<IBlockPlanSetting>();
-            CustomTiers = new List<ICustomTier>();
-            TierFields = new List<ITierField>();
-            TierForms = new List<ITierForm>();
-            TierFolders = new List<ITierFolder>();
-            ExcludedStatuses = new List<IExcludedStatus>();
-            Rules = new List<IRule>();
         }
 
         public IList<IBlockPlan> BlockPlans { get; private set; }
@@ -55,14 +48,14 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 
         public void Save(Stream outStream)
         {
-            _builder.AddSheet<IBlockPlan>("BlockPlans").AddRange(BlockPlans);
-            _builder.AddSheet<IBlockPlanSetting>("BlockPlanSettings").AddRange(BlockPlanSettings);
-            _builder.AddSheet<ICustomTier>("CustomTiers").AddRange(CustomTiers);
-            _builder.AddSheet<ITierField>("TierFields").AddRange(TierFields);
-            _builder.AddSheet<ITierForm>("TierForms").AddRange(TierForms);
-            _builder.AddSheet<ITierFolder>("TierFolders").AddRange(TierFolders);
-            _builder.AddSheet<IExcludedStatus>("ExcludedStatuses").AddRange(ExcludedStatuses);
-            _builder.AddSheet<IRule>("Rules").AddRange(Rules);
+            _builder.DefineSheet<IBlockPlan>("BlockPlans", _defaultSheetBuilder).AddRange(BlockPlans);
+            _builder.DefineSheet<IBlockPlanSetting>("BlockPlanSettings", _defaultSheetBuilder).AddRange(BlockPlanSettings);
+            _builder.DefineSheet<ICustomTier>("CustomTiers", _defaultSheetBuilder).AddRange(CustomTiers);
+            _builder.DefineSheet<ITierField>("TierFields", _defaultSheetBuilder).AddRange(TierFields);
+            _builder.DefineSheet<ITierForm>("TierForms", _defaultSheetBuilder).AddRange(TierForms);
+            _builder.DefineSheet<ITierFolder>("TierFolders", _defaultSheetBuilder).AddRange(TierFolders);
+            _builder.DefineSheet<IExcludedStatus>("ExcludedStatuses", _defaultSheetBuilder).AddRange(ExcludedStatuses);
+            _builder.DefineSheet<IRule>("Rules", _defaultSheetBuilder).AddRange(Rules);
 
             _builder.Save(outStream);
         }
@@ -79,6 +72,20 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
             TierFolders = _parser.GetObjects<ITierFolder>("TierFolders").ToList();
             ExcludedStatuses = _parser.GetObjects<IExcludedStatus>("ExcludedStatuses").ToList();
             Rules = _parser.GetObjects<IRule>("Rules").ToList();
+        }
+
+        private void Initialize(IExcelBuilder builder, IExcelParser parser)
+        {
+            _builder = builder;
+            _parser = parser;
+            BlockPlans = new List<IBlockPlan>();
+            BlockPlanSettings = new List<IBlockPlanSetting>();
+            CustomTiers = new List<ICustomTier>();
+            TierFields = new List<ITierField>();
+            TierForms = new List<ITierForm>();
+            TierFolders = new List<ITierFolder>();
+            ExcludedStatuses = new List<IExcludedStatus>();
+            Rules = new List<IRule>();
         }
     }
 }
