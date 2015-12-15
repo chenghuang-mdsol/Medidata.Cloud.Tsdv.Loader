@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
-using ImpromptuInterface;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
-using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Ploeh.AutoFixture;
@@ -18,12 +16,16 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
     {
         private static void Main(string[] args)
         {
+            dynamic dd = new ExpandoObject();
+            dd.Prop1 = "xxx";
+            dd.Prop2 = "yyy";
+
             var localizationService = ResolveLocalizationService();
 
             var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
             var excelBuilderX = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
 
-            excelBuilderX.BlockPlans.AddAnonymous(
+            excelBuilderX.BlockPlans.AddLike(
                 new
                 {
                     BlockPlanName = "xxx",
@@ -31,12 +33,12 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     EstimatedDate = DateTime.Now,
                     EstimatedCoverage = 0.85
                 },
-                new { BlockPlanName = "yyy", EstimatedCoverage = 0.65 }, 
-                new { BlockPlanName = "zzz" });
-            excelBuilderX.BlockPlanSettings.AddAnonymous(
-                new { BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCount = 99 },
-                new { BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100 },
-                new { BlockPlanName = "ccc", Blocks = "fasdf" }
+                new {BlockPlanName = "yyy", EstimatedCoverage = 0.65},
+                new {BlockPlanName = "zzz"});
+            excelBuilderX.BlockPlanSettings.AddLike(
+                new {BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCount = 99},
+                new {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100},
+                new {BlockPlanName = "ccc", Blocks = "fasdf"}
                 );
 
             var filePathX = @"C:\Github\test.xlsx";
@@ -45,8 +47,6 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             {
                 excelBuilderX.Save(fs);
             }
-//            return;
-            // Use builder to create a .xlxs file
 
             // Use parser to load a .xlxs file
             var loader = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
@@ -55,7 +55,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 loader.Load(fs);
             }
 
-            Console.WriteLine(loader.BlockPlans.Count);
+            Console.WriteLine(loader.BlockPlans.First().BlockPlanName);
             Console.WriteLine(loader.BlockPlanSettings.Count);
             Console.WriteLine(loader.Rules.Count);
 

@@ -11,9 +11,10 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
     public class TsdvReportLoader : ITsdvReportLoader
     {
+        private readonly ISheetBuilder _defaultSheetBuilder;
+        private readonly ISheetDefinition[] _sheetDefinitions;
         private IExcelBuilder _builder;
         private IExcelParser _parser;
-        private readonly ISheetBuilder _defaultSheetBuilder;
 
         public TsdvReportLoader(ICellTypeValueConverterFactory cellTypeValueConverterFactory, ILocalization localization)
         {
@@ -29,11 +30,18 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 
             var parser = new ExcelParser(cellTypeValueConverterFactory);
 
-            Initialize(builder, parser);
-        }
+            _sheetDefinitions = new[]
+            {
+                typeof(IBlockPlan).GetSheetDefinitionFromType("BlockPlans", new[] {"tsdv_header1"}),
+                typeof(IBlockPlanSetting).GetSheetDefinitionFromType("BlockPlanSettings"),
+                typeof(ICustomTier).GetSheetDefinitionFromType("CustomTiers"),
+                typeof(ITierField).GetSheetDefinitionFromType("TierFields"),
+                typeof(ITierForm).GetSheetDefinitionFromType("Rules"),
+                typeof(ITierFolder).GetSheetDefinitionFromType("TierForms"),
+                typeof(IExcludedStatus).GetSheetDefinitionFromType("TierFolders"),
+                typeof(IRule).GetSheetDefinitionFromType("ExcludedStatuses")
+            };
 
-        internal TsdvReportLoader(IExcelBuilder builder, IExcelParser parser)
-        {
             Initialize(builder, parser);
         }
 
@@ -48,14 +56,14 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 
         public void Save(Stream outStream)
         {
-            _builder.DefineSheet(GetSheetDefinitionFromType<IBlockPlan>("BlockPlans", new []{"tsdv_header1"}), _defaultSheetBuilder).AddRange(BlockPlans);
-            _builder.DefineSheet(GetSheetDefinitionFromType<IBlockPlanSetting>("BlockPlanSettings"), _defaultSheetBuilder).AddRange(BlockPlanSettings);
-            _builder.DefineSheet(GetSheetDefinitionFromType<ICustomTier>("CustomTiers"), _defaultSheetBuilder).AddRange(CustomTiers);
-            _builder.DefineSheet(GetSheetDefinitionFromType<ITierField>("TierFields"), _defaultSheetBuilder).AddRange(TierFields);
-            _builder.DefineSheet(GetSheetDefinitionFromType<ITierForm>("TierForms"), _defaultSheetBuilder).AddRange(TierForms);
-            _builder.DefineSheet(GetSheetDefinitionFromType<ITierFolder>("TierFolders"), _defaultSheetBuilder).AddRange(TierFolders);
-            _builder.DefineSheet(GetSheetDefinitionFromType<IExcludedStatus>("ExcludedStatuses"), _defaultSheetBuilder).AddRange(ExcludedStatuses);
-            _builder.DefineSheet(GetSheetDefinitionFromType<IRule>("Rules"), _defaultSheetBuilder).AddRange(Rules);
+            _builder.DefineSheet(GetDef("BlockPlans"), _defaultSheetBuilder).AddRange(BlockPlans);
+            _builder.DefineSheet(GetDef("BlockPlanSettings"), _defaultSheetBuilder).AddRange(BlockPlanSettings);
+            _builder.DefineSheet(GetDef("CustomTiers"), _defaultSheetBuilder).AddRange(CustomTiers);
+            _builder.DefineSheet(GetDef("TierFields"), _defaultSheetBuilder).AddRange(TierFields);
+            _builder.DefineSheet(GetDef("TierForms"), _defaultSheetBuilder).AddRange(TierForms);
+            _builder.DefineSheet(GetDef("TierFolders"), _defaultSheetBuilder).AddRange(TierFolders);
+            _builder.DefineSheet(GetDef("ExcludedStatuses"), _defaultSheetBuilder).AddRange(ExcludedStatuses);
+            _builder.DefineSheet(GetDef("Rules"), _defaultSheetBuilder).AddRange(Rules);
 
             _builder.Save(outStream);
         }
@@ -64,14 +72,19 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         {
             _parser.Load(source);
 
-            BlockPlans = _parser.GetObjects<IBlockPlan>("BlockPlans").ToList();
-            BlockPlanSettings = _parser.GetObjects<IBlockPlanSetting>("BlockPlanSettings").ToList();
-            CustomTiers = _parser.GetObjects<ICustomTier>("CustomTiers").ToList();
-            TierFields = _parser.GetObjects<ITierField>("TierFields").ToList();
-            TierForms = _parser.GetObjects<ITierForm>("TierForms").ToList();
-            TierFolders = _parser.GetObjects<ITierFolder>("TierFolders").ToList();
-            ExcludedStatuses = _parser.GetObjects<IExcludedStatus>("ExcludedStatuses").ToList();
-            Rules = _parser.GetObjects<IRule>("Rules").ToList();
+            BlockPlans = _parser.GetObjects(GetDef("BlockPlans")).ActAs<IBlockPlan>().ToList();
+            BlockPlanSettings = _parser.GetObjects(GetDef("BlockPlanSettings")).ActAs<IBlockPlanSetting>().ToList();
+            CustomTiers = _parser.GetObjects(GetDef("CustomTiers")).ActAs<ICustomTier>().ToList();
+            TierFields = _parser.GetObjects(GetDef("TierFields")).ActAs<ITierField>().ToList();
+            TierForms = _parser.GetObjects(GetDef("TierForms")).ActAs<ITierForm>().ToList();
+            TierFolders = _parser.GetObjects(GetDef("TierFolders")).ActAs<ITierFolder>().ToList();
+            ExcludedStatuses = _parser.GetObjects(GetDef("ExcludedStatuses")).ActAs<IExcludedStatus>().ToList();
+            Rules = _parser.GetObjects(GetDef("Rules")).ActAs<IRule>().ToList();
+        }
+
+        private ISheetDefinition GetDef(string name)
+        {
+            return _sheetDefinitions.First(x => x.Name == name);
         }
 
         private ISheetDefinition GetSheetDefinitionFromType<T>(string sheetName, IEnumerable<string> headers = null)
@@ -81,7 +94,8 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
             var sheetDefinition = new SheetDefinition
             {
                 Name = sheetName,
-                ColumnDefinitions = props.Select((x, i) => PropertyToColumnDefinition(x, i < headerList.Count ? headerList[i] : null))
+                ColumnDefinitions =
+                    props.Select((x, i) => PropertyToColumnDefinition(x, i < headerList.Count ? headerList[i] : null))
             };
             return sheetDefinition;
         }
