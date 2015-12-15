@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITsdvReportLoader.cs" />
+    <Compile Include="SheetDefinitions\v1\TranslateHeaderDecorator.cs" />
     <Compile Include="SheetDefinitions\v1\TsdvReportLoader.cs" />
     <Compile Include="TemplatedExcelBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

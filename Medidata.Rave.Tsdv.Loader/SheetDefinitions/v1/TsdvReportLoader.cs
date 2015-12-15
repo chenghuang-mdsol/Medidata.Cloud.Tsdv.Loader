@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
@@ -14,15 +15,14 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         private IExcelParser _parser;
         private readonly ISheetBuilder _defaultSheetBuilder;
 
-        public TsdvReportLoader(ILocalization localization)
+        public TsdvReportLoader(ICellTypeValueConverterFactory cellTypeValueConverterFactory, ILocalization localization)
         {
-            var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
-
-            _defaultSheetBuilder = new SheetBuilder(new CellTypeValueConverterFactory())
+            _defaultSheetBuilder = new SheetBuilder(cellTypeValueConverterFactory)
                 .Decorate(new HeaderSheetDecorator())
                 .Decorate(new AutoFilterSheetDecorator())
                 .Decorate(new TextStyleSheetDecorator("Normal"))
                 .Decorate(new HeaderStyleSheetDecorator("Output"))
+                .Decorate(new TranslateHeaderDecorator(localization))
                 .Decorate(new AutoFitWidthSheetDecorator());
 
             var builder = new TemplatedExcelBuilder();
@@ -48,14 +48,14 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 
         public void Save(Stream outStream)
         {
-            _builder.DefineSheet<IBlockPlan>("BlockPlans", _defaultSheetBuilder).AddRange(BlockPlans);
-            _builder.DefineSheet<IBlockPlanSetting>("BlockPlanSettings", _defaultSheetBuilder).AddRange(BlockPlanSettings);
-            _builder.DefineSheet<ICustomTier>("CustomTiers", _defaultSheetBuilder).AddRange(CustomTiers);
-            _builder.DefineSheet<ITierField>("TierFields", _defaultSheetBuilder).AddRange(TierFields);
-            _builder.DefineSheet<ITierForm>("TierForms", _defaultSheetBuilder).AddRange(TierForms);
-            _builder.DefineSheet<ITierFolder>("TierFolders", _defaultSheetBuilder).AddRange(TierFolders);
-            _builder.DefineSheet<IExcludedStatus>("ExcludedStatuses", _defaultSheetBuilder).AddRange(ExcludedStatuses);
-            _builder.DefineSheet<IRule>("Rules", _defaultSheetBuilder).AddRange(Rules);
+            _builder.DefineSheet(GetSheetDefinitionFromType<IBlockPlan>("BlockPlans", new []{"tsdv_header1"}), _defaultSheetBuilder).AddRange(BlockPlans);
+            _builder.DefineSheet(GetSheetDefinitionFromType<IBlockPlanSetting>("BlockPlanSettings"), _defaultSheetBuilder).AddRange(BlockPlanSettings);
+            _builder.DefineSheet(GetSheetDefinitionFromType<ICustomTier>("CustomTiers"), _defaultSheetBuilder).AddRange(CustomTiers);
+            _builder.DefineSheet(GetSheetDefinitionFromType<ITierField>("TierFields"), _defaultSheetBuilder).AddRange(TierFields);
+            _builder.DefineSheet(GetSheetDefinitionFromType<ITierForm>("TierForms"), _defaultSheetBuilder).AddRange(TierForms);
+            _builder.DefineSheet(GetSheetDefinitionFromType<ITierFolder>("TierFolders"), _defaultSheetBuilder).AddRange(TierFolders);
+            _builder.DefineSheet(GetSheetDefinitionFromType<IExcludedStatus>("ExcludedStatuses"), _defaultSheetBuilder).AddRange(ExcludedStatuses);
+            _builder.DefineSheet(GetSheetDefinitionFromType<IRule>("Rules"), _defaultSheetBuilder).AddRange(Rules);
 
             _builder.Save(outStream);
         }
@@ -72,6 +72,28 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
             TierFolders = _parser.GetObjects<ITierFolder>("TierFolders").ToList();
             ExcludedStatuses = _parser.GetObjects<IExcludedStatus>("ExcludedStatuses").ToList();
             Rules = _parser.GetObjects<IRule>("Rules").ToList();
+        }
+
+        private ISheetDefinition GetSheetDefinitionFromType<T>(string sheetName, IEnumerable<string> headers = null)
+        {
+            var props = typeof(T).GetPropertyDescriptors();
+            var headerList = (headers ?? Enumerable.Empty<string>()).ToList();
+            var sheetDefinition = new SheetDefinition
+            {
+                Name = sheetName,
+                ColumnDefinitions = props.Select((x, i) => PropertyToColumnDefinition(x, i < headerList.Count ? headerList[i] : null))
+            };
+            return sheetDefinition;
+        }
+
+        private IColumnDefinition PropertyToColumnDefinition(PropertyDescriptor property, string headerName = null)
+        {
+            return new ColumnDefinition
+            {
+                PropertyType = property.PropertyType,
+                PropertyName = property.Name,
+                HeaderName = headerName ?? property.Name
+            };
         }
 
         private void Initialize(IExcelBuilder builder, IExcelParser parser)

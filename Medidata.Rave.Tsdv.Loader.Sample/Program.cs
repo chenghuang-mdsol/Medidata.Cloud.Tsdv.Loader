@@ -18,8 +18,10 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
     {
         private static void Main(string[] args)
         {
+            var localizationService = ResolveLocalizationService();
 
-            var excelBuilderX = new TsdvReportLoader(null);
+            var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
+            var excelBuilderX = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
 
             excelBuilderX.BlockPlans.AddAnonymous(
                 new
@@ -45,11 +47,9 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             }
 //            return;
             // Use builder to create a .xlxs file
-            var localizationService = ResolveLocalizationService();
-            var loader = new TsdvReportLoader(localizationService);
 
             // Use parser to load a .xlxs file
-            loader = new TsdvReportLoader(localizationService);
+            var loader = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
             using (var fs = new FileStream(filePathX, FileMode.Open))
             {
                 loader.Load(fs);
