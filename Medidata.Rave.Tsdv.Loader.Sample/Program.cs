@@ -16,16 +16,12 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
     {
         private static void Main(string[] args)
         {
-            dynamic dd = new ExpandoObject();
-            dd.Prop1 = "xxx";
-            dd.Prop2 = "yyy";
-
             var localizationService = ResolveLocalizationService();
 
             var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
             var excelBuilderX = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
 
-            excelBuilderX.BlockPlans.AddLike(
+            excelBuilderX.BlockPlans.AddSimilarShape(
                 new
                 {
                     BlockPlanName = "xxx",
@@ -33,12 +29,24 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     EstimatedDate = DateTime.Now,
                     EstimatedCoverage = 0.85
                 },
-                new {BlockPlanName = "yyy", EstimatedCoverage = 0.65},
-                new {BlockPlanName = "zzz"});
-            excelBuilderX.BlockPlanSettings.AddLike(
-                new {BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCount = 99},
-                new {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100},
-                new {BlockPlanName = "ccc", Blocks = "fasdf"}
+                new { BlockPlanName = "yyy", EstimatedCoverage = 0.65 },
+                new { BlockPlanName = "zzz" });
+            excelBuilderX.BlockPlanSettings.AddSimilarShape(
+                new { BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCount = 99 },
+                new { BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100 },
+                new { BlockPlanName = "ccc", Blocks = "fasdf" }
+                );
+
+            var sheetDef = excelBuilderX.GetSheetDefinition("TierFolders");
+            sheetDef.ColumnDefinitions.Add(new ColumnDefinition
+            {
+                PropertyName = "Extra1",
+                HeaderName = "Extra1",
+                PropertyType = typeof(string)
+            });
+
+            excelBuilderX.TierFolders.AddSimilarShape(
+                new { TierName ="T1", FolderOid = "FOLDETR", Extra1 = "blah"}
                 );
 
             var filePathX = @"C:\Github\test.xlsx";
@@ -57,6 +65,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
             Console.WriteLine(loader.BlockPlans.First().BlockPlanName);
             Console.WriteLine(loader.BlockPlanSettings.Count);
+            Console.WriteLine(loader.TierFolders.Count);
             Console.WriteLine(loader.Rules.Count);
 
             Console.Read();

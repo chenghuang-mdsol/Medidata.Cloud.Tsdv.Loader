@@ -27,7 +27,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 
         public TsdvReportLoader(ICellTypeValueConverterFactory cellTypeValueConverterFactory, ILocalization localization)
         {
-            _defaultSheetBuilder = new SheetBuilder(cellTypeValueConverterFactory)
+            _defaultSheetBuilder = new ExpandoOjbectSheetBuilder(cellTypeValueConverterFactory)
                 .Decorate(new HeaderSheetDecorator())
                 .Decorate(new AutoFilterSheetDecorator())
                 .Decorate(new TextStyleSheetDecorator("Normal"))
@@ -45,10 +45,10 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
                 typeof(IBlockPlanSetting).GetSheetDefinitionFromType("BlockPlanSettings"),
                 typeof(ICustomTier).GetSheetDefinitionFromType("CustomTiers"),
                 typeof(ITierField).GetSheetDefinitionFromType("TierFields"),
-                typeof(ITierForm).GetSheetDefinitionFromType("Rules"),
-                typeof(ITierFolder).GetSheetDefinitionFromType("TierForms"),
-                typeof(IExcludedStatus).GetSheetDefinitionFromType("TierFolders"),
-                typeof(IRule).GetSheetDefinitionFromType("ExcludedStatuses")
+                typeof(ITierForm).GetSheetDefinitionFromType("TierForms"),
+                typeof(ITierFolder).GetSheetDefinitionFromType("TierFolders"),
+                typeof(IExcludedStatus).GetSheetDefinitionFromType("ExcludedStatuses"),
+                typeof(IRule).GetSheetDefinitionFromType("Rules")
             };
 
             Initialize(builder, parser);
@@ -65,14 +65,14 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 
         public void Save(Stream outStream)
         {
-            _builder.DefineSheet(GetDef("BlockPlans"), _defaultSheetBuilder).AddRange(BlockPlans);
-            _builder.DefineSheet(GetDef("BlockPlanSettings"), _defaultSheetBuilder).AddRange(BlockPlanSettings);
-            _builder.DefineSheet(GetDef("CustomTiers"), _defaultSheetBuilder).AddRange(CustomTiers);
-            _builder.DefineSheet(GetDef("TierFields"), _defaultSheetBuilder).AddRange(TierFields);
-            _builder.DefineSheet(GetDef("TierForms"), _defaultSheetBuilder).AddRange(TierForms);
-            _builder.DefineSheet(GetDef("TierFolders"), _defaultSheetBuilder).AddRange(TierFolders);
-            _builder.DefineSheet(GetDef("ExcludedStatuses"), _defaultSheetBuilder).AddRange(ExcludedStatuses);
-            _builder.DefineSheet(GetDef("Rules"), _defaultSheetBuilder).AddRange(Rules);
+            _builder.DefineSheet(GetSheetDefinition("BlockPlans"), _defaultSheetBuilder).AddRange(BlockPlans);
+            _builder.DefineSheet(GetSheetDefinition("BlockPlanSettings"), _defaultSheetBuilder).AddRange(BlockPlanSettings);
+            _builder.DefineSheet(GetSheetDefinition("CustomTiers"), _defaultSheetBuilder).AddRange(CustomTiers);
+            _builder.DefineSheet(GetSheetDefinition("TierFields"), _defaultSheetBuilder).AddRange(TierFields);
+            _builder.DefineSheet(GetSheetDefinition("TierForms"), _defaultSheetBuilder).AddRange(TierForms);
+            _builder.DefineSheet(GetSheetDefinition("TierFolders"), _defaultSheetBuilder).AddRange(TierFolders);
+            _builder.DefineSheet(GetSheetDefinition("ExcludedStatuses"), _defaultSheetBuilder).AddRange(ExcludedStatuses);
+            _builder.DefineSheet(GetSheetDefinition("Rules"), _defaultSheetBuilder).AddRange(Rules);
 
             _builder.Save(outStream);
         }
@@ -81,17 +81,17 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         {
             _parser.Load(source);
 
-            BlockPlans = _parser.GetObjects<IBlockPlan>(GetDef("BlockPlans")).ToList();
-            BlockPlanSettings = _parser.GetObjects<IBlockPlanSetting>(GetDef("BlockPlanSettings")).ToList();
-            CustomTiers = _parser.GetObjects<ICustomTier>(GetDef("CustomTiers")).ToList();
-            TierFields = _parser.GetObjects<ITierField>(GetDef("TierFields")).ToList();
-            TierForms = _parser.GetObjects<ITierForm>(GetDef("TierForms")).ToList();
-            TierFolders = _parser.GetObjects<ITierFolder>(GetDef("TierFolders")).ToList();
-            ExcludedStatuses = _parser.GetObjects<IExcludedStatus>(GetDef("ExcludedStatuses")).ToList();
-            Rules = _parser.GetObjects<IRule>(GetDef("Rules")).ToList();
+            BlockPlans = _parser.GetObjects<IBlockPlan>(GetSheetDefinition("BlockPlans")).ToList();
+            BlockPlanSettings = _parser.GetObjects<IBlockPlanSetting>(GetSheetDefinition("BlockPlanSettings")).ToList();
+            CustomTiers = _parser.GetObjects<ICustomTier>(GetSheetDefinition("CustomTiers")).ToList();
+            TierFields = _parser.GetObjects<ITierField>(GetSheetDefinition("TierFields")).ToList();
+            TierForms = _parser.GetObjects<ITierForm>(GetSheetDefinition("TierForms")).ToList();
+            TierFolders = _parser.GetObjects<ITierFolder>(GetSheetDefinition("TierFolders")).ToList();
+            ExcludedStatuses = _parser.GetObjects<IExcludedStatus>(GetSheetDefinition("ExcludedStatuses")).ToList();
+            Rules = _parser.GetObjects<IRule>(GetSheetDefinition("Rules")).ToList();
         }
 
-        private ISheetDefinition GetDef(string name)
+        public ISheetDefinition GetSheetDefinition(string name)
         {
             return _sheetDefinitions.First(x => x.Name == name);
         }
