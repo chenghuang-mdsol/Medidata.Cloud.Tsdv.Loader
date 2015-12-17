@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
-using ImpromptuInterface.Dynamic;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
-using Medidata.Interfaces.Clinical;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Ploeh.AutoFixture;
@@ -23,40 +20,45 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
             var excelBuilderX = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
 
-            excelBuilderX.BlockPlans.AddSimilarShape(
-                new
+            excelBuilderX.BlockPlans.Add(
+                new BlockPlan
                 {
                     BlockPlanName = "xxx",
                     UsingMatrix = false,
                     EstimatedDate = DateTime.Now,
                     EstimatedCoverage = 0.85
                 },
-                new { BlockPlanName = "yyy", EstimatedCoverage = 0.65 },
-                new { BlockPlanName = "zzz" });
-            excelBuilderX.BlockPlanSettings.AddSimilarShape(
-                new { BlockPlanName = "fakeNameByAnonymousClass", Repeated = false, BlockSubjectCount = 99 },
-                new { BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100 },
-                new { BlockPlanName = "ccc", Blocks = "fasdf" }
+                new BlockPlan {BlockPlanName = "yyy", EstimatedCoverage = 0.65},
+                new BlockPlan {BlockPlanName = "zzz"});
+            excelBuilderX.BlockPlanSettings.Add(
+                new BlockPlanSetting
+                {
+                    BlockPlanName = "fakeNameByAnonymousClass",
+                    Repeated = false,
+                    BlockSubjectCount = 99
+                },
+                new BlockPlanSetting {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100},
+                new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"}
                 );
 
             var sheetDef = excelBuilderX.GetSheetDefinition("TierFolders");
             sheetDef.AddColumn(new ColumnDefinition
-            {
-                PropertyName = "Extra1",
-                HeaderName = "Extra1",
-                PropertyType = typeof(string)
-            });
-//
-            var expando = Build<ExpandoObject>.NewObject(TierName: "T1", FolderOid: "FOLDER", Extra1: "Blah2");
+                               {
+                                   PropertyName = "Extra1",
+                                   HeaderName = "tsdv_Extra1",
+                                   PropertyType = typeof(string)
+                               });
 
-//            var xx = new ColumnDefinition().New(XX: "X1", XX2: "X2");
 
-//            var columns = Build<ColumnDefinition>.
+            dynamic tf = new TierFolder
+                         {
+                             TierName = "T1",
+                             FolderOid = "FOLDETR"
+                         };
 
-            excelBuilderX.TierFolders.AddSimilarShape(
-                new { TierName ="T1", FolderOid = "FOLDETR", Extra1 = "blah"},
-                (object)expando
-                );
+            tf.Extra1 = "blah";
+
+            excelBuilderX.TierFolders.Add((TierFolder) tf);
 
             var filePathX = @"C:\Github\test.xlsx";
             File.Delete(filePathX);
@@ -85,13 +87,13 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             var localizationService = fixture.Create<ILocalization>();
             localizationService.Stub(x => x.GetLocalString(null))
-                .IgnoreArguments()
-                .Return(null)
-                .WhenCalled(x =>
-                {
-                    var key = x.Arguments.First();
-                    x.ReturnValue = "[" + key + "]";
-                });
+                               .IgnoreArguments()
+                               .Return(null)
+                               .WhenCalled(x =>
+                               {
+                                   var key = x.Arguments.First();
+                                   x.ReturnValue = "[" + key + "]";
+                               });
             return localizationService;
         }
     }

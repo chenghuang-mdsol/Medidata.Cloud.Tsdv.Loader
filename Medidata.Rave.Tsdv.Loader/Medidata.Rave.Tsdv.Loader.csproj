@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITsdvReportLoader.cs" />
+    <Compile Include="SheetDefinitions\v1\BlockPlan.cs" />
     <Compile Include="SheetDefinitions\v1\TranslateHeaderDecorator.cs" />
     <Compile Include="SheetDefinitions\v1\TsdvReportLoader.cs" />
     <Compile Include="TemplatedExcelBuilder.cs" />
@@ -62,13 +63,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="SheetDefinitions\v1\IBlockPlan.cs" />
-    <Compile Include="SheetDefinitions\v1\IBlockPlanSetting.cs" />
+    <Compile Include="SheetDefinitions\v1\BlockPlanSetting.cs" />
     <Compile Include="SheetDefinitions\v1\ICustomTier.cs" />
     <Compile Include="SheetDefinitions\v1\IExcludedStatus.cs" />
     <Compile Include="SheetDefinitions\v1\IRule.cs" />
     <Compile Include="SheetDefinitions\v1\ITierField.cs" />
-    <Compile Include="SheetDefinitions\v1\ITierFolder.cs" />
+    <Compile Include="SheetDefinitions\v1\TierFolder.cs" />
     <Compile Include="SheetDefinitions\v1\ITierForm.cs" />
     <Compile Include="Validations\Rules\LocalizableValidationRuleBase.cs" />
   </ItemGroup>
