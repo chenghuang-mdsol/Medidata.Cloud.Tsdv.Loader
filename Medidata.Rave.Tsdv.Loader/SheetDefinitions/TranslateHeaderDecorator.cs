@@ -24,10 +24,17 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
                 var sheetData = doc.GetSheetDataByName(sheetDefinition.Name);
                 var headerRow = sheetData.Descendants<Row>().FirstOrDefault();
                 if (headerRow == null) return;
-                foreach (var cell in headerRow.Descendants<Cell>())
+                var index = 0;
+                var cells = headerRow.Descendants<Cell>().ToList();
+                foreach (var colDef in sheetDefinition.ColumnDefinitions)
                 {
-                    var value = cell.CellValue.InnerText;
-                    cell.CellValue = new CellValue(_localization.GetLocalString(value));
+                    if (colDef.Header != null && index < cells.Count)
+                    {
+                        var cell = cells[index];
+                        var value = cell.CellValue.InnerText;
+                        cell.CellValue = new CellValue(_localization.GetLocalString(value));
+                    }
+                    index ++;
                 }
             };
 

@@ -34,7 +34,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlan {BlockPlanName = "yyy", EstimatedCoverage = 0.65},
                 new BlockPlan {BlockPlanName = "zzz"});
 
-//            loader.AddOrGetSheetDefinition<BlockPlanSetting>();
+            // Add sheet definition is optional.
+            // loader.AddOrGetSheetDefinition<BlockPlanSetting>();
             loader.SheetData<BlockPlanSetting>().Add(
                 new BlockPlanSetting
                 {
@@ -45,23 +46,23 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlanSetting {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100},
                 new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"});
 
-
+            // Dynamic columns
             loader.AddOrGetSheetDefinition<TierFolder>()
-                            .AddColumn(new ColumnDefinition
-                                       {
-                                           PropertyName = "Visit1",
-                                           PropertyType = typeof(bool)
-                                       })
-                            .AddColumn(new ColumnDefinition
-                                       {
-                                           PropertyName = "Visit2",
-                                           PropertyType = typeof(int)
-                                       })
-                            .AddColumn(new ColumnDefinition
-                                       {
-                                           PropertyName = "Unscheduled",
-                                           PropertyType = typeof(string)
-                                       });
+                  .AddColumn(new ColumnDefinition
+                             {
+                                 PropertyName = "Visit1",
+                                 PropertyType = typeof(bool)
+                             })
+                  .AddColumn(new ColumnDefinition
+                             {
+                                 PropertyName = "Visit2",
+                                 PropertyType = typeof(int)
+                             })
+                  .AddColumn(new ColumnDefinition
+                             {
+                                 PropertyName = "Unscheduled",
+                                 PropertyType = typeof(string)
+                             });
 
             loader.SheetData<TierFolder>().Add(
                 new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit1", true),
