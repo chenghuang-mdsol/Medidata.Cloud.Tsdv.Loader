@@ -3,7 +3,9 @@ using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
+using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 using Medidata.Interfaces.Localization;
+using Medidata.Rave.Tsdv.Loader.SheetDefinitions;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoRhinoMock;
@@ -18,9 +20,9 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             var localizationService = ResolveLocalizationService();
 
             var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
-            var excelBuilderX = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
+            var tsdvReportLoader = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
 
-            excelBuilderX.BlockPlans.Add(
+            tsdvReportLoader.BlockPlans.Add(
                 new BlockPlan
                 {
                     BlockPlanName = "xxx",
@@ -30,7 +32,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 },
                 new BlockPlan {BlockPlanName = "yyy", EstimatedCoverage = 0.65},
                 new BlockPlan {BlockPlanName = "zzz"});
-            excelBuilderX.BlockPlanSettings.Add(
+
+            tsdvReportLoader.BlockPlanSettings.Add(
                 new BlockPlanSetting
                 {
                     BlockPlanName = "fakeNameByAnonymousClass",
@@ -38,46 +41,48 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     BlockSubjectCount = 99
                 },
                 new BlockPlanSetting {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100},
-                new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"}
-                );
-
-            var sheetDef = excelBuilderX.GetSheetDefinition("TierFolders");
-            sheetDef.AddColumn(new ColumnDefinition
-                               {
-                                   PropertyName = "Extra1",
-                                   HeaderName = "tsdv_Extra1",
-                                   PropertyType = typeof(string)
-                               });
+                new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"});
 
 
-            dynamic tf = new TierFolder
-                         {
-                             TierName = "T1",
-                             FolderOid = "FOLDETR"
-                         };
+            tsdvReportLoader.GetSheetDefinition("TierFolders")
+                            .AddColumn(new ColumnDefinition
+                                       {
+                                           PropertyName = "Visit1",
+                                           PropertyType = typeof(bool)
+                                       })
+                            .AddColumn(new ColumnDefinition
+                                       {
+                                           PropertyName = "Visit2",
+                                           PropertyType = typeof(int)
+                                       })
+                            .AddColumn(new ColumnDefinition
+                                       {
+                                           PropertyName = "Unscheduled",
+                                           PropertyType = typeof(string)
+                                       });
 
-            tf.Extra1 = "blah";
-
-            excelBuilderX.TierFolders.Add((TierFolder) tf);
+            tsdvReportLoader.TierFolders.Add(
+                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit1", true),
+                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit2", 1),
+                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Unscheduled", "x"));
 
             var filePathX = @"C:\Github\test.xlsx";
             File.Delete(filePathX);
             using (var fs = new FileStream(filePathX, FileMode.Create))
             {
-                excelBuilderX.Save(fs);
+                tsdvReportLoader.Save(fs);
             }
 
             // Use parser to load a .xlxs file
-            var loader = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
             using (var fs = new FileStream(filePathX, FileMode.Open))
             {
-                loader.Load(fs);
+                tsdvReportLoader.Load(fs);
             }
 
-            Console.WriteLine(loader.BlockPlans.First().BlockPlanName);
-            Console.WriteLine(loader.BlockPlanSettings.Count);
-            Console.WriteLine(loader.TierFolders.Count);
-            Console.WriteLine(loader.Rules.Count);
+            Console.WriteLine(tsdvReportLoader.BlockPlans.First().BlockPlanName);
+            Console.WriteLine(tsdvReportLoader.BlockPlanSettings.Count);
+            Console.WriteLine(tsdvReportLoader.TierFolders[0].ExtraProperties["Visit1"]);
+            Console.WriteLine(tsdvReportLoader.Rules.Count);
 
             Console.Read();
         }

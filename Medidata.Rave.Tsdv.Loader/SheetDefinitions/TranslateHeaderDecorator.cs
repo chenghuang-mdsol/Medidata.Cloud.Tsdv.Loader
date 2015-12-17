@@ -4,7 +4,7 @@ using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Interfaces.Localization;
 
-namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
 {
     public class TranslateHeaderDecorator : ISheetBuilderDecorator
     {

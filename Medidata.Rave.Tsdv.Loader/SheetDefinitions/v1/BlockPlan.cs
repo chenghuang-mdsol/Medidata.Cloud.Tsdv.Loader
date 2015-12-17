@@ -4,7 +4,7 @@ using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
     [SheetName("BlockPlans")]
-    public class BlockPlan : SheetDefinitionModelBase
+    public class BlockPlan : SheetModel
     {
         [ColumnHeaderName("tsdv_BlockPlanName")]
         public string BlockPlanName { get; set; }

@@ -3,7 +3,7 @@
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
     [SheetName("BlockPlanSettings")]
-    public class BlockPlanSetting : SheetDefinitionModelBase
+    public class BlockPlanSetting : SheetModel
     {
         public string BlockPlanName { get; set; }
         public string Blocks { get; set; }
