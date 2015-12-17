@@ -2,8 +2,10 @@
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using ImpromptuInterface.Dynamic;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
+using Medidata.Interfaces.Clinical;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Ploeh.AutoFixture;
@@ -38,15 +40,22 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 );
 
             var sheetDef = excelBuilderX.GetSheetDefinition("TierFolders");
-            sheetDef.ColumnDefinitions.Add(new ColumnDefinition
+            sheetDef.AddColumn(new ColumnDefinition
             {
                 PropertyName = "Extra1",
                 HeaderName = "Extra1",
                 PropertyType = typeof(string)
             });
+//
+            var expando = Build<ExpandoObject>.NewObject(TierName: "T1", FolderOid: "FOLDER", Extra1: "Blah2");
+
+//            var xx = new ColumnDefinition().New(XX: "X1", XX2: "X2");
+
+//            var columns = Build<ColumnDefinition>.
 
             excelBuilderX.TierFolders.AddSimilarShape(
-                new { TierName ="T1", FolderOid = "FOLDETR", Extra1 = "blah"}
+                new { TierName ="T1", FolderOid = "FOLDETR", Extra1 = "blah"},
+                (object)expando
                 );
 
             var filePathX = @"C:\Github\test.xlsx";

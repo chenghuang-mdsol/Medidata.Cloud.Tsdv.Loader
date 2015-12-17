@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
@@ -9,19 +8,10 @@ using Medidata.Interfaces.Localization;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
-    public class SheetObjectCollection<T> : List<T> where T: class
-    {
-        private ISheetDefinition _sheetDefinition;
-
-        public SheetObjectCollection(string sheetName, IEnumerable<string> headers)
-        {
-            _sheetDefinition = typeof(T).GetSheetDefinitionFromType(sheetName, headers);
-        }
-    }
     public class TsdvReportLoader : ITsdvReportLoader
     {
         private readonly ISheetBuilder _defaultSheetBuilder;
-        private readonly ISheetDefinition[] _sheetDefinitions;
+        private readonly IEnumerable<ISheetDefinition> _sheetDefinitions;
         private IExcelBuilder _builder;
         private IExcelParser _parser;
 
@@ -39,17 +29,16 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 
             var parser = new ExcelParser(cellTypeValueConverterFactory);
 
-            _sheetDefinitions = new[]
-            {
-                typeof(IBlockPlan).GetSheetDefinitionFromType("BlockPlans", new[] {"tsdv_header1"}),
-                typeof(IBlockPlanSetting).GetSheetDefinitionFromType("BlockPlanSettings"),
-                typeof(ICustomTier).GetSheetDefinitionFromType("CustomTiers"),
-                typeof(ITierField).GetSheetDefinitionFromType("TierFields"),
-                typeof(ITierForm).GetSheetDefinitionFromType("TierForms"),
-                typeof(ITierFolder).GetSheetDefinitionFromType("TierFolders"),
-                typeof(IExcludedStatus).GetSheetDefinitionFromType("ExcludedStatuses"),
-                typeof(IRule).GetSheetDefinitionFromType("Rules")
-            };
+            _sheetDefinitions = new [] { new SheetDefinition("BlockPlans").DefineColumns<IBlockPlan>("tsdv_header", "tsdvHeader2"),
+                                        new SheetDefinition("BlockPlanSettings").DefineColumns<IBlockPlanSetting>(),
+                                        new SheetDefinition("CustomTiers").DefineColumns<ICustomTier>(),
+                                        new SheetDefinition("TierFields").DefineColumns<ITierField>(),
+                                        new SheetDefinition("TierForms").DefineColumns<ITierForm>(),
+                                        new SheetDefinition("TierFolders").DefineColumns<ITierFolder>(),
+                                        new SheetDefinition("ExcludedStatuses").DefineColumns<IExcludedStatus>(),
+                                        new SheetDefinition("Rules").DefineColumns<IRule>()
+                                };
+
 
             Initialize(builder, parser);
         }
@@ -66,7 +55,8 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         public void Save(Stream outStream)
         {
             _builder.DefineSheet(GetSheetDefinition("BlockPlans"), _defaultSheetBuilder).AddRange(BlockPlans);
-            _builder.DefineSheet(GetSheetDefinition("BlockPlanSettings"), _defaultSheetBuilder).AddRange(BlockPlanSettings);
+            _builder.DefineSheet(GetSheetDefinition("BlockPlanSettings"), _defaultSheetBuilder)
+                    .AddRange(BlockPlanSettings);
             _builder.DefineSheet(GetSheetDefinition("CustomTiers"), _defaultSheetBuilder).AddRange(CustomTiers);
             _builder.DefineSheet(GetSheetDefinition("TierFields"), _defaultSheetBuilder).AddRange(TierFields);
             _builder.DefineSheet(GetSheetDefinition("TierForms"), _defaultSheetBuilder).AddRange(TierForms);
