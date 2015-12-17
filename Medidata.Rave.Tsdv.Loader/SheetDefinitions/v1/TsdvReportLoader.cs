@@ -9,6 +9,15 @@ using Medidata.Interfaces.Localization;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
+    public class SheetObjectCollection<T> : List<T> where T: class
+    {
+        private ISheetDefinition _sheetDefinition;
+
+        public SheetObjectCollection(string sheetName, IEnumerable<string> headers)
+        {
+            _sheetDefinition = typeof(T).GetSheetDefinitionFromType(sheetName, headers);
+        }
+    }
     public class TsdvReportLoader : ITsdvReportLoader
     {
         private readonly ISheetBuilder _defaultSheetBuilder;
@@ -72,42 +81,19 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         {
             _parser.Load(source);
 
-            BlockPlans = _parser.GetObjects(GetDef("BlockPlans")).ActAs<IBlockPlan>().ToList();
-            BlockPlanSettings = _parser.GetObjects(GetDef("BlockPlanSettings")).ActAs<IBlockPlanSetting>().ToList();
-            CustomTiers = _parser.GetObjects(GetDef("CustomTiers")).ActAs<ICustomTier>().ToList();
-            TierFields = _parser.GetObjects(GetDef("TierFields")).ActAs<ITierField>().ToList();
-            TierForms = _parser.GetObjects(GetDef("TierForms")).ActAs<ITierForm>().ToList();
-            TierFolders = _parser.GetObjects(GetDef("TierFolders")).ActAs<ITierFolder>().ToList();
-            ExcludedStatuses = _parser.GetObjects(GetDef("ExcludedStatuses")).ActAs<IExcludedStatus>().ToList();
-            Rules = _parser.GetObjects(GetDef("Rules")).ActAs<IRule>().ToList();
+            BlockPlans = _parser.GetObjects<IBlockPlan>(GetDef("BlockPlans")).ToList();
+            BlockPlanSettings = _parser.GetObjects<IBlockPlanSetting>(GetDef("BlockPlanSettings")).ToList();
+            CustomTiers = _parser.GetObjects<ICustomTier>(GetDef("CustomTiers")).ToList();
+            TierFields = _parser.GetObjects<ITierField>(GetDef("TierFields")).ToList();
+            TierForms = _parser.GetObjects<ITierForm>(GetDef("TierForms")).ToList();
+            TierFolders = _parser.GetObjects<ITierFolder>(GetDef("TierFolders")).ToList();
+            ExcludedStatuses = _parser.GetObjects<IExcludedStatus>(GetDef("ExcludedStatuses")).ToList();
+            Rules = _parser.GetObjects<IRule>(GetDef("Rules")).ToList();
         }
 
         private ISheetDefinition GetDef(string name)
         {
             return _sheetDefinitions.First(x => x.Name == name);
-        }
-
-        private ISheetDefinition GetSheetDefinitionFromType<T>(string sheetName, IEnumerable<string> headers = null)
-        {
-            var props = typeof(T).GetPropertyDescriptors();
-            var headerList = (headers ?? Enumerable.Empty<string>()).ToList();
-            var sheetDefinition = new SheetDefinition
-            {
-                Name = sheetName,
-                ColumnDefinitions =
-                    props.Select((x, i) => PropertyToColumnDefinition(x, i < headerList.Count ? headerList[i] : null))
-            };
-            return sheetDefinition;
-        }
-
-        private IColumnDefinition PropertyToColumnDefinition(PropertyDescriptor property, string headerName = null)
-        {
-            return new ColumnDefinition
-            {
-                PropertyType = property.PropertyType,
-                PropertyName = property.Name,
-                HeaderName = headerName ?? property.Name
-            };
         }
 
         private void Initialize(IExcelBuilder builder, IExcelParser parser)
