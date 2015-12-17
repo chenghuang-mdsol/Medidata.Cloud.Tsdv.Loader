@@ -4,7 +4,7 @@ using Medidata.Cloud.ExcelLoader;
 
 namespace Medidata.Rave.Tsdv.Loader
 {
-    public class TemplatedExcelBuilder : ExcelBuilder
+    public class CoveredExcelBuilder : ExcelBuilder
     {
         protected override SpreadsheetDocument CreateDocument(Stream outStream)
         {

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
+using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions;
@@ -19,10 +20,23 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
         {
             var localizationService = ResolveLocalizationService();
 
-            var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
-            var loader = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
+            var converterFactory = new CellTypeValueConverterFactory();
 
-            loader.AddOrGetSheetDefinition<BlockPlan>();
+            var sheetBuilder = new SheetBuilder(
+                converterFactory,
+                new HeaderSheetDecorator(),
+                new AutoFilterSheetDecorator(),
+                new TextStyleSheetDecorator("Normal"),
+                new HeaderStyleSheetDecorator("Output"),
+                new TranslateHeaderDecorator(localizationService),
+                new AutoFitWidthSheetDecorator());
+            var sheetParser = new SheetParser(converterFactory);
+            var builder = new CoveredExcelBuilder();
+            var parser = new ExcelParser();
+
+            var loader = new TsdvReportLoader(builder, parser, sheetBuilder, sheetParser);
+
+            loader.SheetDefinition<BlockPlan>();
             loader.SheetData<BlockPlan>().Add(
                 new BlockPlan
                 {
@@ -47,7 +61,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"});
 
             // Dynamic columns
-            loader.AddOrGetSheetDefinition<TierFolder>()
+            loader.SheetDefinition<TierFolder>()
                   .AddColumn(new ColumnDefinition
                              {
                                  PropertyName = "Visit1",

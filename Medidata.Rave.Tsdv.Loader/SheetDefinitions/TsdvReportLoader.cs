@@ -15,25 +15,17 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
 {
     public class TsdvReportLoader : ITsdvReportLoader
     {
-        private readonly ISheetBuilder _defaultSheetBuilder;
+        private readonly ISheetBuilder _sheetBuilder;
+        private readonly ISheetParser _sheetParser;
         private readonly IDictionary<Type, SheetInfo> _sheetInfoDic = new Dictionary<Type, SheetInfo>();
         private readonly IExcelBuilder _builder;
         private readonly IExcelParser _parser;
 
 
-        public TsdvReportLoader(ICellTypeValueConverterFactory cellTypeValueConverterFactory, ILocalization localization)
+        public TsdvReportLoader(IExcelBuilder builder, IExcelParser parser, ISheetBuilder sheetBuilder, ISheetParser sheetParser)
         {
-            _defaultSheetBuilder = new SheetBuilder(cellTypeValueConverterFactory)
-                .Decorate(new HeaderSheetDecorator())
-                .Decorate(new AutoFilterSheetDecorator())
-                .Decorate(new TextStyleSheetDecorator("Normal"))
-                .Decorate(new HeaderStyleSheetDecorator("Output"))
-                .Decorate(new TranslateHeaderDecorator(localization))
-                .Decorate(new AutoFitWidthSheetDecorator());
-
-            var builder = new TemplatedExcelBuilder();
-
-            var parser = new ExcelParser(cellTypeValueConverterFactory);
+            _sheetBuilder = sheetBuilder;
+            _sheetParser = sheetParser;
 
             _builder = builder;
             _parser = parser;
@@ -43,14 +35,14 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
 
         private void SetupSheets()
         {
-            AddOrGetSheetDefinition<BlockPlan>();
-            AddOrGetSheetDefinition<BlockPlanSetting>();
-            AddOrGetSheetDefinition<CustomTier>();
-            AddOrGetSheetDefinition<TierField>();
-            AddOrGetSheetDefinition<TierForm>();
-            AddOrGetSheetDefinition<TierFolder>();
-            AddOrGetSheetDefinition<ExcludedStatus>();
-            AddOrGetSheetDefinition<Rule>();
+            SheetDefinition<BlockPlan>();
+            SheetDefinition<BlockPlanSetting>();
+            SheetDefinition<CustomTier>();
+            SheetDefinition<TierField>();
+            SheetDefinition<TierForm>();
+            SheetDefinition<TierFolder>();
+            SheetDefinition<ExcludedStatus>();
+            SheetDefinition<Rule>();
         }
 
         public void Save(Stream outStream)
@@ -60,7 +52,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
                 var info = _sheetInfoDic[type];
                 var sheetDef = info.SheetDefinition;
                 var sheetData = info.DataForSave ?? new List<SheetModel>();
-                _builder.DefineSheet(sheetDef, _defaultSheetBuilder).AddRange(sheetData.Cast<SheetModel>());
+                _builder.AddSheet(sheetDef, sheetData.Cast<SheetModel>(), _sheetBuilder);
             }
 
             _builder.Save(outStream);
@@ -74,18 +66,18 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
             {
                 var info = _sheetInfoDic[type];
                 var sheetDef = info.SheetDefinition;
-                info.LoadedData = _parser.GetObjects(sheetDef).ToList();
+                info.LoadedData = _parser.GetObjects(sheetDef, _sheetParser).ToList();
             }
         }
 
-        public ISheetDefinition AddOrGetSheetDefinition<T>() where T : SheetModel
+        public ISheetDefinition SheetDefinition<T>() where T : SheetModel
         {
             SheetInfo info;
             if (_sheetInfoDic.TryGetValue(typeof(T), out info))
             {
                 return info.SheetDefinition;
             }
-            var sheetDef = SheetDefinition.Define<T>();
+            var sheetDef = Cloud.ExcelLoader.SheetDefinition.Define<T>();
             _sheetInfoDic.Add(typeof(T), new SheetInfo {SheetDefinition = sheetDef});
             return sheetDef;
         }
@@ -94,7 +86,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
         {
             var type = typeof(T);
 
-            AddOrGetSheetDefinition<T>();
+            SheetDefinition<T>();
 
             var info = _sheetInfoDic[type];
             if (info.LoadedData != null)
