@@ -20,9 +20,10 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             var localizationService = ResolveLocalizationService();
 
             var cellTypeValueConverterFactory = new CellTypeValueConverterFactory();
-            var tsdvReportLoader = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
+            var loader = new TsdvReportLoader(cellTypeValueConverterFactory, localizationService);
 
-            tsdvReportLoader.BlockPlans.Add(
+            loader.AddOrGetSheetDefinition<BlockPlan>();
+            loader.SheetData<BlockPlan>().Add(
                 new BlockPlan
                 {
                     BlockPlanName = "xxx",
@@ -33,7 +34,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlan {BlockPlanName = "yyy", EstimatedCoverage = 0.65},
                 new BlockPlan {BlockPlanName = "zzz"});
 
-            tsdvReportLoader.BlockPlanSettings.Add(
+//            loader.AddOrGetSheetDefinition<BlockPlanSetting>();
+            loader.SheetData<BlockPlanSetting>().Add(
                 new BlockPlanSetting
                 {
                     BlockPlanName = "fakeNameByAnonymousClass",
@@ -44,7 +46,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"});
 
 
-            tsdvReportLoader.GetSheetDefinition("TierFolders")
+            loader.AddOrGetSheetDefinition<TierFolder>()
                             .AddColumn(new ColumnDefinition
                                        {
                                            PropertyName = "Visit1",
@@ -61,7 +63,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                                            PropertyType = typeof(string)
                                        });
 
-            tsdvReportLoader.TierFolders.Add(
+            loader.SheetData<TierFolder>().Add(
                 new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit1", true),
                 new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit2", 1),
                 new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Unscheduled", "x"));
@@ -70,19 +72,19 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             File.Delete(filePathX);
             using (var fs = new FileStream(filePathX, FileMode.Create))
             {
-                tsdvReportLoader.Save(fs);
+                loader.Save(fs);
             }
 
             // Use parser to load a .xlxs file
             using (var fs = new FileStream(filePathX, FileMode.Open))
             {
-                tsdvReportLoader.Load(fs);
+                loader.Load(fs);
             }
 
-            Console.WriteLine(tsdvReportLoader.BlockPlans.First().BlockPlanName);
-            Console.WriteLine(tsdvReportLoader.BlockPlanSettings.Count);
-            Console.WriteLine(tsdvReportLoader.TierFolders[0].ExtraProperties["Visit1"]);
-            Console.WriteLine(tsdvReportLoader.Rules.Count);
+            Console.WriteLine(loader.SheetData<BlockPlan>().First().BlockPlanName);
+            Console.WriteLine(loader.SheetData<BlockPlanSetting>().Count);
+            Console.WriteLine(loader.SheetData<TierFolder>().First().ExtraProperties["Visit1"]);
+            Console.WriteLine(loader.SheetData<Rule>().Count);
 
             Console.Read();
         }

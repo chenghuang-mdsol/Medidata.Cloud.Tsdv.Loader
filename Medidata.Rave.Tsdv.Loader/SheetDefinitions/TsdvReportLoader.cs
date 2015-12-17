@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Cloud.ExcelLoader.SheetDecorators;
+using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 using Medidata.Interfaces.Localization;
-using Medidata.Interfaces.TSDV;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
@@ -14,8 +17,15 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
     {
         private readonly ISheetBuilder _defaultSheetBuilder;
         private readonly IEnumerable<ISheetDefinition> _sheetDefinitions;
+
+        //        private readonly IDictionary<Type, ISheetDefinition> _sheetDefDic = new Dictionary<Type, ISheetDefinition>();
+        //        private readonly IDictionary<Type, IList> _sheetDataDic = new Dictionary<Type, IList>();
+        //        private readonly IDictionary<Type, IList<ExpandoObject>> _sheetLoadedDataDic = new Dictionary<Type, IList<ExpandoObject>>();
+
+        private readonly IDictionary<Type, SheetInfo> _sheetInfoDic = new Dictionary<Type, SheetInfo>();
         private IExcelBuilder _builder;
         private IExcelParser _parser;
+
 
         public TsdvReportLoader(ICellTypeValueConverterFactory cellTypeValueConverterFactory, ILocalization localization)
         {
@@ -47,26 +57,25 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
             Initialize(builder, parser);
         }
 
-        public IList<BlockPlan> BlockPlans { get; private set; }
-        public IList<BlockPlanSetting> BlockPlanSettings { get; private set; }
-        public IList<CustomTier> CustomTiers { get; private set; }
-        public IList<TierField> TierFields { get; private set; }
-        public IList<TierForm> TierForms { get; private set; }
-        public IList<TierFolder> TierFolders { get; private set; }
-        public IList<ExcludedStatus> ExcludedStatuses { get; private set; }
-        public IList<Rule> Rules { get; private set; }
+
+        //        public IList<BlockPlan> BlockPlans { get; private set; }
+        //        public IList<BlockPlanSetting> BlockPlanSettings { get; private set; }
+        //        public IList<CustomTier> CustomTiers { get; private set; }
+        //        public IList<TierField> TierFields { get; private set; }
+        //        public IList<TierForm> TierForms { get; private set; }
+        //        public IList<TierFolder> TierFolders { get; private set; }
+        //        public IList<ExcludedStatus> ExcludedStatuses { get; private set; }
+        //        public IList<Rule> Rules { get; private set; }
 
         public void Save(Stream outStream)
         {
-            _builder.DefineSheet(GetSheetDefinition("BlockPlans"), _defaultSheetBuilder).AddRange(BlockPlans);
-            _builder.DefineSheet(GetSheetDefinition("BlockPlanSettings"), _defaultSheetBuilder)
-                    .AddRange(BlockPlanSettings);
-            _builder.DefineSheet(GetSheetDefinition("CustomTiers"), _defaultSheetBuilder).AddRange(CustomTiers);
-            _builder.DefineSheet(GetSheetDefinition("TierFields"), _defaultSheetBuilder).AddRange(TierFields);
-            _builder.DefineSheet(GetSheetDefinition("TierForms"), _defaultSheetBuilder).AddRange(TierForms);
-            _builder.DefineSheet(GetSheetDefinition("TierFolders"), _defaultSheetBuilder).AddRange(TierFolders);
-            _builder.DefineSheet(GetSheetDefinition("ExcludedStatuses"), _defaultSheetBuilder).AddRange(ExcludedStatuses);
-            _builder.DefineSheet(GetSheetDefinition("Rules"), _defaultSheetBuilder).AddRange(Rules);
+            foreach (var type in _sheetInfoDic.Keys)
+            {
+                var info = _sheetInfoDic[type];
+                var sheetDef = info.SheetDefinition;
+                var sheetData = info.DataForSave;
+                _builder.DefineSheet(sheetDef, _defaultSheetBuilder).AddRange(sheetData.Cast<SheetModel>());
+            }
 
             _builder.Save(outStream);
         }
@@ -75,33 +84,77 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
         {
             _parser.Load(source);
 
-            BlockPlans = _parser.GetObjects<BlockPlan>(GetSheetDefinition("BlockPlans")).ToList();
-            BlockPlanSettings = _parser.GetObjects<BlockPlanSetting>(GetSheetDefinition("BlockPlanSettings")).ToList();
-            CustomTiers = _parser.GetObjects<CustomTier>(GetSheetDefinition("CustomTiers")).ToList();
-            TierFields = _parser.GetObjects<TierField>(GetSheetDefinition("TierFields")).ToList();
-            TierForms = _parser.GetObjects<TierForm>(GetSheetDefinition("TierForms")).ToList();
-            TierFolders = _parser.GetObjects<TierFolder>(GetSheetDefinition("TierFolders")).ToList();
-            ExcludedStatuses = _parser.GetObjects<ExcludedStatus>(GetSheetDefinition("ExcludedStatuses")).ToList();
-            Rules = _parser.GetObjects<Rule>(GetSheetDefinition("Rules")).ToList();
+            //            BlockPlans = _parser.GetObjects<BlockPlan>(GetSheetDefinition("BlockPlans")).ToList();
+            //            BlockPlanSettings = _parser.GetObjects<BlockPlanSetting>(GetSheetDefinition("BlockPlanSettings")).ToList();
+            //            CustomTiers = _parser.GetObjects<CustomTier>(GetSheetDefinition("CustomTiers")).ToList();
+            //            TierFields = _parser.GetObjects<TierField>(GetSheetDefinition("TierFields")).ToList();
+            //            TierForms = _parser.GetObjects<TierForm>(GetSheetDefinition("TierForms")).ToList();
+            //            TierFolders = _parser.GetObjects<TierFolder>(GetSheetDefinition("TierFolders")).ToList();
+            //            ExcludedStatuses = _parser.GetObjects<ExcludedStatus>(GetSheetDefinition("ExcludedStatuses")).ToList();
+            //            Rules = _parser.GetObjects<Rule>(GetSheetDefinition("Rules")).ToList();
+
+            foreach (var type in _sheetInfoDic.Keys)
+            {
+                var info = _sheetInfoDic[type];
+                var sheetDef = info.SheetDefinition;
+                info.LoadedData = _parser.GetObjects(sheetDef).ToList();
+            }
         }
 
-        public ISheetDefinition GetSheetDefinition(string name)
+        public ISheetDefinition AddOrGetSheetDefinition<T>() where T : SheetModel
         {
-            return _sheetDefinitions.First(x => x.Name == name);
+            SheetInfo info;
+            if (_sheetInfoDic.TryGetValue(typeof(T), out info))
+            {
+                return info.SheetDefinition;
+            }
+            var sheetDef = SheetDefinition.Define<T>();
+            _sheetInfoDic.Add(typeof(T), new SheetInfo {SheetDefinition = sheetDef});
+            return sheetDef;
         }
+
+        public IList<T> SheetData<T>() where T : SheetModel
+        {
+            var type = typeof(T);
+
+            AddOrGetSheetDefinition<T>();
+
+            var info = _sheetInfoDic[type];
+            if (info.LoadedData != null)
+            {
+                info.DataForSave = info.LoadedData.OfSheetModel<T>().ToList();
+            }
+            else if (info.DataForSave == null)
+            {
+                info.DataForSave = new List<T>();
+            }
+            return (IList<T>) info.DataForSave;
+        }
+
+        //        public ISheetDefinition GetSheetDefinition(string name)
+        //        {
+        //            return _sheetDefinitions.First(x => x.Name == name);
+        //        }
 
         private void Initialize(IExcelBuilder builder, IExcelParser parser)
         {
             _builder = builder;
             _parser = parser;
-            BlockPlans = new List<BlockPlan>();
-            BlockPlanSettings = new List<BlockPlanSetting>();
-            CustomTiers = new List<CustomTier>();
-            TierFields = new List<TierField>();
-            TierForms = new List<TierForm>();
-            TierFolders = new List<TierFolder>();
-            ExcludedStatuses = new List<ExcludedStatus>();
-            Rules = new List<Rule>();
+            //            BlockPlans = new List<BlockPlan>();
+            //            BlockPlanSettings = new List<BlockPlanSetting>();
+            //            CustomTiers = new List<CustomTier>();
+            //            TierFields = new List<TierField>();
+            //            TierForms = new List<TierForm>();
+            //            TierFolders = new List<TierFolder>();
+            //            ExcludedStatuses = new List<ExcludedStatus>();
+            //            Rules = new List<Rule>();
+        }
+
+        private class SheetInfo
+        {
+            public ISheetDefinition SheetDefinition { get; set; }
+            public IList DataForSave { get; set; }
+            public IList<ExpandoObject> LoadedData { get; set; }
         }
     }
 }
