@@ -85,7 +85,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             Console.WriteLine(loader.SheetData<BlockPlan>().First().BlockPlanName);
             Console.WriteLine(loader.SheetData<BlockPlanSetting>().Count);
             // Load extra properties from extra columns.
-            Console.WriteLine(loader.SheetData<TierFolder>().First().ExtraProperties["Visit1"]);
+            Console.WriteLine(loader.SheetData<TierFolder>().First().GetExtraProperties()["Visit1"]);
             Console.WriteLine(loader.SheetData<Rule>().Count);
 
             Console.Read();
