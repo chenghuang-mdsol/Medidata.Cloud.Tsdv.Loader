@@ -3,14 +3,10 @@ using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
-using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
-using Medidata.Interfaces.Localization;
-using Medidata.Rave.Tsdv.Loader.SheetDefinitions;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoRhinoMock;
-using Rhino.Mocks;
+using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.Configuration;
 
 namespace Medidata.Rave.Tsdv.Loader.Sample
 {
@@ -18,23 +14,10 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
     {
         private static void Main(string[] args)
         {
-            var localizationService = ResolveLocalizationService();
+            var container = new UnityContainer();
+            container.LoadConfiguration();
 
-            var converterFactory = new CellTypeValueConverterFactory();
-
-            var sheetBuilder = new SheetBuilder(
-                converterFactory,
-                new HeaderSheetDecorator(),
-                new AutoFilterSheetDecorator(),
-                new TextStyleSheetDecorator("Normal"),
-                new HeaderStyleSheetDecorator("Output"),
-                new TranslateHeaderDecorator(localizationService),
-                new AutoFitWidthSheetDecorator());
-            var sheetParser = new SheetParser(converterFactory);
-            var builder = new CoveredExcelBuilder();
-            var parser = new ExcelParser();
-
-            var loader = new TsdvReportLoader(builder, parser, sheetBuilder, sheetParser);
+            var loader = container.Resolve<IExcelLoader>();
 
             loader.SheetDefinition<BlockPlan>();
             loader.SheetData<BlockPlan>().Add(
@@ -102,21 +85,6 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             Console.WriteLine(loader.SheetData<Rule>().Count);
 
             Console.Read();
-        }
-
-        private static ILocalization ResolveLocalizationService()
-        {
-            var fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
-            var localizationService = fixture.Create<ILocalization>();
-            localizationService.Stub(x => x.GetLocalString(null))
-                               .IgnoreArguments()
-                               .Return(null)
-                               .WhenCalled(x =>
-                               {
-                                   var key = x.Arguments.First();
-                                   x.ReturnValue = "[" + key + "]";
-                               });
-            return localizationService;
         }
     }
 }
