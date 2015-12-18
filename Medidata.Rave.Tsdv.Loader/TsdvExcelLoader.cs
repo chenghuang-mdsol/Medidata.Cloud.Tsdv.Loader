@@ -8,14 +8,14 @@ namespace Medidata.Rave.Tsdv.Loader
         public TsdvExcelLoader(IExcelBuilder builder, IExcelParser parser, ISheetBuilder sheetBuilder,
                                ISheetParser sheetParser) : base(builder, parser, sheetBuilder, sheetParser)
         {
-            SheetDefinition<BlockPlan>();
-            SheetDefinition<BlockPlanSetting>();
-            SheetDefinition<CustomTier>();
-            SheetDefinition<TierField>();
-            SheetDefinition<TierForm>();
-            SheetDefinition<TierFolder>();
-            SheetDefinition<ExcludedStatus>();
-            SheetDefinition<Rule>();
+            Sheet<BlockPlan>();
+            Sheet<BlockPlanSetting>();
+            Sheet<CustomTier>();
+            Sheet<TierField>();
+            Sheet<TierForm>();
+            Sheet<TierFolder>();
+            Sheet<ExcludedStatus>();
+            Sheet<Rule>();
         }
     }
 }

@@ -21,8 +21,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
             // Case 1
             // Define a sheet by model type, and add items
-            loader.SheetDefinition<BlockPlan>();
-            loader.SheetData<BlockPlan>().Add(
+            loader.Sheet<BlockPlan>();
+            loader.Sheet<BlockPlan>().Data.Add(
                 new BlockPlan
                 {
                     BlockPlanName = "xxx",
@@ -35,7 +35,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
             // Case 2
             // Automatically define sheet when initially calling SheetData with new type
-            loader.SheetData<BlockPlanSetting>().Add(
+            loader.Sheet<BlockPlanSetting>().Data.Add(
                 new BlockPlanSetting
                 {
                     BlockPlanName = "fakeNameByAnonymousClass",
@@ -47,7 +47,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
             // Case 3
             // Add dynamic columns and add extra properties to model object.
-            loader.SheetDefinition<TierFolder>()
+            loader.Sheet<TierFolder>().Definition
                   .AddColumn(new ColumnDefinition
                              {
                                  PropertyName = "Visit1",
@@ -64,7 +64,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                                  PropertyType = typeof(string)
                              });
 
-            loader.SheetData<TierFolder>().Add(
+            loader.Sheet<TierFolder>().Data.Add(
                 new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit1", true),
                 new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit2", 1),
                 new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Unscheduled", "x"));
@@ -82,11 +82,11 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 loader.Load(fs);
             }
 
-            Console.WriteLine(loader.SheetData<BlockPlan>().First().BlockPlanName);
-            Console.WriteLine(loader.SheetData<BlockPlanSetting>().Count);
+            Console.WriteLine(loader.Sheet<BlockPlan>().Data.First().BlockPlanName);
+            Console.WriteLine(loader.Sheet<BlockPlanSetting>().Data.Count);
             // Load extra properties from extra columns.
-            Console.WriteLine(loader.SheetData<TierFolder>().First().GetExtraProperties()["Visit1"]);
-            Console.WriteLine(loader.SheetData<Rule>().Count);
+            Console.WriteLine(loader.Sheet<TierFolder>().Data.First().GetExtraProperties()["Visit1"]);
+            Console.WriteLine(loader.Sheet<Rule>().Data.Count);
 
             Console.Read();
         }
