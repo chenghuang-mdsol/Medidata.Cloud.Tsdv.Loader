@@ -22,6 +22,6 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
         }
 
         protected abstract void Validate(IExcelParser blockPlan, out IValidationMessage message,
-            ILocalization localization, Action next);
+                                         ILocalization localization, Action next);
     }
 }

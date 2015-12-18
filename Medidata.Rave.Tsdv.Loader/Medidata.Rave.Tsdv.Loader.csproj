@@ -34,44 +34,32 @@
       <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ImpromptuInterface, Version=6.2.2.0, Culture=neutral, PublicKeyToken=0b1781c923b2975b, processorArchitecture=MSIL">
-      <HintPath>..\packages\ImpromptuInterface.6.2.2\lib\net40\ImpromptuInterface.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Medidata.Interfaces, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Medidata.Interfaces.0.1.3\lib\net40\Medidata.Interfaces.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ListExtensions.cs" />
-    <Compile Include="ITsdvReportLoader.cs" />
-    <Compile Include="SheetDefinitions\v1\SheetBuilderFactory.cs" />
-    <Compile Include="SheetDefinitions\v1\TsdvSheetBuilder.cs" />
-    <Compile Include="SheetDefinitions\v1\TsdvReportLoader.cs" />
-    <Compile Include="SheetDefinitions\TsdvReportGenericBuilder.cs" />
+    <Compile Include="SheetDefinitions\v1\BlockPlan.cs" />
+    <Compile Include="TranslateHeaderDecorator.cs" />
+    <Compile Include="TsdvExcelLoader.cs" />
+    <Compile Include="CoveredExcelBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="SheetDefinitions\v1\IBlockPlan.cs" />
-    <Compile Include="SheetDefinitions\v1\IBlockPlanSetting.cs" />
-    <Compile Include="SheetDefinitions\v1\ICustomTier.cs" />
-    <Compile Include="SheetDefinitions\v1\IExcludedStatus.cs" />
-    <Compile Include="SheetDefinitions\v1\IRule.cs" />
-    <Compile Include="SheetDefinitions\v1\ITierField.cs" />
-    <Compile Include="SheetDefinitions\v1\ITierFolder.cs" />
-    <Compile Include="SheetDefinitions\v1\ITierForm.cs" />
+    <Compile Include="SheetDefinitions\v1\BlockPlanSetting.cs" />
+    <Compile Include="SheetDefinitions\v1\CustomTier.cs" />
+    <Compile Include="SheetDefinitions\v1\ExcludedStatus.cs" />
+    <Compile Include="SheetDefinitions\v1\Rule.cs" />
+    <Compile Include="SheetDefinitions\v1\TierField.cs" />
+    <Compile Include="SheetDefinitions\v1\TierFolder.cs" />
+    <Compile Include="SheetDefinitions\v1\TierForm.cs" />
     <Compile Include="Validations\Rules\LocalizableValidationRuleBase.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +86,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
