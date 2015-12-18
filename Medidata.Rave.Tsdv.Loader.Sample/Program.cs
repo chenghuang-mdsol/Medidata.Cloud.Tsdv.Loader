@@ -19,6 +19,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
             var loader = container.Resolve<IExcelLoader>();
 
+            // Case 1
+            // Define a sheet by model type, and add items
             loader.SheetDefinition<BlockPlan>();
             loader.SheetData<BlockPlan>().Add(
                 new BlockPlan
@@ -31,8 +33,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlan {BlockPlanName = "yyy", EstimatedCoverage = 0.65},
                 new BlockPlan {BlockPlanName = "zzz"});
 
-            // Add sheet definition is optional.
-            // loader.AddOrGetSheetDefinition<BlockPlanSetting>();
+            // Case 2
+            // Automatically define sheet when initially calling SheetData with new type
             loader.SheetData<BlockPlanSetting>().Add(
                 new BlockPlanSetting
                 {
@@ -43,7 +45,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlanSetting {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100},
                 new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"});
 
-            // Dynamic columns
+            // Case 3
+            // Add dynamic columns and add extra properties to model object.
             loader.SheetDefinition<TierFolder>()
                   .AddColumn(new ColumnDefinition
                              {
@@ -81,6 +84,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
             Console.WriteLine(loader.SheetData<BlockPlan>().First().BlockPlanName);
             Console.WriteLine(loader.SheetData<BlockPlanSetting>().Count);
+            // Load extra properties from extra columns.
             Console.WriteLine(loader.SheetData<TierFolder>().First().ExtraProperties["Visit1"]);
             Console.WriteLine(loader.SheetData<Rule>().Count);
 
