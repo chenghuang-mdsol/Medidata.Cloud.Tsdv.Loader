@@ -7,3 +7,4 @@ bin
 *.user
 *.DotSettings
 New-NuGetPackages
+/*.psess
