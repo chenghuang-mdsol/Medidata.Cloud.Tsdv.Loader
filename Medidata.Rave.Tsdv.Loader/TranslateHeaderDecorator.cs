@@ -21,6 +21,7 @@ namespace Medidata.Rave.Tsdv.Loader
             target.BuildSheet = (objects, sheetDefinition, doc) =>
             {
                 originalFunc(objects, sheetDefinition, doc);
+
                 var sheetData = doc.GetSheetDataByName(sheetDefinition.Name);
                 var headerRow = sheetData.Descendants<Row>().FirstOrDefault();
                 if (headerRow == null) return;
