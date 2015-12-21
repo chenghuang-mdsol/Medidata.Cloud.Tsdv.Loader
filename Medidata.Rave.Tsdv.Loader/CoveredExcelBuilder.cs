@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using Medidata.Cloud.ExcelLoader;
 
@@ -10,8 +11,7 @@ namespace Medidata.Rave.Tsdv.Loader
         {
             var sheetBytes = Resource.CoverSheet;
             outStream.Write(sheetBytes, 0, sheetBytes.Length);
-            var ss = SpreadsheetDocument.Open(outStream, true);
-            return ss;
+            return SpreadsheetDocument.Open(outStream, true);
         }
     }
 }

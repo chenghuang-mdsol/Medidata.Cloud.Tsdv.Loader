@@ -43,6 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCopyrightCoveredExcelBuilder.cs" />
     <Compile Include="SheetDefinitions\v1\BlockPlan.cs" />
     <Compile Include="TranslateHeaderDecorator.cs" />
     <Compile Include="TsdvExcelLoader.cs" />
