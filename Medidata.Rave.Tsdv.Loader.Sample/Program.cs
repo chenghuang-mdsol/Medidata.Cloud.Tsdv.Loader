@@ -48,26 +48,16 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             // Case 3
             // Add dynamic columns and add extra properties to model object.
             loader.Sheet<TierFolder>().Definition
-                  .AddColumn(new ColumnDefinition
-                             {
-                                 PropertyName = "Visit1",
-                                 PropertyType = typeof(bool)
-                             })
-                  .AddColumn(new ColumnDefinition
-                             {
-                                 PropertyName = "Visit2",
-                                 PropertyType = typeof(int)
-                             })
-                  .AddColumn(new ColumnDefinition
-                             {
-                                 PropertyName = "Unscheduled",
-                                 PropertyType = typeof(string)
-                             });
+                  .AddColumn("Visit1")
+                  .AddColumn("Visit2")
+                  .AddColumn("SomeDate")
+                  .AddColumn("Unscheduled");
 
             loader.Sheet<TierFolder>().Data.Add(
                 new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit1", true),
-                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit2", 1),
-                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Unscheduled", "x"));
+                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit2", 100),
+                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("SomeDate", new DateTime(1999, 4, 6)),
+                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Unscheduled", "xxxxx"));
 
             var filePathX = @"C:\Github\test.xlsx";
             File.Delete(filePathX);
@@ -86,7 +76,10 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             Console.WriteLine(loaderForLoading.Sheet<BlockPlan>().Data.First().BlockPlanName);
             Console.WriteLine(loaderForLoading.Sheet<BlockPlanSetting>().Data.Count);
             // Load extra properties from extra columns.
-            Console.WriteLine(loaderForLoading.Sheet<TierFolder>().Data.First().GetExtraProperties()["Visit1"]);
+            Console.WriteLine(loaderForLoading.Sheet<TierFolder>().Data[0].GetExtraProperties()["Visit1"]);
+            Console.WriteLine(loaderForLoading.Sheet<TierFolder>().Data[1].GetExtraProperties()["Visit2"]);
+            Console.WriteLine(loaderForLoading.Sheet<TierFolder>().Data[2].GetExtraProperties()["SomeDate"]);
+            Console.WriteLine(loaderForLoading.Sheet<TierFolder>().Data[3].GetExtraProperties()["Unscheduled"]);
             Console.WriteLine(loaderForLoading.Sheet<Rule>().Data.Count);
 
             Console.Read();
