@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/junshao/Medidata.Cloud.Tsdv.Loader</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Medidata TSDV Excel report unloading and downloading</description>
-    <releaseNotes>Utilizes new APIs from ExcelLoader.</releaseNotes>
+    <releaseNotes>Able to change copyright text based on executing assemply's copyright attribute.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>TSDV parser loader</tags>
     <dependencies>
