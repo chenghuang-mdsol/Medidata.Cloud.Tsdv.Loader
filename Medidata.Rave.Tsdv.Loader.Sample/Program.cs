@@ -77,16 +77,17 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             }
 
             // Use parser to load a .xlxs file
+            var loaderForLoading = container.Resolve<IExcelLoader>();
             using (var fs = new FileStream(filePathX, FileMode.Open))
             {
-                loader.Load(fs);
+                loaderForLoading.Load(fs);
             }
 
-            Console.WriteLine(loader.Sheet<BlockPlan>().Data.First().BlockPlanName);
-            Console.WriteLine(loader.Sheet<BlockPlanSetting>().Data.Count);
+            Console.WriteLine(loaderForLoading.Sheet<BlockPlan>().Data.First().BlockPlanName);
+            Console.WriteLine(loaderForLoading.Sheet<BlockPlanSetting>().Data.Count);
             // Load extra properties from extra columns.
-            Console.WriteLine(loader.Sheet<TierFolder>().Data.First().GetExtraProperties()["Visit1"]);
-            Console.WriteLine(loader.Sheet<Rule>().Data.Count);
+            Console.WriteLine(loaderForLoading.Sheet<TierFolder>().Data.First().GetExtraProperties()["Visit1"]);
+            Console.WriteLine(loaderForLoading.Sheet<Rule>().Data.Count);
 
             Console.Read();
         }
