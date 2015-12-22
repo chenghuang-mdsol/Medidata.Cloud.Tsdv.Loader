@@ -12,12 +12,48 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 {
     internal class Program
     {
+        private static UnityContainer _container;
+        
         private static void Main(string[] args)
         {
-            var container = new UnityContainer();
-            container.LoadConfiguration();
+            _container = new UnityContainer();
+            _container.LoadConfiguration();
 
-            var loader = container.Resolve<IExcelLoader>();
+            const string demoFilePath = @"C:\Github\test.xlsx";
+
+            // Downloading demo (objects => Excel)
+            DownloadTsdvReport(demoFilePath);
+
+            // Uploading demo (Excel => objects)
+            UploadTsdvReport(demoFilePath);
+
+            Console.Read();
+        }
+
+        private static void UploadTsdvReport(string filePath)
+        {
+            var loader = _container.Resolve<IExcelLoader>();
+
+            Console.WriteLine("Loading from stream");
+            using (var fs = new FileStream(filePath, FileMode.Open))
+            {
+                loader.Load(fs);
+            }
+            Console.WriteLine("Loaded");
+
+            Console.WriteLine(loader.Sheet<BlockPlan>().Data.First().BlockPlanName);
+            Console.WriteLine(loader.Sheet<BlockPlanSetting>().Data.Count);
+            // Load extra properties from extra columns.
+            Console.WriteLine(loader.Sheet<TierFolder>().Data[0].GetExtraProperties()["Visit1"]);
+            Console.WriteLine(loader.Sheet<TierFolder>().Data[1].GetExtraProperties()["Visit2"]);
+            Console.WriteLine(loader.Sheet<TierFolder>().Data[2].GetExtraProperties()["SomeDate"]);
+            Console.WriteLine(loader.Sheet<TierFolder>().Data[3].GetExtraProperties()["Unscheduled"]);
+            Console.WriteLine(loader.Sheet<Rule>().Data.Count);
+        }
+
+        private static void DownloadTsdvReport(string filePath)
+        {
+            var loader = _container.Resolve<IExcelLoader>();
 
             // Case 1
             // Define a sheet by model type, and add items
@@ -30,8 +66,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     EstimatedDate = DateTime.Now,
                     EstimatedCoverage = 0.85
                 },
-                new BlockPlan {BlockPlanName = "yyy", EstimatedCoverage = 0.65},
-                new BlockPlan {BlockPlanName = "zzz"});
+                new BlockPlan { BlockPlanName = "yyy", EstimatedCoverage = 0.65 },
+                new BlockPlan { BlockPlanName = "zzz" });
 
             // Case 2
             // Automatically define sheet when initially calling SheetData with new type
@@ -42,53 +78,30 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     Repeated = false,
                     BlockSubjectCount = 99
                 },
-                new BlockPlanSetting {BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100},
-                new BlockPlanSetting {BlockPlanName = "ccc", Blocks = "fasdf"});
+                new BlockPlanSetting { BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100 },
+                new BlockPlanSetting { BlockPlanName = "ccc", Blocks = "fasdf" });
 
             // Case 3
             // Add dynamic columns and add extra properties to model object.
             loader.Sheet<TierFolder>().Definition
-                  .AddColumn(new ColumnDefinition
-                             {
-                                 PropertyName = "Visit1",
-                                 PropertyType = typeof(bool)
-                             })
-                  .AddColumn(new ColumnDefinition
-                             {
-                                 PropertyName = "Visit2",
-                                 PropertyType = typeof(int)
-                             })
-                  .AddColumn(new ColumnDefinition
-                             {
-                                 PropertyName = "Unscheduled",
-                                 PropertyType = typeof(string)
-                             });
+                  .AddColumn("Visit1")
+                  .AddColumn("Visit2")
+                  .AddColumn("SomeDate")
+                  .AddColumn("Unscheduled");
 
             loader.Sheet<TierFolder>().Data.Add(
-                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit1", true),
-                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Visit2", 1),
-                new TierFolder {TierName = "T1", FolderOid = "FOLDETR"}.AddProperty("Unscheduled", "x"));
+                new TierFolder { TierName = "T1", FolderOid = "VISIT" }.AddProperty("Visit1", true),
+                new TierFolder { TierName = "T2", FolderOid = "VISIT" }.AddProperty("Visit2", 100),
+                new TierFolder { TierName = "T3", FolderOid = "SOMEDATE" }.AddProperty("SomeDate", new DateTime(1999, 4, 6)),
+                new TierFolder { TierName = "T4", FolderOid = "UNSCHEDULED" }.AddProperty("Unscheduled", "xxxxx"));
 
-            var filePathX = @"C:\Github\test.xlsx";
-            File.Delete(filePathX);
-            using (var fs = new FileStream(filePathX, FileMode.Create))
+            File.Delete(filePath);
+            Console.WriteLine("Saving into stream");
+            using (var fs = new FileStream(filePath, FileMode.Create))
             {
                 loader.Save(fs);
             }
-
-            // Use parser to load a .xlxs file
-            using (var fs = new FileStream(filePathX, FileMode.Open))
-            {
-                loader.Load(fs);
-            }
-
-            Console.WriteLine(loader.Sheet<BlockPlan>().Data.First().BlockPlanName);
-            Console.WriteLine(loader.Sheet<BlockPlanSetting>().Data.Count);
-            // Load extra properties from extra columns.
-            Console.WriteLine(loader.Sheet<TierFolder>().Data.First().GetExtraProperties()["Visit1"]);
-            Console.WriteLine(loader.Sheet<Rule>().Data.Count);
-
-            Console.Read();
+            Console.WriteLine("Saved");
         }
     }
 }

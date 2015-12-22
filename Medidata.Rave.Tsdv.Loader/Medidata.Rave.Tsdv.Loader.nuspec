@@ -2,19 +2,19 @@
 <package>
   <metadata>
     <id>Medidata.Rave.Tsdv.Loader</id>
-    <version>0.1.3</version>
+    <version>0.1.5</version>
     <title>Medidata.Rave.Tsdv.Loader</title>
     <authors>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</authors>
     <owners>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</owners>
     <projectUrl>https://github.com/junshao/Medidata.Cloud.Tsdv.Loader</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Medidata TSDV Excel report unloading and downloading</description>
-    <releaseNotes>Utilizes new APIs from ExcelLoader.</releaseNotes>
+    <releaseNotes>Fix bug when getting entry assembly for web applications.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>TSDV parser loader</tags>
     <dependencies>
       <dependency id="Medidata.Interfaces" version="0.1.3" />
-      <dependency id="Medidata.Cloud.ExcelLoader" version="0.1.3" />
+      <dependency id="Medidata.Cloud.ExcelLoader" version="0.1.4" />
     </dependencies>
   </metadata>
 </package>
