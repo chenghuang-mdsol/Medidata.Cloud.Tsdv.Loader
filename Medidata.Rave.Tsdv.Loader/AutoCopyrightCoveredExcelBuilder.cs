@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Web;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
@@ -15,14 +16,27 @@ namespace Medidata.Rave.Tsdv.Loader
         static AutoCopyrightCoveredExcelBuilder()
         {
             MatchingPattern = new Regex(@"Copyright \d+ Medidata Solutions");
+            AssemblyCopyRight = "No copyright information found. <AssemblyCopyrightAttribute> not defined in the calling assembly.";
+            var asm = GetAppEntryAssembly();
+            if (asm == null) return;
+            var asmAttribute = asm.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), true)
+                                  .OfType<AssemblyCopyrightAttribute>()
+                                  .FirstOrDefault();
+            if (asmAttribute == null) return;
+            AssemblyCopyRight = asmAttribute.Copyright;
+        }
 
-            var asmAttribute = Assembly.GetEntryAssembly()
-                                       .GetCustomAttributes(typeof(AssemblyCopyrightAttribute), true)
-                                       .OfType<AssemblyCopyrightAttribute>()
-                                       .FirstOrDefault();
-            AssemblyCopyRight = asmAttribute == null
-                ? "No copyright information found. <AssemblyCopyrightAttribute> not defined in the calling assembly."
-                : asmAttribute.Copyright;
+        private static Assembly GetAppEntryAssembly()
+        {
+            var httpCurrent = HttpContext.Current;
+            if (httpCurrent == null || httpCurrent.Handler == null)
+            {
+                // Not a web application
+                return Assembly.GetEntryAssembly();
+            }
+            // Web application
+            var memberInfo = httpCurrent.Handler.GetType().BaseType;
+            return memberInfo != null ? memberInfo.Assembly : null;
         }
 
         protected override SpreadsheetDocument CreateDocument(Stream outStream)
