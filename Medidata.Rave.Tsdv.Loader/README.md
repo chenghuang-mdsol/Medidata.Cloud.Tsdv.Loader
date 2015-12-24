@@ -7,8 +7,8 @@ http://nuget.imedidata.net/feed/mdsol/package/nuget/Medidata.Rave.Tsdv.Loader
 PM> Install-Package Medidata.Rave.Tsdv.Loader
 ```
 
-# Usage examples of `TsdvExcelLoader`
-The usage of `TsdvExcelLoader` is the same as the one of `ExcelLoader` (find [usage example of `ExcelLoader` here](../Medidata.Cloud.ExcelLoader/README.md)), but with with a cover sheet and below predefined sheets in shown order.
+# Usage examples of `TsdvExcelLoaderFactory`
+Use `Create()` method of `TsdvExcelLoaderFactory` (can be singleton) to create a TSDV excel loader. This loader has a cover sheet and below predefined sheets in shown order.
 
 | Sheet name | sheet model class |
 | --- | --- |
@@ -21,13 +21,13 @@ The usage of `TsdvExcelLoader` is the same as the one of `ExcelLoader` (find [us
 | ExcludedStatuses | `ExcludedStatus` |
 | Rules | `Rule` |
 
-By predefining these sheets, it can guarantee that empty sheets can be generated even we don't add any sheet model object to the sheets.
+Use dependency injector to get an instance of `ITsdvExcelLoaderFactory` or `TsdvExcelLoaderFactory`.
+```cs
+var loader = DiContainer.Resolve<TsdvExcelLoaderFactory>().Create();
 
-# `TranslateHeaderDecorator`
-`TranslateHeaderDecorator` is a sheet builder decorator that uses header names as string keys and translates with the injected `Medidata.Interfaces.ILocalization` service.
-
-# `AutoCopyrightCoveredExcelBuilder`
-`AutoCopyrightCoveredExcelBuilder` can replace the copyright declaration text on the cover sheet with the the assembly copyright of the entry assembly. For Rave, the value is defined by the `AssemblyCopyrightAttribute` of the assembly like `Medidata.MedidataRave.dll`, `Medidata.Core.Service.dll` and so forth.
+// Or resolve ITsdvExcelLoaderFactory, by which you can control the lifetime to be singleton.
+var loader = DiContainer.Resolve<ITsdvExcelLoaderFactory>().Create();
+```
 
 # `unity.config` example
 ```xml
@@ -36,49 +36,10 @@ By predefining these sheets, it can guarantee that empty sheets can be generated
   <container>
     <register type="Medidata.Interfaces.Localization.ILocalization, Medidata.Interfaces"
               mapTo="Medidata.Rave.Tsdv.Loader.Sample.Localization, Medidata.Rave.Tsdv.Loader.Sample" />
-    <register type="Medidata.Cloud.ExcelLoader.ISheetBuilderDecorator, Medidata.Cloud.ExcelLoader"
-              mapTo="Medidata.Cloud.ExcelLoader.SheetDecorators.TextStyleSheetDecorator, Medidata.Cloud.ExcelLoader"
-              name="textStyleDecorator">
-      <constructor>
-        <param name="styleName" value="Normal" />
-      </constructor>
-    </register>
-    <register type="Medidata.Cloud.ExcelLoader.ISheetBuilderDecorator, Medidata.Cloud.ExcelLoader"
-              mapTo="Medidata.Cloud.ExcelLoader.SheetDecorators.HeaderStyleSheetDecorator, Medidata.Cloud.ExcelLoader"
-              name="headerStyleDecorator">
-      <constructor>
-        <param name="styleName" value="Output" />
-      </constructor>
-    </register>
-    <register type="Medidata.Cloud.ExcelLoader.ICellTypeValueConverterManager, Medidata.Cloud.ExcelLoader"
-              mapTo="Medidata.Cloud.ExcelLoader.CellTypeValueConverterManager, Medidata.Cloud.ExcelLoader">
+    <register type="Medidata.Rave.Tsdv.Loader.ITsdvExcelLoaderFactory, Medidata.Rave.Tsdv.Loader"
+              mapTo="Medidata.Rave.Tsdv.Loader.TsdvExcelLoaderFactory, Medidata.Rave.Tsdv.Loader" >
       <lifetime type="singleton" />
     </register>
-    <register type="Medidata.Cloud.ExcelLoader.ISheetBuilder, Medidata.Cloud.ExcelLoader"
-              mapTo="Medidata.Cloud.ExcelLoader.SheetBuilder, Medidata.Cloud.ExcelLoader">
-      <constructor>
-        <param name="converterManager" dependencyType="Medidata.Cloud.ExcelLoader.ICellTypeValueConverterManager, Medidata.Cloud.ExcelLoader" />
-        <param name="decorators">
-          <array>
-            <dependency type="Medidata.Cloud.ExcelLoader.SheetDecorators.HeaderSheetDecorator, Medidata.Cloud.ExcelLoader" />
-            <dependency type="Medidata.Cloud.ExcelLoader.SheetDecorators.AutoFilterSheetDecorator, Medidata.Cloud.ExcelLoader" />
-            <dependency name="textStyleDecorator" />
-            <dependency name="headerStyleDecorator" />
-            <dependency type="Medidata.Rave.Tsdv.Loader.TranslateHeaderDecorator, Medidata.Rave.Tsdv.Loader" />
-            <dependency type="Medidata.Rave.Tsdv.Loader.MdsolVersionSheetDecorator, Medidata.Rave.Tsdv.Loader" />
-            <dependency type="Medidata.Cloud.ExcelLoader.SheetDecorators.AutoFitColumnSheetDecorator, Medidata.Cloud.ExcelLoader" />
-          </array>
-        </param>
-      </constructor>
-    </register>
-    <register type="Medidata.Cloud.ExcelLoader.ISheetParser, Medidata.Cloud.ExcelLoader"
-              mapTo="Medidata.Cloud.ExcelLoader.SheetParser, Medidata.Cloud.ExcelLoader" />
-    <register type="Medidata.Cloud.ExcelLoader.IExcelBuilder, Medidata.Cloud.ExcelLoader"
-              mapTo="Medidata.Rave.Tsdv.Loader.AutoCopyrightCoveredExcelBuilder, Medidata.Rave.Tsdv.Loader" />
-    <register type="Medidata.Cloud.ExcelLoader.IExcelParser, Medidata.Cloud.ExcelLoader"
-              mapTo="Medidata.Cloud.ExcelLoader.ExcelParser, Medidata.Cloud.ExcelLoader" />
-    <register type="Medidata.Cloud.ExcelLoader.IExcelLoader, Medidata.Cloud.ExcelLoader"
-              mapTo="Medidata.Rave.Tsdv.Loader.TsdvExcelLoader, Medidata.Rave.Tsdv.Loader" />
   </container>
 </unity>
 ```
