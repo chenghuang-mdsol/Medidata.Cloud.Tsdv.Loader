@@ -48,7 +48,7 @@
     <Compile Include="MdsolVersionSheetDecorator.cs" />
     <Compile Include="SheetDefinitions\v1\BlockPlan.cs" />
     <Compile Include="TranslateHeaderDecorator.cs" />
-    <Compile Include="TsdvExcelLoader.cs" />
+    <Compile Include="TsdvExcelLoaderFactory.cs" />
     <Compile Include="CoveredExcelBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">
