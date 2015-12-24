@@ -32,7 +32,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
         private static void UploadTsdvReport(string filePath)
         {
-            var loader = _container.Resolve<TsdvExcelLoaderFactory>().Create();
+            var loader = _container.Resolve<ITsdvExcelLoaderFactory>().Create();
 
             Console.WriteLine("Loading from stream");
             using (var fs = new FileStream(filePath, FileMode.Open))
@@ -53,7 +53,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
         private static void DownloadTsdvReport(string filePath)
         {
-            var loader = _container.Resolve<TsdvExcelLoaderFactory>().Create();
+            var loader = _container.Resolve<ITsdvExcelLoaderFactory>().Create();
 
             // Case 1
             // Define a sheet by model type, and add items

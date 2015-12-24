@@ -6,7 +6,7 @@ using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 
 namespace Medidata.Rave.Tsdv.Loader
 {
-    public class TsdvExcelLoaderFactory
+    public class TsdvExcelLoaderFactory: ITsdvExcelLoaderFactory
     {
         private readonly ILocalization _localization;
 
