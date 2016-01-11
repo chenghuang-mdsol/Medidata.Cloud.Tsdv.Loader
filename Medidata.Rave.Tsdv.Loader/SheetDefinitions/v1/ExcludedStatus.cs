@@ -5,10 +5,10 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
     [SheetName("ExcludedStatuses")]
     public class ExcludedStatus : SheetModel
     {
-        [ColumnHeaderName("tsdv_SubjectStatus")]
+        [ColumnHeaderName("tsdv_StatusName")]
         public string SubjectStatus { get; set; }
 
-        [ColumnHeaderName("tsdv_Excluded")]
+        [ColumnHeaderName("tsdv_ExcludedURLProject")]
         public bool Excluded { get; set; }
     }
 }

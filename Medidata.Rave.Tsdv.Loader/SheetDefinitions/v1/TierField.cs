@@ -8,13 +8,13 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         [ColumnHeaderName("tsdv_TierName")]
         public string TierName { get; set; }
 
-        [ColumnHeaderName("tsdv_FormOid")]
+        [ColumnHeaderName("FormOID")]
         public string FormOid { get; set; }
 
-        [ColumnHeaderName("tsdv_Fields")]
+        [ColumnHeaderName("Fields")]
         public string Fields { get; set; }
 
-        [ColumnHeaderName("tsdv_IsLog")]
+        [ColumnHeaderName("IsLog")]
         public bool IsLog { get; set; }
 
         [ColumnHeaderName("tsdv_ControlType")]

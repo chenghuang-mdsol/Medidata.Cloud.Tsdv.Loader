@@ -5,23 +5,23 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
     [SheetName("Rules")]
     public class Rule : SheetModel
     {
-        [ColumnHeaderName("tsdv_Name")]
+        [ColumnHeaderName("Name")]
         public string Name { get; set; }
 
-        [ColumnHeaderName("tsdv_Type")]
+        [ColumnHeaderName("Type")]
         public string Type { get; set; }
 
-        [ColumnHeaderName("tsdv_Step")]
+        [ColumnHeaderName("Step")]
         public string Step { get; set; }
 
-        [ColumnHeaderName("tsdv_Action")]
+        [ColumnHeaderName("Action")]
         public string Action { get; set; }
 
         [ColumnHeaderName("tsdv_RunsRetrospective")]
         public bool RunsRetrospective { get; set; }
 
-        [ColumnHeaderName("tsdv_BackfillOpenSlots")]
-        public int BackfillOpenSlots { get; set; }
+        [ColumnHeaderName("TSDVRuleWin_LabelBackfillSlotFlag")]
+        public bool BackfillOpenSlots { get; set; }
 
         [ColumnHeaderName("tsdv_BlockPlanName")]
         public string BlockPlanName { get; set; }
