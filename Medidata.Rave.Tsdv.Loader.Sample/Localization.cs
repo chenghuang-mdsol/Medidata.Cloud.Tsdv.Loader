@@ -21,6 +21,6 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             return "[" + stringId + "]";
         }
 
-        public IEnumerable<ILocale> Locales { get; }
+        public IEnumerable<ILocale> Locales { get; set; }
     }
 }
