@@ -17,7 +17,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         [ColumnHeaderName("Action")]
         public string Action { get; set; }
 
-        [ColumnHeaderName("tsdv_RunsRetrospective")]
+        [ColumnHeaderName("tsdv_RunRetrospective")]
         public bool RunsRetrospective { get; set; }
 
         [ColumnHeaderName("TSDVRuleWin_LabelBackfillSlotFlag")]
