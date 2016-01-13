@@ -2,14 +2,14 @@
 <package>
   <metadata>
     <id>Medidata.Rave.Tsdv.Loader</id>
-    <version>0.1.7</version>
+    <version>0.1.8</version>
     <title>Medidata.Rave.Tsdv.Loader</title>
     <authors>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</authors>
     <owners>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</owners>
     <projectUrl>https://github.com/junshao/Medidata.Cloud.Tsdv.Loader</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Medidata TSDV Excel report unloading and downloading</description>
-    <releaseNotes>Added TsdvExcelLoaderFactory to avoid maually specifying Tsdv loader dependencies.</releaseNotes>
+    <releaseNotes>Update Tsdv Sheet Column Headers.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>TSDV parser loader</tags>
     <dependencies>

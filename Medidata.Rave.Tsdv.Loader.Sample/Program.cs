@@ -90,10 +90,10 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                   .AddColumn("Unscheduled");
 
             loader.Sheet<TierFolder>().Data.Add(
-                new TierFolder { TierName = "T1", FolderOid = "VISIT" }.AddProperty("Visit1", true),
-                new TierFolder { TierName = "T2", FolderOid = "VISIT" }.AddProperty("Visit2", 100),
-                new TierFolder { TierName = "T3", FolderOid = "SOMEDATE" }.AddProperty("SomeDate", new DateTime(1999, 4, 6)),
-                new TierFolder { TierName = "T4", FolderOid = "UNSCHEDULED" }.AddProperty("Unscheduled", "xxxxx"));
+                new TierFolder { TierName = "T1", FormOID = "VISIT" }.AddProperty("Visit1", true),
+                new TierFolder { TierName = "T2", FormOID = "VISIT" }.AddProperty("Visit2", 100),
+                new TierFolder { TierName = "T3", FormOID = "SOMEDATE" }.AddProperty("SomeDate", new DateTime(1999, 4, 6)),
+                new TierFolder { TierName = "T4", FormOID = "UNSCHEDULED" }.AddProperty("Unscheduled", "xxxxx"));
 
             File.Delete(filePath);
             Console.WriteLine("Saving into stream");

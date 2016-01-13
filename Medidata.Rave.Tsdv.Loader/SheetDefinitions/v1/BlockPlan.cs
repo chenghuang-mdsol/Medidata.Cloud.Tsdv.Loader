@@ -12,7 +12,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         [ColumnHeaderName("tsdv_BlockPlanType")]
         public string BlockPlanType { get; set; }
 
-        [ColumnHeaderName("tsdv_StudyStudyGroupSiteName")]
+        [ColumnHeaderName("tsdv_StSGSitNames")]
         public string StudyStudyGroupSiteName { get; set; }
 
         [ColumnHeaderName("tsdv_ContainsSubjects")]
