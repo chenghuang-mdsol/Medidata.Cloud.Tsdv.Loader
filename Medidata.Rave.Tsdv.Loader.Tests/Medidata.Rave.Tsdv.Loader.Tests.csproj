@@ -75,11 +75,16 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validations\Rules\ValidateBlockPlanSettingTiersTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Medidata.Cloud.ExcelLoader\Medidata.Cloud.ExcelLoader.csproj">
+      <Project>{9b06a417-162e-45d4-ad93-7e274857599c}</Project>
+      <Name>Medidata.Cloud.ExcelLoader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Medidata.Rave.Tsdv.Loader\Medidata.Rave.Tsdv.Loader.csproj">
       <Project>{ABC3AD09-99B9-4CCF-B771-75B9597C05AE}</Project>
       <Name>Medidata.Rave.Tsdv.Loader</Name>
