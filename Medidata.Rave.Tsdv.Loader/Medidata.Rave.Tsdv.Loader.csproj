@@ -64,6 +64,7 @@
     <Compile Include="SheetDefinitions\v1\TierField.cs" />
     <Compile Include="SheetDefinitions\v1\TierFolder.cs" />
     <Compile Include="SheetDefinitions\v1\TierForm.cs" />
+    <Compile Include="Validations\Rules\ValidateBlockPlanSettings.cs" />
     <Compile Include="Validations\Rules\ValidateBlockPlanSettingTiers.cs" />
     <Compile Include="Validations\Rules\LocalizableValidationRuleBase.cs" />
   </ItemGroup>
