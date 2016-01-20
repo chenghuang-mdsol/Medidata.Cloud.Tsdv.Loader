@@ -70,7 +70,7 @@
     <Compile Include="Validations\Rules\ValidateTierFields.cs" />
     <Compile Include="Validations\Rules\ValidateTierFolders.cs" />
     <Compile Include="Validations\Rules\ValidateTierForms.cs" />
-    <Compile Include="Validations\ValdiateBlockPlans.cs" />
+    <Compile Include="Validations\Rules\ValdiateBlockPlans.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Medidata.Rave.Tsdv.Loader.nuspec" />
