@@ -67,6 +67,10 @@
     <Compile Include="Validations\Rules\ValidateBlockPlanSettings.cs" />
     <Compile Include="Validations\Rules\ValidateBlockPlanSettingTiers.cs" />
     <Compile Include="Validations\Rules\LocalizableValidationRuleBase.cs" />
+    <Compile Include="Validations\Rules\ValidateTierFields.cs" />
+    <Compile Include="Validations\Rules\ValidateTierFolders.cs" />
+    <Compile Include="Validations\Rules\ValidateTierForms.cs" />
+    <Compile Include="Validations\ValdiateBlockPlans.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Medidata.Rave.Tsdv.Loader.nuspec" />
