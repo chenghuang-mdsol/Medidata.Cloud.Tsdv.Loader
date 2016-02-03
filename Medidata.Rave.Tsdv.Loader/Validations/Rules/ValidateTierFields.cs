@@ -29,18 +29,19 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
             {
                 if (blockPlan.Sheet<CustomTier>().Data.All(x => x.TierName != tierField.TierName))
                 {
-                    messages.Add(String.Format("'{0} tier name in TierFields is not defined in CustomTier.", tierField.TierName).ToValidationError());
+                    var message = CreateErrorMessage("'{0} tier name in TierFields is not defined in CustomTier.", tierField.TierName);
+                    messages.Add(message);
                 }
 
                 if (!_validFormOidFunc(tierField.FormOid))
                 {
-                    messages.Add(String.Format("{0} is not a valid Form OID for the project.", tierField.FormOid).ToValidationError());
+                    var message = CreateErrorMessage("{0} is not a valid Form OID for the project.", tierField.FormOid);
+                    messages.Add(message);
                 }
                 else if (!_validFormFieldFunc(tierField.FormOid, tierField.Fields))
                 {
-                    messages.Add(
-                        String.Format("{0} is not a valid field in form {1}.", tierField.Fields, tierField.FormOid)
-                            .ToValidationError());
+                    var message = CreateErrorMessage("{0} is not a valid field in form {1}.", tierField.Fields, tierField.FormOid);
+                    messages.Add(message);
                 }
 
             }

@@ -23,11 +23,13 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
             {
                 if (blockPlanSetting.BlockSubjectCount == 0)
                 {
-                    messages.Add(String.Format(localization.GetLocalString("tsdv_BlockSizeZeroError"), blockPlanSetting.Blocks).ToValidationError());
+                    var message = CreateErrorMessage("tsdv_BlockSizeZeroError", blockPlanSetting.Blocks);
+                    messages.Add(message);
                 }
                 else if(!TotalTierCountValid(blockPlanSetting))
                 {
-                    messages.Add(String.Format(localization.GetLocalString("tsdv_BlockValidationError"), blockPlanSetting.Blocks).ToValidationError());
+                    var message = CreateErrorMessage("tsdv_BlockValidationError", blockPlanSetting.Blocks);
+                    messages.Add(message);
                 }
             }
 

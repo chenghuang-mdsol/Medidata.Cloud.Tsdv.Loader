@@ -26,7 +26,8 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
             {
                 if (!_validFormFolderFunc(tierFolder.PropertyName))
                 {
-                    messages.Add(String.Format("'{0} folder header in TierFolders is not valid.", tierFolder.PropertyName).ToValidationError());
+                    var message = CreateErrorMessage("'{0} folder header in TierFolders is not valid.", tierFolder.PropertyName);
+                    messages.Add(message);
                 }
             }
 
@@ -39,7 +40,8 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
             {
                 if (blockPlan.Sheet<TierForm>().Data.All(x => x.TierName != tierForm.TierName && x.FormOid != tierForm.FormOID))
                 {
-                    messages.Add(String.Format("The Form OID {0} has not been selected for the tier {1} in TierForms.", tierForm.FormOID, tierForm.TierName).ToValidationError());
+                    var message = CreateErrorMessage("The Form OID {0} has not been selected for the tier {1} in TierForms.", tierForm.FormOID, tierForm.TierName);
+                    messages.Add(message);
                 }
             }
 
