@@ -14,6 +14,10 @@ namespace Medidata.Cloud.ExcelLoader
         public bool AcceptExtraProperties { get; set; }
         public IEnumerable<IColumnDefinition> ColumnDefinitions { get; set; }
 
+        public IEnumerable<IColumnDefinition> ExtraColumnDefinitions {
+            get { return ColumnDefinitions.Where(x => x.ExtraProperty); }
+        }
+
         public ISheetDefinition AddColumn(IColumnDefinition columnDefinition)
         {
             if (columnDefinition == null) throw new ArgumentNullException("columnDefinition");
@@ -37,7 +41,8 @@ namespace Medidata.Cloud.ExcelLoader
                                  select new ColumnDefinition
                                         {
                                             PropertyName = prop.Name,
-                                            Header = headerAtt != null ? headerAtt.Header : prop.Name
+                                            Header = headerAtt != null ? headerAtt.Header : prop.Name,
+                                            ExtraProperty = false
                                         };
 
             var sheetDefinition = new SheetDefinition

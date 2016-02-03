@@ -2,6 +2,6 @@ namespace Medidata.Cloud.ExcelLoader.Validations
 {
     public interface IValidationRule
     {
-        IValidationRuleResult Check(IExcelParser excelParser);
+        IValidationRuleResult Check(IExcelLoader excelLoader);
     }
 }

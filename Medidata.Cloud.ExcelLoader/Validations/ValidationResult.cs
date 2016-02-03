@@ -9,7 +9,7 @@ namespace Medidata.Cloud.ExcelLoader.Validations
             Messages = new List<IValidationMessage>();
         }
 
-        public IExcelParser ValidationTarget { get; set; }
+        public IExcelLoader ValidationTarget { get; set; }
         public IList<IValidationMessage> Messages { get; private set; }
     }
 }

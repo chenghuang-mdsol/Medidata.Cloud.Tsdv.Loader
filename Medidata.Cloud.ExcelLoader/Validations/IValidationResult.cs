@@ -4,7 +4,7 @@ namespace Medidata.Cloud.ExcelLoader.Validations
 {
     public interface IValidationResult
     {
-        IExcelParser ValidationTarget { get; }
+        IExcelLoader ValidationTarget { get; }
         IList<IValidationMessage> Messages { get; }
     }
 }

@@ -67,7 +67,7 @@ namespace Medidata.Cloud.ExcelLoader.SheetDecorators
             var stringFont = new System.Drawing.Font(font, fontSize);
             var textSize = TextRenderer.MeasureText(text, stringFont);
             var width = (textSize.Width / (double) 7 * 256 - 18) / 256;
-            width = (double) decimal.Round((decimal) width + 0.2M, 2);
+            width = (double) decimal.Round((decimal) width + 0.2M + 2.29M, 2);
             return width;
         }
 

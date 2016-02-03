@@ -79,7 +79,7 @@ namespace Medidata.Cloud.ExcelLoader.Tests.CellTypeConverters
             Assert.IsTrue(success1);
             Assert.IsTrue(success2);
             Assert.AreEqual("0.123", value0);
-            Assert.AreEqual("10000000000", value1);
+            Assert.AreEqual("1000000000", value1);
             Assert.AreEqual("-12.84848715", value2);
 
         }

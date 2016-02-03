@@ -98,6 +98,7 @@
     <Compile Include="Validations\IValidator.cs" />
     <Compile Include="Validations\Rules\ValidationRuleBase.cs" />
     <Compile Include="Validations\Rules\ValidationRuleResult.cs" />
+    <Compile Include="Validations\SheetValidator.cs" />
     <Compile Include="Validations\ValidationError.cs" />
     <Compile Include="Validations\ValidationResult.cs" />
     <Compile Include="Validations\ValidationWarning.cs" />

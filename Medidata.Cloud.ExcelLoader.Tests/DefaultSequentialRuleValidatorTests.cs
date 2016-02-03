@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Medidata.Cloud.ExcelLoader.Validations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
@@ -22,7 +23,7 @@ namespace Medidata.Cloud.ExcelLoader.Tests
         public void AllRulesAreChecked()
         {
             // Arrange
-            var blockPlan = _fixture.Create<IExcelParser>();
+            var blockPlan = _fixture.Create<IExcelLoader>();
             var messages = _fixture.CreateMany<IValidationError>().ToArray();
             var validationRules = new[]
                                   {
@@ -46,7 +47,7 @@ namespace Medidata.Cloud.ExcelLoader.Tests
         public void StopRuleIfShouldContinueIsFalse()
         {
             // Arrange
-            var blockPlan = _fixture.Create<IExcelParser>();
+            var blockPlan = _fixture.Create<IExcelLoader>();
             var messages = _fixture.CreateMany<IValidationMessage>().ToArray();
             var validationRules = new[]
                                   {
@@ -70,7 +71,7 @@ namespace Medidata.Cloud.ExcelLoader.Tests
         {
             var ruleResult = _fixture.Create<IValidationRuleResult>();
             ruleResult.Stub(x => x.ShouldContinue).Return(canContinue);
-            ruleResult.Stub(x => x.Message).Return(message);
+            ruleResult.Stub(x => x.Messages).Return(new List<IValidationMessage>{ message });
 
             var rule = _fixture.Create<IValidationRule>();
             rule.Stub(x => x.Check(null)).IgnoreArguments().Return(ruleResult);

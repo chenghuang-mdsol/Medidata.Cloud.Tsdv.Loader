@@ -14,17 +14,17 @@ namespace Medidata.Cloud.ExcelLoader.Validations
             _rules = rules ?? Enumerable.Empty<IValidationRule>();
         }
 
-        public IValidationResult Validate(IExcelParser excelParser)
+        public IValidationResult Validate(IExcelLoader excelLoader)
         {
-            if (excelParser == null) throw new ArgumentNullException("excelParser");
+            if (excelLoader == null) throw new ArgumentNullException("excelParser");
 
-            var result = new ValidationResult {ValidationTarget = excelParser};
+            var result = new ValidationResult {ValidationTarget = excelLoader};
 
             try
             {
-                foreach (var ruleResult in _rules.Select(r => r.Check(excelParser)))
+                foreach (var ruleResult in _rules.Select(r => r.Check(excelLoader)))
                 {
-                    result.Messages.Add(ruleResult.Message);
+                    result.Messages.AddRange(ruleResult.Messages);
                     if (!ruleResult.ShouldContinue)
                     {
                         break;

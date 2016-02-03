@@ -1,8 +1,10 @@
+using System.Collections.Generic;
+
 namespace Medidata.Cloud.ExcelLoader.Validations
 {
     public interface IValidationRuleResult
     {
-        IValidationMessage Message { get; }
+        IList<IValidationMessage> Messages { get; }
         bool ShouldContinue { get; }
     }
 }

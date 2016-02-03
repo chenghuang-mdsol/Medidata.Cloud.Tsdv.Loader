@@ -7,6 +7,7 @@ namespace Medidata.Cloud.ExcelLoader
         string Name { get; }
         bool AcceptExtraProperties { get; }
         IEnumerable<IColumnDefinition> ColumnDefinitions { get; }
+        IEnumerable<IColumnDefinition> ExtraColumnDefinitions { get; }
         ISheetDefinition AddColumn(IColumnDefinition columnDefinition);
     }
 }
