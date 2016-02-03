@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
-using Medidata.Rave.Tsdv.Loader.SheetDefinitions.OldFormat;
+using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 
@@ -40,7 +40,6 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             }
             Console.WriteLine("Loaded");
 
-            Console.WriteLine(loader.Sheet<BlockPlan>().Data.First().BlockPlanName);
             Console.WriteLine(loader.Sheet<BlockPlanSetting>().Data.Count);
             // Load extra properties from extra columns.
             Console.WriteLine(loader.Sheet<TierFolder>().Data[0].GetExtraProperties()["Visit1"]);
@@ -54,31 +53,16 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
         {
             var loader = _container.Resolve<ITsdvExcelLoaderFactory>().Create(TsdvLoaderSupportedVersion.V1);
 
-            // Case 1
-            // Define a sheet by model type, and add items
-            loader.Sheet<BlockPlan>();
-            loader.Sheet<BlockPlan>().Data.Add(
-                new BlockPlan
-                {
-                    BlockPlanName = "xxx",
-                    UsingMatrix = false,
-                    EstimatedDate = DateTime.Now,
-                    EstimatedCoverage = 0.85
-                },
-                new BlockPlan { BlockPlanName = "yyy", EstimatedCoverage = 0.65 },
-                new BlockPlan { BlockPlanName = "zzz" });
-
             // Case 2
             // Automatically define sheet when initially calling SheetData with new type
             loader.Sheet<BlockPlanSetting>().Data.Add(
                 new BlockPlanSetting
                 {
-                    BlockPlanName = "fakeNameByAnonymousClass",
-                    Repeated = false,
+                    Block = "fakeNameByAnonymousClass",
                     BlockSubjectCount = 99
                 },
-                new BlockPlanSetting { BlockPlanName = "111", Repeated = true, BlockSubjectCount = 100 },
-                new BlockPlanSetting { BlockPlanName = "ccc", Blocks = "fasdf" });
+                new BlockPlanSetting { Block = "111", Repeated = true, BlockSubjectCount = 100 },
+                new BlockPlanSetting { Block = "ccc"});
 
             // Case 3
             // Add dynamic columns and add extra properties to model object.
@@ -89,10 +73,10 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                   .AddColumn("Unscheduled");
 
             loader.Sheet<TierFolder>().Data.Add(
-                new TierFolder { TierName = "T1", FormOID = "VISIT" }.AddProperty("Visit1", true),
-                new TierFolder { TierName = "T2", FormOID = "VISIT" }.AddProperty("Visit2", 100),
-                new TierFolder { TierName = "T3", FormOID = "SOMEDATE" }.AddProperty("SomeDate", new DateTime(1999, 4, 6)),
-                new TierFolder { TierName = "T4", FormOID = "UNSCHEDULED" }.AddProperty("Unscheduled", "xxxxx"));
+                new TierFolder { TierName = "T1", FormOid = "VISIT" }.AddProperty("Visit1", true),
+                new TierFolder { TierName = "T2", FormOid = "VISIT" }.AddProperty("Visit2", 100),
+                new TierFolder { TierName = "T3", FormOid = "SOMEDATE" }.AddProperty("SomeDate", new DateTime(1999, 4, 6)),
+                new TierFolder { TierName = "T4", FormOid = "UNSCHEDULED" }.AddProperty("Unscheduled", "xxxxx"));
 
             File.Delete(filePath);
             Console.WriteLine("Saving into stream");
