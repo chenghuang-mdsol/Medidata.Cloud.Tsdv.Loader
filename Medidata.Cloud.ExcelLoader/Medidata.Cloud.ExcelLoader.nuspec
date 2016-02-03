@@ -2,15 +2,15 @@
 <package>
   <metadata>
     <id>Medidata.Cloud.ExcelLoader</id>
-    <version>0.1.6</version>
+    <version>0.1.7</version>
     <title>Medidata.Cloud.ExcelLoader</title>
     <authors>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</authors>
     <owners>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</owners>
     <projectUrl>https://github.com/junshao/Medidata.Cloud.Tsdv.Loader</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Medidata Excel builder and parser for unloading and downloading</description>
-    <releaseNotes>Duplicate extra properties won't raise exceptions.</releaseNotes>
-    <copyright>Copyright 2015</copyright>
+    <releaseNotes>Fix message typo.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
     <tags>Excel builder parser loader</tags>
     <dependencies>
       <dependency id="DocumentFormat.OpenXml" version="2.5" />
