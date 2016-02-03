@@ -51,8 +51,6 @@
     <Compile Include="SheetDefinitions\v1\BlockPlanSetting.cs" />
     <Compile Include="SheetDefinitions\v1\CustomTier.cs" />
     <Compile Include="SheetDefinitions\v1\Rule.cs" />
-    <Compile Include="SheetDefinitions\v1\RuleAction.cs" />
-    <Compile Include="SheetDefinitions\v1\RuleStep.cs" />
     <Compile Include="SheetDefinitions\v1\TierField.cs" />
     <Compile Include="SheetDefinitions\v1\TierFolder.cs" />
     <Compile Include="SheetDefinitions\v1\TierForm.cs" />
@@ -74,12 +72,6 @@
     <Compile Include="SheetDefinitions\OldFormat\TierFolder.cs" />
     <Compile Include="SheetDefinitions\OldFormat\TierForm.cs" />
     <Compile Include="TsdvLoaderSupportedVersion.cs" />
-    <Compile Include="Validations\Rules\ValidateBlockPlanSettings.cs" />
-    <Compile Include="Validations\Rules\ValidateBlockPlanSettingTiers.cs" />
-    <Compile Include="Validations\Rules\LocalizableValidationRuleBase.cs" />
-    <Compile Include="Validations\Rules\ValidateTierFields.cs" />
-    <Compile Include="Validations\Rules\ValidateTierFolders.cs" />
-    <Compile Include="Validations\Rules\ValidateTierForms.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Medidata.Rave.Tsdv.Loader.nuspec" />

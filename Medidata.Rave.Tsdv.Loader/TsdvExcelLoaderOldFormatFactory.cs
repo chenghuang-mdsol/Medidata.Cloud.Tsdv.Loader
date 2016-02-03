@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Medidata.Cloud.ExcelLoader;
+using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.OldFormat;
@@ -23,9 +26,15 @@ namespace Medidata.Rave.Tsdv.Loader
             return loader;
         }
 
-        private IExcelLoader CreateTsdvExcelLoader()
+        protected virtual IEnumerable<ICellTypeValueConverter> GetCustomCellTypeValueConverters()
         {
-            var converterManager = new CellTypeValueConverterManager();
+            return Enumerable.Empty<ICellTypeValueConverter>();
+        }
+
+        internal virtual IExcelLoader CreateTsdvExcelLoader()
+        {
+            var customConverters = GetCustomCellTypeValueConverters().ToArray();
+            var converterManager = new CellTypeValueConverterManager(customConverters);
             var excelBuilder = new AutoCopyrightCoveredExcelBuilder();
             var excelParser = new ExcelParser();
 
