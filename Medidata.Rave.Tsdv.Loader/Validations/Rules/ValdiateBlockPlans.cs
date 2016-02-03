@@ -23,20 +23,23 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
 
             if (blockPlan.Sheet<BlockPlan>().Data.Count < 1)
             {
-                messages.Add(String.Format("No block plan to load.").ToValidationError());
+                var message = CreateErrorMessage("No block plan to load.");
+                messages.Add(message);
                 return;
             }
 
             if (blockPlan.Sheet<BlockPlan>().Data.Count > 1)
             {
-                messages.Add(String.Format("Only one block plan can be loaded.").ToValidationError());
+                var message = CreateErrorMessage("Only one block plan can be loaded.");
+                messages.Add(message);
                 return;
             }
 
             var role = blockPlan.Sheet<BlockPlan>().Data[0].DataEntryRole;
             if (!_validDataEntryRole(role))
             {
-                messages.Add(String.Format("Data Entry {0} is not valid.", role).ToValidationError());
+                var message = CreateErrorMessage("Data Entry {0} is not valid.", role);
+                messages.Add(message);
                 return;
             }
 

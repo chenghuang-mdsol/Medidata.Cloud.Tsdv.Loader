@@ -5,6 +5,7 @@ using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Cloud.ExcelLoader.Validations;
 using Medidata.Interfaces.Localization;
+using Medidata.Rave.Tsdv.Loader.Helpers;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 
 namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
@@ -26,12 +27,14 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
             {
                 if (blockPlan.Sheet<CustomTier>().Data.All(x => x.TierName != tierForm.TierName))
                 {
-                    messages.Add(String.Format("'{0} tier in TierForms is not defined in CustomTier.", tierForm.TierName).ToValidationError());
+                    var message = CreateErrorMessage("'{0} tier in TierForms is not defined in CustomTier.", tierForm.TierName);
+                    messages.Add(message);
                 }
 
                 if (!_validFormOidFunc(tierForm.FormOid))
                 {
-                    messages.Add(String.Format("{0} is not a valid Form OID for the project.", tierForm.Forms).ToValidationError());
+                    var message = CreateErrorMessage("{0} is not a valid Form OID for the project.", tierForm.Forms);
+                    messages.Add(message);
                 }
             }
 

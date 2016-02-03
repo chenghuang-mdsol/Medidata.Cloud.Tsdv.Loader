@@ -28,7 +28,8 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
                 if (blockPlan.Sheet<CustomTier>().Data.All(x => x.TierName != blockTier.PropertyName) &&
                     DefaultTiers.All(x => x != blockTier.PropertyName))
                 {
-                    messages.Add(String.Format("'{0} tier header in BlockPlanSettings is not defined in CustomTier.", blockTier.PropertyName).ToValidationError());
+                    var message = CreateErrorMessage("'{0} tier header in BlockPlanSettings is not defined in CustomTier.", blockTier.PropertyName);
+                    messages.Add(message);
                 }
             }
 
