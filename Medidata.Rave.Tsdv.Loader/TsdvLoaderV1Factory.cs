@@ -4,9 +4,9 @@ using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 
 namespace Medidata.Rave.Tsdv.Loader
 {
-    public class TsdvExcelLoaderV1Factory : TsdvExcelLoaderOldFormatFactory
+    public class TsdvLoaderV1Factory : TsdvPresentationFormatLoaderFactory
     {
-        public TsdvExcelLoaderV1Factory(ILocalization localization) : base(localization) {}
+        public TsdvLoaderV1Factory(ILocalization localization) : base(localization) {}
 
         protected override IExcelLoader DefineTsdvSheets(TsdvLoaderSupportedVersion version, IExcelLoader loader)
         {

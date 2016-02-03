@@ -5,15 +5,15 @@ using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
-using Medidata.Rave.Tsdv.Loader.SheetDefinitions.OldFormat;
+using Medidata.Rave.Tsdv.Loader.SheetDefinitions.PresentationFormat;
 
 namespace Medidata.Rave.Tsdv.Loader
 {
-    public class TsdvExcelLoaderOldFormatFactory : ITsdvExcelLoaderFactory
+    public class TsdvPresentationFormatLoaderFactory : ITsdvExcelLoaderFactory
     {
         private readonly ILocalization _localization;
 
-        public TsdvExcelLoaderOldFormatFactory(ILocalization localization)
+        public TsdvPresentationFormatLoaderFactory(ILocalization localization)
         {
             if (localization == null) throw new ArgumentNullException("localization");
             _localization = localization;
@@ -56,7 +56,7 @@ namespace Medidata.Rave.Tsdv.Loader
 
         protected virtual IExcelLoader DefineTsdvSheets(TsdvLoaderSupportedVersion version, IExcelLoader loader)
         {
-            if(version != TsdvLoaderSupportedVersion.OldFormat)
+            if(version != TsdvLoaderSupportedVersion.PresentationFormat)
                 throw new NotSupportedException(string.Format("'{0}' isn't a supported name", version));
 
             loader.Sheet<BlockPlan>();

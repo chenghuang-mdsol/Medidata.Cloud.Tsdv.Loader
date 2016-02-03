@@ -1,6 +1,6 @@
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
-namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.OldFormat
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.PresentationFormat
 {
     [SheetName("Rules")]
     public class Rule : SheetModel
