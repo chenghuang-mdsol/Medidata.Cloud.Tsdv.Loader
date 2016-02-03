@@ -43,8 +43,7 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
 
         private bool TotalTierCountValid(BlockPlanSetting block)
         {
-            var totalTierSubjectCount = block.GetExtraProperties().Values.OfType<Int32>().Sum();
-
+            var totalTierSubjectCount = block.GetExtraProperties().Values.OfType<int>().Sum();
             return totalTierSubjectCount == block.BlockSubjectCount;
         }
     }
