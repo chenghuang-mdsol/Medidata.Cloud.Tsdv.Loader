@@ -10,7 +10,7 @@ using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 
 namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
 {
-    class ValidateBlockPlanSettings : LocalizableValidationRuleBase
+    public class ValidateBlockPlanSettings : LocalizableValidationRuleBase
     {
         public ValidateBlockPlanSettings(ILocalization localization) : base(localization)
         {
