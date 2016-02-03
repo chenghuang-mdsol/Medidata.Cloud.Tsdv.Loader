@@ -4,7 +4,7 @@ using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 
 namespace Medidata.Rave.Tsdv.Loader
 {
-    public class TsdvLoaderV1Factory : TsdvPresentationFormatLoaderFactory
+    public class TsdvLoaderV1Factory : TsdvPresentationLoaderFactory
     {
         public TsdvLoaderV1Factory(ILocalization localization) : base(localization) {}
 

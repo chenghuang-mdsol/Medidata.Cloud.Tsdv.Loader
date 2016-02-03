@@ -1,6 +1,6 @@
 ﻿using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
-namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.PresentationFormat
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
 {
     [SheetName("CustomTiers")]
     public class CustomTier : SheetModel
