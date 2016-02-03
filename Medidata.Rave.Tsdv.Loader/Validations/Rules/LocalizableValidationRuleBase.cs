@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Validations;
 using Medidata.Cloud.ExcelLoader.Validations.Rules;
@@ -16,12 +17,12 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
             _localization = localization;
         }
 
-        protected override void Validate(IExcelParser blockPlan, out IValidationMessage message, Action next)
+        protected override void Validate(IExcelLoader blockPlan, out IList<IValidationMessage> messages, Action next)
         {
-            Validate(blockPlan, out message, _localization, next);
+            Validate(blockPlan, out messages, _localization, next);
         }
 
-        protected abstract void Validate(IExcelParser blockPlan, out IValidationMessage message,
+        protected abstract void Validate(IExcelLoader blockPlan, out IList<IValidationMessage> messages,
                                          ILocalization localization, Action next);
     }
 }
