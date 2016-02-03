@@ -1,6 +1,6 @@
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
-namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.OldFormat
 {
     [SheetName("ExcludedStatuses")]
     public class ExcludedStatus : SheetModel

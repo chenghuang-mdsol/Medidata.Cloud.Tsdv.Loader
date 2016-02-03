@@ -1,6 +1,6 @@
 ﻿using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
-namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.OldFormat
 {
     [SheetName("TierFields")]
     public class TierField : SheetModel
@@ -14,7 +14,13 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         [ColumnHeaderName("Fields")]
         public string Fields { get; set; }
 
-        [ColumnHeaderName("tsdv_Selected")]
-        public bool Selected { get; set; }
+        [ColumnHeaderName("IsLog")]
+        public bool IsLog { get; set; }
+
+        [ColumnHeaderName("tsdv_ControlType")]
+        public string ControlType { get; set; }
+
+        [ColumnHeaderName("tsdv_RequiresVerification")]
+        public bool RequiresVerification { get; set; }
     }
 }

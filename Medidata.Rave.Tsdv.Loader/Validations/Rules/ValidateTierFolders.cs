@@ -37,9 +37,9 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
 
             foreach (var tierForm in blockPlan.Sheet<TierFolder>().Data)
             {
-                if (blockPlan.Sheet<TierForm>().Data.All(x => x.TierName != tierForm.TierName && x.FormOid != tierForm.FormOID))
+                if (blockPlan.Sheet<TierForm>().Data.All(x => x.TierName != tierForm.TierName && x.FormOid != tierForm.FormOid))
                 {
-                    var message = CreateErrorMessage("The Form OID {0} has not been selected for the tier {1} in TierForms.", tierForm.FormOID, tierForm.TierName);
+                    var message = CreateErrorMessage("The Form OID {0} has not been selected for the tier {1} in TierForms.", tierForm.FormOid, tierForm.TierName);
                     messages.Add(message);
                 }
             }

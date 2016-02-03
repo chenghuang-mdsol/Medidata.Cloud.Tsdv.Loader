@@ -31,7 +31,7 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
 
                 if (!_validFormOidFunc(tierForm.FormOid))
                 {
-                    var message = CreateErrorMessage("{0} is not a valid Form OID for the project.", tierForm.Forms);
+                    var message = CreateErrorMessage("{0} is not a valid Form OID for the project.", tierForm.FormOid);
                     messages.Add(message);
                 }
             }

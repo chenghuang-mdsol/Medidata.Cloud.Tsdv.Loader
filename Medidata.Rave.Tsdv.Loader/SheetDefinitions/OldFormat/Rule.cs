@@ -1,20 +1,29 @@
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
-namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.OldFormat
 {
     [SheetName("Rules")]
     public class Rule : SheetModel
     {
-        [ColumnHeaderName("tsdv_Name")]
+        [ColumnHeaderName("Name")]
         public string Name { get; set; }
 
-        [ColumnHeaderName("tsdv_Type")]
+        [ColumnHeaderName("Type")]
         public string Type { get; set; }
+
+        [ColumnHeaderName("Step")]
+        public string Step { get; set; }
+
+        [ColumnHeaderName("Action")]
+        public string Action { get; set; }
 
         [ColumnHeaderName("tsdv_RunRetrospective")]
         public bool RunsRetrospective { get; set; }
 
         [ColumnHeaderName("TSDVRuleWin_LabelBackfillSlotFlag")]
         public bool BackfillOpenSlots { get; set; }
+
+        [ColumnHeaderName("tsdv_BlockPlanName")]
+        public string BlockPlanName { get; set; }
     }
 }
