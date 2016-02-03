@@ -18,8 +18,6 @@ namespace Medidata.Rave.Tsdv.Loader
             loader.Sheet<TierField>();
             loader.Sheet<TierFolder>();
             loader.Sheet<Rule>();
-            loader.Sheet<RuleStep>();
-            loader.Sheet<RuleAction>();
             return loader;
         }
     }
