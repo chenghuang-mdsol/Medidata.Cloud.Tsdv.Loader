@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
-using Medidata.Rave.Tsdv.Loader.Validations.Rules;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Medidata.Rave.Tsdv.Loader.Validations.Rules;
@@ -10,7 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoRhinoMock;
 using Rhino.Mocks;
-
 
 namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
 {
@@ -25,6 +22,14 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         {
             _fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
             _localization = _fixture.Create<ILocalization>();
+            _localization.Stub(x => x.GetLocalString(null))
+                         .IgnoreArguments()
+                         .Return(null)
+                         .WhenCalled(a =>
+                         {
+                             var key = a.Arguments.First();
+                             a.ReturnValue = key;
+                         });
         }
 
         [TestMethod]
@@ -51,10 +56,10 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         {
             // Arrange
             var tierNames = _fixture.CreateMany<string>().ToList();
-            var customTiers = tierNames.Select(x => new CustomTier { TierName = x }).ToList();
+            var customTiers = tierNames.Select(x => new CustomTier {TierName = x}).ToList();
 
             var tierNames2 = _fixture.CreateMany<string>().ToList();
-            var extraColumns = tierNames2.Select(x => new ColumnDefinition { ExtraProperty = true, PropertyName = x });
+            var extraColumns = tierNames2.Select(x => new ColumnDefinition {ExtraProperty = true, PropertyName = x});
 
             var excelLoader = SetupExcelLoader(customTiers, extraColumns);
 
@@ -73,10 +78,10 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         {
             // Arrange
             var tierNames = _fixture.CreateMany<string>().ToList();
-            var customTiers = tierNames.Select(x => new CustomTier { TierName = x }).ToList();
+            var customTiers = tierNames.Select(x => new CustomTier {TierName = x}).ToList();
 
             tierNames[0] = _fixture.Create<string>();
-            var extraColumns = tierNames.Select(x => new ColumnDefinition { ExtraProperty = true, PropertyName = x });
+            var extraColumns = tierNames.Select(x => new ColumnDefinition {ExtraProperty = true, PropertyName = x});
 
             var excelLoader = SetupExcelLoader(customTiers, extraColumns);
 
@@ -85,7 +90,7 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
             var result = sut.Check(excelLoader);
 
             // Assert
-            Assert.IsTrue(result.Messages.Any()); 
+            Assert.IsTrue(result.Messages.Any());
             Assert.AreEqual(result.Messages.Count, 1);
             Assert.IsFalse(result.ShouldContinue);
         }
@@ -94,20 +99,19 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         {
             var sheetBlockPlanSetting = _fixture.Create<ISheetInfo<BlockPlanSetting>>();
             sheetBlockPlanSetting.Stub(x => x.Definition.ExtraColumnDefinitions)
-                .Return(columns);
+                                 .Return(columns);
 
             var sheetCustomTier = _fixture.Create<ISheetInfo<CustomTier>>();
             sheetCustomTier.Stub(x => x.Data)
-                .Return(customTiers);
-            
+                           .Return(customTiers);
+
             var excelLoader = _fixture.Create<IExcelLoader>();
             excelLoader.Stub(x => x.Sheet<BlockPlanSetting>())
-                .Return(sheetBlockPlanSetting);
+                       .Return(sheetBlockPlanSetting);
             excelLoader.Stub(x => x.Sheet<CustomTier>())
-                .Return(sheetCustomTier);
+                       .Return(sheetCustomTier);
 
             return excelLoader;
         }
-
     }
 }
