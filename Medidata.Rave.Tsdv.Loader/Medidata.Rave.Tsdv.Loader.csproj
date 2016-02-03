@@ -47,7 +47,7 @@
     <Compile Include="AutoCopyrightCoveredExcelBuilder.cs" />
     <Compile Include="ITsdvExcelLoaderFactory.cs" />
     <Compile Include="MdsolVersionSheetDecorator.cs" />
-    <Compile Include="SheetDefinitions\OldFormat\BlockPlan.cs" />
+    <Compile Include="SheetDefinitions\PresentationFormat\BlockPlan.cs" />
     <Compile Include="SheetDefinitions\v1\BlockPlanSetting.cs" />
     <Compile Include="SheetDefinitions\v1\CustomTier.cs" />
     <Compile Include="SheetDefinitions\v1\Rule.cs" />
@@ -55,8 +55,8 @@
     <Compile Include="SheetDefinitions\v1\TierFolder.cs" />
     <Compile Include="SheetDefinitions\v1\TierForm.cs" />
     <Compile Include="TranslateHeaderDecorator.cs" />
-    <Compile Include="TsdvExcelLoaderOldFormatFactory.cs" />
-    <Compile Include="TsdvExcelLoaderV1Factory.cs" />
+    <Compile Include="TsdvPresentationFormatLoaderFactory.cs" />
+    <Compile Include="TsdvLoaderV1Factory.cs" />
     <Compile Include="CoveredExcelBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">
@@ -64,13 +64,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="SheetDefinitions\OldFormat\BlockPlanSetting.cs" />
-    <Compile Include="SheetDefinitions\OldFormat\CustomTier.cs" />
-    <Compile Include="SheetDefinitions\OldFormat\ExcludedStatus.cs" />
-    <Compile Include="SheetDefinitions\OldFormat\Rule.cs" />
-    <Compile Include="SheetDefinitions\OldFormat\TierField.cs" />
-    <Compile Include="SheetDefinitions\OldFormat\TierFolder.cs" />
-    <Compile Include="SheetDefinitions\OldFormat\TierForm.cs" />
+    <Compile Include="SheetDefinitions\PresentationFormat\BlockPlanSetting.cs" />
+    <Compile Include="SheetDefinitions\PresentationFormat\CustomTier.cs" />
+    <Compile Include="SheetDefinitions\PresentationFormat\ExcludedStatus.cs" />
+    <Compile Include="SheetDefinitions\PresentationFormat\Rule.cs" />
+    <Compile Include="SheetDefinitions\PresentationFormat\TierField.cs" />
+    <Compile Include="SheetDefinitions\PresentationFormat\TierFolder.cs" />
+    <Compile Include="SheetDefinitions\PresentationFormat\TierForm.cs" />
     <Compile Include="TsdvLoaderSupportedVersion.cs" />
   </ItemGroup>
   <ItemGroup>
