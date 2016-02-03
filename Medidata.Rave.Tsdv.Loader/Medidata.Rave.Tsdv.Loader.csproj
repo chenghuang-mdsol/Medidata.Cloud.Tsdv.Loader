@@ -47,9 +47,19 @@
     <Compile Include="AutoCopyrightCoveredExcelBuilder.cs" />
     <Compile Include="ITsdvExcelLoaderFactory.cs" />
     <Compile Include="MdsolVersionSheetDecorator.cs" />
-    <Compile Include="SheetDefinitions\v1\BlockPlan.cs" />
+    <Compile Include="SheetDefinitions\OldFormat\BlockPlan.cs" />
+    <Compile Include="SheetDefinitions\v1\BlockPlanSetting.cs" />
+    <Compile Include="SheetDefinitions\v1\CustomTier.cs" />
+    <Compile Include="SheetDefinitions\v1\Rule.cs" />
+    <Compile Include="SheetDefinitions\v1\RuleAction.cs" />
+    <Compile Include="SheetDefinitions\v1\RuleStep.cs" />
+    <Compile Include="SheetDefinitions\v1\TierField.cs" />
+    <Compile Include="SheetDefinitions\v1\TierFolder.cs" />
+    <Compile Include="SheetDefinitions\v1\TierForm.cs" />
     <Compile Include="TranslateHeaderDecorator.cs" />
     <Compile Include="TsdvExcelLoaderFactory.cs" />
+    <Compile Include="TsdvExcelLoaderFactoryBase.cs" />
+    <Compile Include="TsdvExcelLoaderOldFormatFactory.cs" />
     <Compile Include="CoveredExcelBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">
@@ -57,20 +67,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="SheetDefinitions\v1\BlockPlanSetting.cs" />
-    <Compile Include="SheetDefinitions\v1\CustomTier.cs" />
-    <Compile Include="SheetDefinitions\v1\ExcludedStatus.cs" />
-    <Compile Include="SheetDefinitions\v1\Rule.cs" />
-    <Compile Include="SheetDefinitions\v1\TierField.cs" />
-    <Compile Include="SheetDefinitions\v1\TierFolder.cs" />
-    <Compile Include="SheetDefinitions\v1\TierForm.cs" />
+    <Compile Include="SheetDefinitions\OldFormat\BlockPlanSetting.cs" />
+    <Compile Include="SheetDefinitions\OldFormat\CustomTier.cs" />
+    <Compile Include="SheetDefinitions\OldFormat\ExcludedStatus.cs" />
+    <Compile Include="SheetDefinitions\OldFormat\Rule.cs" />
+    <Compile Include="SheetDefinitions\OldFormat\TierField.cs" />
+    <Compile Include="SheetDefinitions\OldFormat\TierFolder.cs" />
+    <Compile Include="SheetDefinitions\OldFormat\TierForm.cs" />
     <Compile Include="Validations\Rules\ValidateBlockPlanSettings.cs" />
     <Compile Include="Validations\Rules\ValidateBlockPlanSettingTiers.cs" />
     <Compile Include="Validations\Rules\LocalizableValidationRuleBase.cs" />
     <Compile Include="Validations\Rules\ValidateTierFields.cs" />
     <Compile Include="Validations\Rules\ValidateTierFolders.cs" />
     <Compile Include="Validations\Rules\ValidateTierForms.cs" />
-    <Compile Include="Validations\Rules\ValdiateBlockPlans.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Medidata.Rave.Tsdv.Loader.nuspec" />
