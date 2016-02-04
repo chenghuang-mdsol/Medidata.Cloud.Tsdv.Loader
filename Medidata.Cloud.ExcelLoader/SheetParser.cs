@@ -21,7 +21,7 @@ namespace Medidata.Cloud.ExcelLoader
         {
             if (worksheet == null) throw new ArgumentNullException("worksheet");
             if (sheetDefinition == null) throw new ArgumentNullException("sheetDefinition");
-            var rows = worksheet.Descendants<Row>().Skip(1);
+            var rows = worksheet.Descendants<Row>().Skip(sheetDefinition.HeaderRowCount);
             return rows.Select(x => ParseFromRow(x, sheetDefinition));
         }
 

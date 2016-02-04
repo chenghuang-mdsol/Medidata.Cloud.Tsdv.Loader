@@ -71,8 +71,9 @@ namespace Medidata.Cloud.ExcelLoader
         private Type GetType(string fullName)
         {
             var types = from asm in AppDomain.CurrentDomain.GetAssemblies()
-                       from type in asm.GetTypes()
-                       select type;
+                        let type = asm.GetType(fullName, false, false)
+                        where type != null
+                        select type;
             return types.Single(x => x.FullName == fullName);
         }
     }

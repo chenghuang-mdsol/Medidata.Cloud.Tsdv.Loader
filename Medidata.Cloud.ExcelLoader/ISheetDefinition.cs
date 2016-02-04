@@ -4,10 +4,9 @@ namespace Medidata.Cloud.ExcelLoader
 {
     public interface ISheetDefinition
     {
-        string Name { get; }
-        bool AcceptExtraProperties { get; }
+        string Name { get; set; }
+        int HeaderRowCount { get; set; }
         IEnumerable<IColumnDefinition> ColumnDefinitions { get; }
-        IEnumerable<IColumnDefinition> ExtraColumnDefinitions { get; }
         ISheetDefinition AddColumn(IColumnDefinition columnDefinition);
     }
 }
