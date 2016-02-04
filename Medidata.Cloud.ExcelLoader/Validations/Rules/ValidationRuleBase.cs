@@ -14,6 +14,6 @@ namespace Medidata.Cloud.ExcelLoader.Validations.Rules
             return new ValidationRuleResult {Messages = messages, ShouldContinue = shouldContinue};
         }
 
-        protected abstract void Validate(IExcelLoader excelLoader, out IList<IValidationMessage> message, Action next);
+        internal abstract void Validate(IExcelLoader excelLoader, out IList<IValidationMessage> message, Action next);
     }
 }

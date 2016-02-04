@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
 {
+    [ExcludeFromCodeCoverage]
     [SheetName("BlockPlans")]
     public class BlockPlan : SheetModel
     {

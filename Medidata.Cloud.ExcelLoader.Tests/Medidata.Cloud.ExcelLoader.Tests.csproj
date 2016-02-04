@@ -75,6 +75,7 @@
     <Compile Include="CellTypeConverters\NullableDateTimeConverterTests.cs" />
     <Compile Include="DefaultSequentialRuleValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validations\Rules\ValidationRuleBaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Medidata.Cloud.ExcelLoader\Medidata.Cloud.ExcelLoader.csproj">

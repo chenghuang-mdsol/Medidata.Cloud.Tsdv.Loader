@@ -1,7 +1,9 @@
-﻿using Medidata.Cloud.ExcelLoader.SheetDefinitions;
+﻿using System.Diagnostics.CodeAnalysis;
+using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
 {
+    [ExcludeFromCodeCoverage]
     [SheetName("TierFields")]
     public class TierField : SheetModel
     {
