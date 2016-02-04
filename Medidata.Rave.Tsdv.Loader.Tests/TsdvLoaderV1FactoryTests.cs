@@ -1,4 +1,6 @@
-﻿using Medidata.Cloud.ExcelLoader;
+﻿using System;
+using Medidata.Cloud.ExcelLoader;
+using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,7 +26,22 @@ namespace Medidata.Rave.Tsdv.Loader.Tests
             _sut = MockRepository.GeneratePartialMock<TsdvLoaderV1Factory>(localization);
 
             _loader = _fixture.Create<IExcelLoader>();
+            StubSheet<BlockPlanSetting>(_loader);
+            StubSheet<CustomTier>(_loader);
+            StubSheet<TierForm>(_loader);
+            StubSheet<TierField>(_loader);
+            StubSheet<TierFolder>(_loader);
+            StubSheet<Rule>(_loader);
+
             _sut.Stub(x => x.CreateTsdvExcelLoader()).Return(_loader);
+        }
+
+        private void StubSheet<T>(IExcelLoader loader) where T : SheetModel
+        {
+            var sheetDefinition = _fixture.Create<ISheetDefinition>();
+            var sheetInfo = _fixture.Create<ISheetInfo<T>>();
+            sheetInfo.Stub(x => x.Definition).Return(sheetDefinition);
+            loader.Stub(x => x.Sheet<T>()).Return(sheetInfo);
         }
 
         [TestMethod]
@@ -47,8 +64,14 @@ namespace Medidata.Rave.Tsdv.Loader.Tests
         public void IncorrectVersionShouldCallBase()
         {
             var version = TsdvLoaderSupportedVersion.Presentation;
-
-            var result = _sut.Create(version);
+            Exception ex = null;
+            try
+            {
+                _sut.Create(version);
+            }
+            catch
+            {
+            }
 
             _loader.AssertWasNotCalled(x => x.Sheet<BlockPlanSetting>());
             _loader.AssertWasNotCalled(x => x.Sheet<CustomTier>());
@@ -56,7 +79,6 @@ namespace Medidata.Rave.Tsdv.Loader.Tests
             _loader.AssertWasNotCalled(x => x.Sheet<TierField>());
             _loader.AssertWasNotCalled(x => x.Sheet<TierFolder>());
             _loader.AssertWasNotCalled(x => x.Sheet<Rule>());
-            Assert.AreSame(_loader, result);
         }
     }
 }
