@@ -59,14 +59,14 @@ namespace Medidata.Rave.Tsdv.Loader
             if(version != TsdvLoaderSupportedVersion.Presentation)
                 throw new NotSupportedException(string.Format("'{0}' isn't a supported name", version));
 
-            loader.Sheet<BlockPlan>();
-            loader.Sheet<BlockPlanSetting>();
-            loader.Sheet<CustomTier>();
-            loader.Sheet<TierField>();
-            loader.Sheet<TierForm>();
-            loader.Sheet<TierFolder>();
-            loader.Sheet<ExcludedStatus>();
-            loader.Sheet<Rule>();
+            loader.Sheet<BlockPlan>().Definition.HeaderRowCount = 1;
+            loader.Sheet<BlockPlanSetting>().Definition.HeaderRowCount = 1;
+            loader.Sheet<CustomTier>().Definition.HeaderRowCount = 1;
+            loader.Sheet<TierField>().Definition.HeaderRowCount = 1;
+            loader.Sheet<TierForm>().Definition.HeaderRowCount = 1;
+            loader.Sheet<TierFolder>().Definition.HeaderRowCount = 1;
+            loader.Sheet<ExcludedStatus>().Definition.HeaderRowCount = 1;
+            loader.Sheet<Rule>().Definition.HeaderRowCount = 1;
             return loader;
         }
     }
