@@ -1,12 +1,15 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
-namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
 {
     [ExcludeFromCodeCoverage]
     [SheetName("BlockPlanSettings")]
     public class BlockPlanSetting : SheetModel
     {
+        [ColumnHeaderName("tsdv_BlockPlanName")]
+        public string BlockPlanName { get; set; }
+
         [ColumnHeaderName("tsdv_Block")]
         public string Block { get; set; }
 

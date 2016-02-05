@@ -16,7 +16,7 @@ namespace Medidata.Cloud.ExcelLoader.Validations
 
         public IValidationResult Validate(IExcelLoader excelLoader)
         {
-            if (excelLoader == null) throw new ArgumentNullException("excelParser");
+            if (excelLoader == null) throw new ArgumentNullException("excelLoader");
 
             var result = new ValidationResult {ValidationTarget = excelLoader};
 

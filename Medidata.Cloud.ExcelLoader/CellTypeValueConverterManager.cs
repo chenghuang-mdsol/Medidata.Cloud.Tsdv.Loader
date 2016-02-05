@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Cloud.ExcelLoader.Helpers;
@@ -11,7 +12,7 @@ namespace Medidata.Cloud.ExcelLoader
     {
         private readonly IEnumerable<ICellTypeValueConverter> _converters;
 
-        public CellTypeValueConverterManager() : this(null) {}
+        public CellTypeValueConverterManager() : this(null) { }
 
         public CellTypeValueConverterManager(params ICellTypeValueConverter[] converters)
         {
@@ -29,7 +30,7 @@ namespace Medidata.Cloud.ExcelLoader
                           };
             if (converters != null)
             {
-                _converters = _converters.Concat(converters);
+                _converters = converters.Concat(_converters);
             }
         }
 
@@ -62,9 +63,18 @@ namespace Medidata.Cloud.ExcelLoader
                 throw new NotSupportedException(msg);
             }
 
-            var propType = Type.GetType(cell.GetMdsolAttribute("type"), true);
+            var propType = GetType(cell.GetMdsolAttribute("type"));
             var propValue = Convert.ChangeType(value, propType);
             return propValue;
+        }
+
+        private Type GetType(string fullName)
+        {
+            var types = from asm in AppDomain.CurrentDomain.GetAssemblies()
+                        let type = asm.GetType(fullName, false, false)
+                        where type != null
+                        select type;
+            return types.Single(x => x.FullName == fullName);
         }
     }
 }

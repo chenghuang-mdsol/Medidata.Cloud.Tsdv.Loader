@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Medidata.Cloud.ExcelLoader.Validations
 {
+    [ExcludeFromCodeCoverage]
     internal class ValidationError : IValidationError
     {
         public ValidationError(string message)

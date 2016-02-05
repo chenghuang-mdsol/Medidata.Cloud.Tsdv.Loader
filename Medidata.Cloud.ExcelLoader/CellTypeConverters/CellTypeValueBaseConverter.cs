@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Medidata.Cloud.ExcelLoader.CellTypeConverters
 {
-    internal abstract class CellTypeValueBaseConverter<T> : ICellTypeValueConverter
+    public abstract class CellTypeValueBaseConverter<T> : ICellTypeValueConverter
     {
         protected CellTypeValueBaseConverter(CellValues cellType)
         {

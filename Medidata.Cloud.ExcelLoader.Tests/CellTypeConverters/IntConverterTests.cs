@@ -34,8 +34,6 @@ namespace Medidata.Cloud.ExcelLoader.Tests.CellTypeConverters
             Assert.AreEqual(123, value0);
             Assert.AreEqual(-1000, value1);
             Assert.AreEqual(0, value2);
-
-
         }
 
 
@@ -47,15 +45,26 @@ namespace Medidata.Cloud.ExcelLoader.Tests.CellTypeConverters
             object value0;
             object value1;
             object value2;
+            object value3;
+            object value4;
             var converter = new IntConverter();
             //Act
             bool success0 = converter.TryConvertToCSharpValue("9E10D", out value0);
             bool success1 = converter.TryConvertToCSharpValue("N/A", out value1);
             bool success2 = converter.TryConvertToCSharpValue("NaN", out value2);
+            bool success3 = converter.TryConvertToCSharpValue("", out value3);
+            bool success4 = converter.TryConvertToCSharpValue(null, out value4);
             //Assert
             Assert.IsFalse(success0);
             Assert.IsFalse(success1);
             Assert.IsFalse(success2);
+            Assert.IsFalse(success3);
+            Assert.IsFalse(success4);
+            Assert.IsNull(value0);
+            Assert.IsNull(value1);
+            Assert.IsNull(value2);
+            Assert.IsNull(value3);
+            Assert.IsNull(value4);
         }
 
         [TestMethod]
@@ -66,10 +75,12 @@ namespace Medidata.Cloud.ExcelLoader.Tests.CellTypeConverters
             string value1;
             string value2;
             var converter = new IntConverter();
+
             //Act
             bool success0 = converter.TryConvertToCellValue(123, out value0);
             bool success1 = converter.TryConvertToCellValue(int.MaxValue, out value1);
             bool success2 = converter.TryConvertToCellValue(-15, out value2);
+
             //Assert
             Assert.IsTrue(success0);
             Assert.IsTrue(success1);
@@ -77,7 +88,6 @@ namespace Medidata.Cloud.ExcelLoader.Tests.CellTypeConverters
             Assert.AreEqual("123", value0);
             Assert.AreEqual(int.MaxValue.ToString(), value1);
             Assert.AreEqual("-15", value2);
-
         }
 
         [TestMethod]

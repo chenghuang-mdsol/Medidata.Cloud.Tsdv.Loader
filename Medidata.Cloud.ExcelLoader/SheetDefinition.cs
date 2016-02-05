@@ -11,12 +11,8 @@ namespace Medidata.Cloud.ExcelLoader
         internal SheetDefinition() {}
 
         public string Name { get; set; }
-        public bool AcceptExtraProperties { get; set; }
+        public int HeaderRowCount { get; set; }
         public IEnumerable<IColumnDefinition> ColumnDefinitions { get; set; }
-
-        public IEnumerable<IColumnDefinition> ExtraColumnDefinitions {
-            get { return ColumnDefinitions.Where(x => x.ExtraProperty); }
-        }
 
         public ISheetDefinition AddColumn(IColumnDefinition columnDefinition)
         {
