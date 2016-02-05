@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
-namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
 {
+    [ExcludeFromCodeCoverage]
     [SheetName("ExcludedStatuses")]
     public class ExcludedStatus : SheetModel
     {
