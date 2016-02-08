@@ -2,14 +2,14 @@
 <package>
   <metadata>
     <id>Medidata.Cloud.ExcelLoader</id>
-    <version>0.1.9</version>
+    <version>0.1.10</version>
     <title>Medidata.Cloud.ExcelLoader</title>
     <authors>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</authors>
     <owners>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</owners>
     <projectUrl>https://github.com/junshao/Medidata.Cloud.Tsdv.Loader</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Medidata Excel builder and parser for unloading and downloading</description>
-    <releaseNotes>Able to passin customized information via context parameter of validation rule.</releaseNotes>
+    <releaseNotes>Redesign validation rule base class.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Excel builder parser loader</tags>
     <dependencies>
