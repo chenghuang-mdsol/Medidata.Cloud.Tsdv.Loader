@@ -14,7 +14,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
         public string FormOid { get; set; }
 
         [ColumnHeaderName("Fields")]
-        public string Fields { get; set; }
+        public string FieldOid { get; set; }
 
         [ColumnHeaderName("IsLog")]
         public bool IsLog { get; set; }

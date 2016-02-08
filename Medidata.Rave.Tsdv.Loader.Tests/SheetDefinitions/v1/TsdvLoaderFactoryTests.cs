@@ -1,20 +1,21 @@
-using System;
+﻿using System;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 using Medidata.Interfaces.Localization;
-using Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation;
+using Medidata.Rave.Tsdv.Loader.SheetDefinitions;
+using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ploeh.AutoFixture;
 using Ploeh.AutoFixture.AutoRhinoMock;
 using Rhino.Mocks;
 
-namespace Medidata.Rave.Tsdv.Loader.Tests
+namespace Medidata.Rave.Tsdv.Loader.Tests.SheetDefinitions.v1
 {
     [TestClass]
-    public class TsdvPresentationLoaderFactoryTests
+    public class TsdvLoaderFactoryTests
     {
         private IFixture _fixture;
-        private TsdvPresentationLoaderFactory _sut;
+        private TsdvLoaderFactory _sut;
         private IExcelLoader _loader;
 
         [TestInitialize]
@@ -23,21 +24,20 @@ namespace Medidata.Rave.Tsdv.Loader.Tests
             _fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
 
             var localization = _fixture.Create<ILocalization>();
-            _sut = MockRepository.GeneratePartialMock<TsdvPresentationLoaderFactory>(localization);
+            _sut = MockRepository.GeneratePartialMock<TsdvLoaderFactory>(localization);
 
             _loader = _fixture.Create<IExcelLoader>();
-            StubSheet<BlockPlan>(_loader);
             StubSheet<BlockPlanSetting>(_loader);
             StubSheet<CustomTier>(_loader);
             StubSheet<TierForm>(_loader);
             StubSheet<TierField>(_loader);
             StubSheet<TierFolder>(_loader);
-            StubSheet<ExcludedStatus>(_loader);
             StubSheet<Rule>(_loader);
+
             _sut.Stub(x => x.CreateTsdvExcelLoader()).Return(_loader);
         }
 
-        private void StubSheet<T>(IExcelLoader loader) where T: SheetModel
+        private void StubSheet<T>(IExcelLoader loader) where T : SheetModel
         {
             var sheetDefinition = _fixture.Create<ISheetDefinition>();
             var sheetInfo = _fixture.Create<ISheetInfo<T>>();
@@ -48,17 +48,15 @@ namespace Medidata.Rave.Tsdv.Loader.Tests
         [TestMethod]
         public void CurrectVersionShouldLoader()
         {
-            var version = TsdvLoaderSupportedVersion.Presentation;
+            var version = TsdvLoaderSupportedVersion.V1;
 
             var result = _sut.Create(version);
 
-            _loader.AssertWasCalled(x => x.Sheet<BlockPlan>());
             _loader.AssertWasCalled(x => x.Sheet<BlockPlanSetting>());
             _loader.AssertWasCalled(x => x.Sheet<CustomTier>());
             _loader.AssertWasCalled(x => x.Sheet<TierForm>());
             _loader.AssertWasCalled(x => x.Sheet<TierField>());
             _loader.AssertWasCalled(x => x.Sheet<TierFolder>());
-            _loader.AssertWasCalled(x => x.Sheet<ExcludedStatus>());
             _loader.AssertWasCalled(x => x.Sheet<Rule>());
             Assert.AreSame(_loader, result);
         }
@@ -66,27 +64,22 @@ namespace Medidata.Rave.Tsdv.Loader.Tests
         [TestMethod]
         public void IncorrectVersionShouldCallBase()
         {
-            var version = TsdvLoaderSupportedVersion.V1;
+            var version = TsdvLoaderSupportedVersion.Presentation;
             Exception ex = null;
             try
             {
                 _sut.Create(version);
             }
-            catch (Exception e)
+            catch
             {
-                ex = e;
             }
 
-            _loader.AssertWasNotCalled(x => x.Sheet<BlockPlan>());
             _loader.AssertWasNotCalled(x => x.Sheet<BlockPlanSetting>());
             _loader.AssertWasNotCalled(x => x.Sheet<CustomTier>());
             _loader.AssertWasNotCalled(x => x.Sheet<TierForm>());
             _loader.AssertWasNotCalled(x => x.Sheet<TierField>());
             _loader.AssertWasNotCalled(x => x.Sheet<TierFolder>());
-            _loader.AssertWasNotCalled(x => x.Sheet<ExcludedStatus>());
             _loader.AssertWasNotCalled(x => x.Sheet<Rule>());
-            Assert.IsNotNull(ex);
-            Assert.IsInstanceOfType(ex, typeof(NotSupportedException));
         }
     }
 }
