@@ -64,4 +64,4 @@ $apiKey = ""
 #	e.g. $pushOptions = "-Timeout 120"
 # Do not specify the "-Source" or "-ApiKey" here; use the variables above.
 # NuGet Push options that can be specified: http://docs.nuget.org/docs/reference/command-line-reference#Push_Command_Options
-$pushOptions = ""
+$pushOptions = "-Source http://nuget.imedidata.net/F/mdsol/api/v2/package"
