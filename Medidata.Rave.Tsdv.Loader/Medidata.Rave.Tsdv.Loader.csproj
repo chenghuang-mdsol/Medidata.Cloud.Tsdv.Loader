@@ -55,8 +55,8 @@
     <Compile Include="SheetDefinitions\v1\TierFolder.cs" />
     <Compile Include="SheetDefinitions\v1\TierForm.cs" />
     <Compile Include="TranslateHeaderDecorator.cs" />
-    <Compile Include="TsdvPresentationLoaderFactory.cs" />
-    <Compile Include="TsdvLoaderV1Factory.cs" />
+    <Compile Include="SheetDefinitions\Presentation\TsdvPresentationLoaderFactory.cs" />
+    <Compile Include="SheetDefinitions\v1\TsdvLoaderFactory.cs" />
     <Compile Include="CoveredExcelBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource.Designer.cs">
@@ -71,7 +71,7 @@
     <Compile Include="SheetDefinitions\Presentation\TierField.cs" />
     <Compile Include="SheetDefinitions\Presentation\TierFolder.cs" />
     <Compile Include="SheetDefinitions\Presentation\TierForm.cs" />
-    <Compile Include="TsdvLoaderSupportedVersion.cs" />
+    <Compile Include="SheetDefinitions\TsdvLoaderSupportedVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Medidata.Rave.Tsdv.Loader.nuspec" />
