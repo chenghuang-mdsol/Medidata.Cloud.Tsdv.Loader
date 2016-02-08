@@ -10,7 +10,7 @@ namespace Medidata.Cloud.ExcelLoader.Validations.Rules
         {
             bool shouldContinue;
             var messages = Validate(excelLoader, context, out shouldContinue);
-            return new ValidationRuleResult {Messages = messages.ToList(), ShouldContinue = shouldContinue};
+            return new ValidationRuleResult {Messages = messages, ShouldContinue = shouldContinue};
         }
 
         protected internal abstract IEnumerable<IValidationMessage> Validate(IExcelLoader excelLoader, IDictionary<string, object> context, out bool shouldContinue);

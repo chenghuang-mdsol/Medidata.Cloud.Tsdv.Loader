@@ -20,14 +20,15 @@ namespace Medidata.Cloud.ExcelLoader.Validations
         {
             if (excelLoader == null) throw new ArgumentNullException("excelLoader");
 
-            var result = new ValidationResult {ValidationTarget = excelLoader, Messages = new ValidationMessageCollection()};
+            var messages = new List<IValidationMessage>();
+            var result = new ValidationResult {ValidationTarget = excelLoader, Messages = messages };
             var contextDic = context ?? new Dictionary<string, object>();
 
             try
             {
                 foreach (var ruleResult in _rules.Select(r => r.Check(excelLoader, contextDic)))
                 {
-                    result.Messages.AddRange(ruleResult.Messages);
+                    messages.AddRange(ruleResult.Messages);
                     if (_earlyExit && !ruleResult.ShouldContinue)
                     {
                         break;
@@ -37,7 +38,7 @@ namespace Medidata.Cloud.ExcelLoader.Validations
             catch (Exception e)
             {
                 var error = e.ToString().ToValidationError();
-                result.Messages.Add(error);
+                messages.Add(error);
             }
 
             return result;

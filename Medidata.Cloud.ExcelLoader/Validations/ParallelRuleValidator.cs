@@ -22,7 +22,8 @@ namespace Medidata.Cloud.ExcelLoader.Validations
         {
             if (excelLoader == null) throw new ArgumentNullException("excelLoader");
 
-            var result = new ValidationResult {ValidationTarget = excelLoader, Messages = new ConcurrentValidationMessageCollection() };
+            var messages = new ConcurrentBag<IValidationMessage>();
+            var result = new ValidationResult {ValidationTarget = excelLoader, Messages = messages };
             var contextDic = context ?? new Dictionary<string, object>();
 
             try
@@ -36,7 +37,7 @@ namespace Medidata.Cloud.ExcelLoader.Validations
                               var ruleResult = r.Check(excelLoader, contextDic);
                               foreach (var msg in ruleResult.Messages)
                               {
-                                  result.Messages.Add(msg);
+                                  messages.Add(msg);
                               }
                               if (_earlyExit && !ruleResult.ShouldContinue)
                               {
@@ -50,16 +51,20 @@ namespace Medidata.Cloud.ExcelLoader.Validations
                 var errors = ex.Flatten()
                                .InnerExceptions
                                .Select(x => x.ToString().ToValidationError());
-                result.Messages.AddRange(errors);
+                foreach (var error in errors)
+                {
+                    messages.Add(error);
+                }
             }
             catch (OperationCanceledException)
             {
                 // Intentionally swallow this exception.
             }
+
             catch (Exception ex)
             {
                 var error = ex.ToString().ToValidationError();
-                result.Messages.Add(error);
+                messages.Add(error);
             }
 
             return result;

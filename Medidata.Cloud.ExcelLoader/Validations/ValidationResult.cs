@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Medidata.Cloud.ExcelLoader.Validations
@@ -7,6 +8,6 @@ namespace Medidata.Cloud.ExcelLoader.Validations
     internal class ValidationResult : IValidationResult
     {
         public IExcelLoader ValidationTarget { get; set; }
-        public IValidationMessageCollection Messages { get; set; }
+        public IEnumerable<IValidationMessage> Messages { get; set; }
     }
 }
