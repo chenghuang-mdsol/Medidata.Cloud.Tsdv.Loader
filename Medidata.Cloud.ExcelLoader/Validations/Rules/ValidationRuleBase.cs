@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Medidata.Cloud.ExcelLoader.Validations.Rules
 {
@@ -7,13 +8,11 @@ namespace Medidata.Cloud.ExcelLoader.Validations.Rules
     {
         public virtual IValidationRuleResult Check(IExcelLoader excelLoader, IDictionary<string, object> context)
         {
-            var shouldContinue = false;
-            Action next = () => { shouldContinue = true; };
-            IList<IValidationMessage> messages;
-            Validate(excelLoader, context, out messages, next);
-            return new ValidationRuleResult {Messages = messages, ShouldContinue = shouldContinue};
+            bool shouldContinue;
+            var messages = Validate(excelLoader, context, out shouldContinue);
+            return new ValidationRuleResult {Messages = messages.ToList(), ShouldContinue = shouldContinue};
         }
 
-        internal abstract void Validate(IExcelLoader excelLoader, IDictionary<string, object> context, out IList<IValidationMessage> message, Action next);
+        protected internal abstract IEnumerable<IValidationMessage> Validate(IExcelLoader excelLoader, IDictionary<string, object> context, out bool shouldContinue);
     }
 }
