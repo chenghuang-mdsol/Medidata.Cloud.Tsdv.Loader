@@ -28,13 +28,15 @@ namespace Medidata.Cloud.ExcelLoader.Tests.Validations.Rules
         public void CheckFiresValidateMethod()
         {
             var loader = _fixture.Create<IExcelLoader>();
+            var context = _fixture.Create<IDictionary<string, object>>();
             var outMessage = _fixture.CreateMany<IValidationMessage>().ToList();
             _sut.Expect(
                 x => x.Validate(Arg<IExcelLoader>.Is.Same(loader),
+                    Arg<IDictionary<string, object>>.Is.Same(context),
                     out Arg<IList<IValidationMessage>>.Out(outMessage).Dummy,
                     Arg<Action>.Is.Anything));
 
-            var result = _sut.Check(loader);
+            var result = _sut.Check(loader, context);
 
             _sut.VerifyAllExpectations();
             Assert.AreEqual(result.Messages, outMessage);

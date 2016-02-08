@@ -23,7 +23,8 @@ namespace Medidata.Cloud.ExcelLoader.Tests
         public void AllRulesAreChecked()
         {
             // Arrange
-            var blockPlan = _fixture.Create<IExcelLoader>();
+            var loader = _fixture.Create<IExcelLoader>();
+            var context = _fixture.Create<IDictionary<string, object>>();
             var messages = _fixture.CreateMany<IValidationError>().ToArray();
             var validationRules = new[]
                                   {
@@ -34,11 +35,11 @@ namespace Medidata.Cloud.ExcelLoader.Tests
 
             // Act
             var sut = new DefaultSequentialRuleValidator(validationRules);
-            var result = sut.Validate(blockPlan);
+            var result = sut.Validate(loader, context);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreSame(blockPlan, result.ValidationTarget);
+            Assert.AreSame(loader, result.ValidationTarget);
             CollectionAssert.AreEquivalent(messages, result.Messages.ToArray());
             Assert.IsFalse(result.Messages.OfType<IValidationWarning>().Any());
         }
@@ -47,7 +48,8 @@ namespace Medidata.Cloud.ExcelLoader.Tests
         public void StopRuleIfShouldContinueIsFalse()
         {
             // Arrange
-            var blockPlan = _fixture.Create<IExcelLoader>();
+            var loader = _fixture.Create<IExcelLoader>();
+            var context = _fixture.Create<IDictionary<string, object>>();
             var messages = _fixture.CreateMany<IValidationMessage>().ToArray();
             var validationRules = new[]
                                   {
@@ -58,11 +60,11 @@ namespace Medidata.Cloud.ExcelLoader.Tests
 
             // Act
             var sut = new DefaultSequentialRuleValidator(validationRules);
-            var result = sut.Validate(blockPlan);
+            var result = sut.Validate(loader, context);
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreSame(blockPlan, result.ValidationTarget);
+            Assert.AreSame(loader, result.ValidationTarget);
             CollectionAssert.AreEquivalent(messages.Take(2).ToArray(), result.Messages.ToArray());
         }
 
@@ -74,7 +76,7 @@ namespace Medidata.Cloud.ExcelLoader.Tests
             ruleResult.Stub(x => x.Messages).Return(new List<IValidationMessage>{ message });
 
             var rule = _fixture.Create<IValidationRule>();
-            rule.Stub(x => x.Check(null)).IgnoreArguments().Return(ruleResult);
+            rule.Stub(x => x.Check(null, null)).IgnoreArguments().Return(ruleResult);
 
             return rule;
         }
