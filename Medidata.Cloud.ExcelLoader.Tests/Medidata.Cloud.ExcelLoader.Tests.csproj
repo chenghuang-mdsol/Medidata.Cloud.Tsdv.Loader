@@ -73,8 +73,10 @@
     <Compile Include="CellTypeConverters\IntConverterTests.cs" />
     <Compile Include="CellTypeConverters\NullableBooleanConverterTests.cs" />
     <Compile Include="CellTypeConverters\NullableDateTimeConverterTests.cs" />
-    <Compile Include="DefaultSequentialRuleValidatorTests.cs" />
+    <Compile Include="ParallelRuleValidatorTests.cs" />
+    <Compile Include="SequentialRuleValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestHelpers\TestHelper.cs" />
     <Compile Include="Validations\Rules\ValidationRuleBaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +88,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

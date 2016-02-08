@@ -5,12 +5,14 @@ using Medidata.Cloud.ExcelLoader.Helpers;
 
 namespace Medidata.Cloud.ExcelLoader.Validations
 {
-    public class DefaultSequentialRuleValidator : IValidator
+    public class SequentialRuleValidator : IValidator
     {
+        private readonly bool _earlyExit;
         private readonly IEnumerable<IValidationRule> _rules;
 
-        public DefaultSequentialRuleValidator(params IValidationRule[] rules)
+        public SequentialRuleValidator(bool earlyExit, params IValidationRule[] rules)
         {
+            _earlyExit = earlyExit;
             _rules = rules ?? Enumerable.Empty<IValidationRule>();
         }
 
@@ -18,7 +20,7 @@ namespace Medidata.Cloud.ExcelLoader.Validations
         {
             if (excelLoader == null) throw new ArgumentNullException("excelLoader");
 
-            var result = new ValidationResult {ValidationTarget = excelLoader};
+            var result = new ValidationResult {ValidationTarget = excelLoader, Messages = new ValidationMessageCollection()};
             var contextDic = context ?? new Dictionary<string, object>();
 
             try
@@ -26,7 +28,7 @@ namespace Medidata.Cloud.ExcelLoader.Validations
                 foreach (var ruleResult in _rules.Select(r => r.Check(excelLoader, contextDic)))
                 {
                     result.Messages.AddRange(ruleResult.Messages);
-                    if (!ruleResult.ShouldContinue)
+                    if (_earlyExit && !ruleResult.ShouldContinue)
                     {
                         break;
                     }
