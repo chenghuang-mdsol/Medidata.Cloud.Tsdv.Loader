@@ -58,7 +58,7 @@ $appendConfigurationAndPlatformToNuGetPackageFileName = $true
 $sourceToUploadTo = ""
 
 # The API Key to use to upload the package to the gallery. If not provided and a system-level one does not exist for the specified Source, you will be prompted for it.
-$apiKey = "4fc783f3-8553-4e56-9b20-8eb619134a63"
+$apiKey = ""
 
 # Specify any NuGet Push options to pass to nuget.exe.
 #	e.g. $pushOptions = "-Timeout 120"
