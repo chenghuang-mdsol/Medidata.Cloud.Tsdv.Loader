@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
+using Medidata.Rave.Tsdv.Loader.ColumnResources;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
@@ -85,6 +88,48 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 loader.Save(fs);
             }
             Console.WriteLine("Saved");
+        }
+
+
+    }
+
+    public class SampleColumnResourceManager : IColumnResourceManager
+    {
+        public List<ColumnResource> Resources { get; set; }
+
+        public SampleColumnResourceManager()
+        {
+            Resources = new List<ColumnResource>()
+            {
+                new ColumnResource()
+                {
+                    ResourceName = "Forms",
+                    DependingKey = null,
+                    List = new List<ColumnResourceItem>()
+                    {
+                        new ColumnResourceItem {Category = "Forms", Value = "Form1"},
+                        new ColumnResourceItem {Category = "Forms", Value = "Form2"},
+                        new ColumnResourceItem {Category = "Forms", Value = "Form3"}
+                    }
+                },
+                new ColumnResource()
+                {
+                    ResourceName = "FormFields",
+                    DependingKey = null,
+                    List = new List<ColumnResourceItem>()
+                    {
+                        new ColumnResourceItem {Category = "Form1", Value = "Form1Field1"},
+                        new ColumnResourceItem {Category = "Form2", Value = "Form2Field2"},
+                        new ColumnResourceItem {Category = "Form3", Value = "Form3Field2"},
+                        new ColumnResourceItem {Category = "Form1", Value = "Form1Field2"},
+                        new ColumnResourceItem {Category = "Form1", Value = "Form1Field3"},
+
+                        new ColumnResourceItem {Category = "Form2", Value = "Form2Field1"},
+                        new ColumnResourceItem {Category = "Form3", Value = "Form3Field1"},
+                        new ColumnResourceItem {Category = "Form2", Value = "Form2Field3"},
+                    }
+                },
+            };
         }
     }
 }
