@@ -5,6 +5,7 @@ using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
+using Medidata.Rave.Tsdv.Loader.ColumnResources;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation;
 
 namespace Medidata.Rave.Tsdv.Loader
@@ -12,11 +13,12 @@ namespace Medidata.Rave.Tsdv.Loader
     public class TsdvPresentationLoaderFactory : ITsdvExcelLoaderFactory
     {
         private readonly ILocalization _localization;
-
-        public TsdvPresentationLoaderFactory(ILocalization localization)
+        private readonly IColumnResourceManager _resources;
+        public TsdvPresentationLoaderFactory(ILocalization localization, IColumnResourceManager resources = null)
         {
             if (localization == null) throw new ArgumentNullException("localization");
             _localization = localization;
+            _resources = resources;
         }
 
         public IExcelLoader Create(TsdvLoaderSupportedVersion version)
@@ -35,7 +37,8 @@ namespace Medidata.Rave.Tsdv.Loader
         {
             var customConverters = GetCustomCellTypeValueConverters().ToArray();
             var converterManager = new CellTypeValueConverterManager(customConverters);
-            var excelBuilder = new AutoCopyrightCoveredExcelBuilder();
+            //var excelBuilder = new AutoCopyrightCoveredExcelBuilder();
+            var excelBuilder = new AutoCopyrightCoveredResourcedExcelBuilder(_resources);
             var excelParser = new ExcelParser();
 
             var sheetDecorators = new ISheetBuilderDecorator[]
@@ -46,7 +49,8 @@ namespace Medidata.Rave.Tsdv.Loader
                                       new HeaderStyleSheetDecorator("Output"),
                                       new AutoFilterSheetDecorator(),
                                       new AutoFitColumnSheetDecorator(),
-                                      new MdsolVersionSheetDecorator()
+                                      new MdsolVersionSheetDecorator(), 
+                                      new ColumnDataValidationSheetDecorator(), 
                                   };
             var sheetBuilder = new SheetBuilder(converterManager, sheetDecorators);
             var sheetParser = new SheetParser(converterManager);

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
@@ -7,22 +8,22 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
     [SheetName("TierFields")]
     public class TierField : SheetModel
     {
-        [ColumnHeaderName("tsdv_TierName")]
+        [ColumnInfo("tsdv_TierName")]
         public string TierName { get; set; }
 
-        [ColumnHeaderName("FormOID")]
+        [ColumnInfo("FormOID", "FormOIDSource")]
         public string FormOid { get; set; }
 
-        [ColumnHeaderName("Fields")]
+        [ColumnInfo("Fields", "Fields.FormOID")]
         public string Fields { get; set; }
 
-        [ColumnHeaderName("IsLog")]
+        [ColumnInfo("IsLog")]
         public bool IsLog { get; set; }
 
-        [ColumnHeaderName("tsdv_ControlType")]
+        [ColumnInfo("tsdv_ControlType")]
         public string ControlType { get; set; }
 
-        [ColumnHeaderName("tsdv_RequiresVerification")]
+        [ColumnInfo("tsdv_RequiresVerification")]
         public bool RequiresVerification { get; set; }
     }
 }
