@@ -1,41 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Rave.Tsdv.Loader.ColumnResources;
 using Medidata.Rave.Tsdv.Loader.Helpers;
 
-namespace Medidata.Rave.Tsdv.Loader.ColumnResources
-{
-}
 namespace Medidata.Rave.Tsdv.Loader
 {
-
-
-
-
-
-
     public class AutoCopyrightCoveredResourcedExcelBuilder : AutoCopyrightCoveredExcelBuilder
     {
-
-        private class ResourceIndex
-        {
-            public string Column { get; set; }
-            public int Row { get; set; }
-        }
         //Move "__Resources__" to config
         private const string resourceTabName = "__Resources__";
-        private List<ColumnResource> _resources;
-        public AutoCopyrightCoveredResourcedExcelBuilder(IColumnResourceManager resources) : base()
+        private readonly List<ColumnResource> _resources;
+
+        public AutoCopyrightCoveredResourcedExcelBuilder(IColumnResourceManager resources)
         {
-            if (resources == null) { throw new ArgumentNullException("resources"); }
+            if (resources == null)
+            {
+                throw new ArgumentNullException("resources");
+            }
             _resources = resources.Resources;
         }
 
@@ -43,7 +29,6 @@ namespace Medidata.Rave.Tsdv.Loader
         {
             base.PostBuildSheets(doc);
             BuildResourceSheet(doc, resourceTabName);
-            AddColumnResources(doc, resourceTabName);
         }
 
 
@@ -66,7 +51,7 @@ namespace Medidata.Rave.Tsdv.Loader
             var sheet = new Sheet
             {
                 Id = doc.WorkbookPart.GetIdOfPart(worksheetPart),
-                SheetId = (uint)sheetId,
+                SheetId = (uint) sheetId,
                 Name = tabName
             };
 
@@ -90,54 +75,55 @@ namespace Medidata.Rave.Tsdv.Loader
                 resource.List = resource.List.OrderBy(o => o.Category).ThenBy(o => o.Value).ToList();
             }
 
-            SheetData sd = new SheetData();
+            var sd = new SheetData();
 
-            Row headerRow = new Row();
-            for (int i = 0; i < _resources.Count(); i++)
+            var headerRow = new Row();
+            for (var i = 0; i < _resources.Count; i++)
             {
-                Cell headerCell = new Cell()
+                var headerCell = new Cell
                 {
                     CellValue = new CellValue(_resources[i].ResourceName),
                     DataType = new EnumValue<CellValues>(CellValues.String),
-                    CellReference = (i + 1).ConvertToColumnName() + 1,
+                    CellReference = (i + 1).ConvertToColumnName() + 1
                 };
                 headerRow.Append(headerCell);
             }
             sd.Append(headerRow);
 
-            int x = _resources.Count;
-            int y = _resources.Max(r => r.List.Count);
+            var resourceCount = _resources.Count;
+            var maxOfResourceItems = _resources.Max(r => r.List.Count);
 
-            Dictionary<string, List<ResourceIndex>> definedNameDict = new Dictionary<string, List<ResourceIndex>>();
+            var definedNameDict = new Dictionary<string, List<ResourceIndex>>();
 
-            for (int i = 0; i < y; i++)
+            for (var i = 0; i < maxOfResourceItems; i++)
             {
-                Row contentRow = new Row();
-                for (int j = 0; j < x; j++)
+                var contentRow = new Row();
+                for (var j = 0; j < resourceCount; j++)
                 {
                     if (i >= _resources[j].List.Count)
                     {
                         continue;
                     }
-                    string str = _resources[j].List[i].Value;
-                    string category = _resources[j].List[i].Category;
-                    string columnName = (j + 1).ConvertToColumnName();
-                    Cell contentCell = new Cell
+                    var str = _resources[j].List[i].Value;
+                    var category = _resources[j].List[i].Category;
+                    var columnName = (j + 1).ConvertToColumnName();
+                    var contentCell = new Cell
                     {
                         CellValue = new CellValue(str),
-                        //Currently only support string
+                        //TODO: Currently only support string, will add more types if needed
                         DataType = new EnumValue<CellValues>(CellValues.String),
-                        CellReference = columnName + (i + 2),
+                        CellReference = columnName + (i + 2)
                     };
-                    string key = category;
+                    var key = category;
 
                     if (!definedNameDict.ContainsKey(key))
                     {
-                        definedNameDict.Add(key, new List<ResourceIndex>() { new ResourceIndex() { Column = columnName, Row = i + 2 } });
+                        definedNameDict.Add(key,
+                            new List<ResourceIndex> {new ResourceIndex {Column = columnName, Row = i + 2}});
                     }
                     else
                     {
-                        definedNameDict[key].Add(new ResourceIndex() { Column = columnName, Row = i + 2 });
+                        definedNameDict[key].Add(new ResourceIndex {Column = columnName, Row = i + 2});
                     }
                     contentRow.Append(contentCell);
                 }
@@ -147,34 +133,35 @@ namespace Medidata.Rave.Tsdv.Loader
             return sd;
         }
 
-        private void AddDefinedNames(SpreadsheetDocument doc, Dictionary<string, List<ResourceIndex>> definedNameDict, string tabName)
+        private void AddDefinedNames(SpreadsheetDocument doc, Dictionary<string, List<ResourceIndex>> definedNameDict,
+            string tabName)
         {
             if (doc.WorkbookPart.Workbook.DefinedNames == null)
             {
                 doc.WorkbookPart.Workbook.Append(new DefinedNames());
-
             }
 
             foreach (var name in definedNameDict)
             {
                 var range = MakeRange(tabName, name.Value);
-                doc.WorkbookPart.Workbook.DefinedNames.Append(new DefinedName() { Name = name.Key, Text = range });
-                //doc.WorkbookPart.Workbook.Elements<DefinedNames>().First().Append(new DefinedName() { Name = name.Key, Text = range });
+                doc.WorkbookPart.Workbook.DefinedNames.Append(new DefinedName {Name = name.Key, Text = range});
             }
         }
 
         private string MakeRange(string tabName, List<ResourceIndex> indices)
         {
             if (indices == null || !indices.Any()) return null;
-            int min = indices.Min(o => o.Row);
-            int max = indices.Max(o => o.Row);
-            string columnName = indices.First().Column;
+            var min = indices.Min(o => o.Row);
+            var max = indices.Max(o => o.Row);
+            var columnName = indices.First().Column;
             return string.Format("{0}!${1}${2}:${3}${4}", tabName, columnName, min, columnName, max);
         }
 
-        private void AddColumnResources(SpreadsheetDocument doc, string resourceTabName)
+
+        private class ResourceIndex
         {
-            
+            public string Column { get; set; }
+            public int Row { get; set; }
         }
     }
 }

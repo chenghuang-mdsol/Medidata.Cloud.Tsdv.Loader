@@ -10,7 +10,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         [ColumnInfo("tsdv_TierName")]
         public string TierName { get; set; }
 
-        [ColumnInfo("FormOID")]
+        [ColumnInfo("FormOID", "FormOIDSource")]
         public string FormOid { get; set; }
 
         [ColumnInfo("tsdv_Selected")]
