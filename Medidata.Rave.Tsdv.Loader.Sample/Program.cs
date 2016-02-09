@@ -69,8 +69,8 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
             loader.Sheet<TierField>().Data.Add(new TierField
             {
-                FieldOid = "Form1Field1",
-                FormOid = "Form1",
+                FieldOid = "Visit2",
+                FormOid = "VISIT",
                 Selected = true,
                 TierName = "Tier1"
             });
@@ -114,9 +114,9 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     DependingKey = null,
                     List = new List<ColumnResourceItem>()
                     {
-                        new ColumnResourceItem {Category = "FormOIDSource", Value = "Form1"},
-                        new ColumnResourceItem {Category = "FormOIDSource", Value = "Form2"},
-                        new ColumnResourceItem {Category = "FormOIDSource", Value = "Form3"}
+                        new ColumnResourceItem {Category = "FormOIDSource", Value = "VISIT"},
+                        new ColumnResourceItem {Category = "FormOIDSource", Value = "SOMEDATE"},
+                        new ColumnResourceItem {Category = "FormOIDSource", Value = "UNSCHEDULED"}
                     }
                 },
                 new ColumnResource()
@@ -125,15 +125,15 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     DependingKey = null,
                     List = new List<ColumnResourceItem>()
                     {
-                        new ColumnResourceItem {Category = "FieldOid.Form1", Value = "Form1Field1"},
-                        new ColumnResourceItem {Category = "FieldOid.Form2", Value = "Form2Field2"},
-                        new ColumnResourceItem {Category = "FieldOid.Form3", Value = "Form3Field2"},
-                        new ColumnResourceItem {Category = "FieldOid.Form1", Value = "Form1Field2"},
-                        new ColumnResourceItem {Category = "FieldOid.Form1", Value = "Form1Field3"},
+                        new ColumnResourceItem {Category = "FieldOid.VISIT", Value = "Visit1"},
+                        new ColumnResourceItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate"},
+                        new ColumnResourceItem {Category = "FieldOid.UNSCHEDULED", Value = "Unscheduled"},
+                        new ColumnResourceItem {Category = "FieldOid.VISIT", Value = "Visit2"},
+                        new ColumnResourceItem {Category = "FieldOid.VISIT", Value = "Visit3"},
 
-                        new ColumnResourceItem {Category = "FieldOid.Form2", Value = "Form2Field1"},
-                        new ColumnResourceItem {Category = "FieldOid.Form3", Value = "Form3Field1"},
-                        new ColumnResourceItem {Category = "FieldOid.Form2", Value = "Form2Field3"},
+                        new ColumnResourceItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate2"},
+                        new ColumnResourceItem {Category = "FieldOid.UNSCHEDULED", Value = "Unscheduled"},
+                        new ColumnResourceItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate3"},
                     }
                 },
             };
