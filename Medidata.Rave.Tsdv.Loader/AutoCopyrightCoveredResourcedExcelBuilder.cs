@@ -43,6 +43,7 @@ namespace Medidata.Rave.Tsdv.Loader
         {
             base.PostBuildSheets(doc);
             BuildResourceSheet(doc, resourceTabName);
+            AddColumnResources(doc, resourceTabName);
         }
 
 
@@ -82,7 +83,7 @@ namespace Medidata.Rave.Tsdv.Loader
         }
 
 
-        public SheetData AddResourceColumns(SpreadsheetDocument doc, string tabName)
+        private SheetData AddResourceColumns(SpreadsheetDocument doc, string tabName)
         {
             foreach (var resource in _resources)
             {
@@ -98,7 +99,7 @@ namespace Medidata.Rave.Tsdv.Loader
                 {
                     CellValue = new CellValue(_resources[i].ResourceName),
                     DataType = new EnumValue<CellValues>(CellValues.String),
-                    CellReference = GetColumnName(i + 1) + 1,
+                    CellReference = (i + 1).ConvertToColumnName() + 1,
                 };
                 headerRow.Append(headerCell);
             }
@@ -120,7 +121,7 @@ namespace Medidata.Rave.Tsdv.Loader
                     }
                     string str = _resources[j].List[i].Value;
                     string category = _resources[j].List[i].Category;
-                    string columnName = GetColumnName(j + 1);
+                    string columnName = (j + 1).ConvertToColumnName();
                     Cell contentCell = new Cell
                     {
                         CellValue = new CellValue(str),
@@ -170,19 +171,10 @@ namespace Medidata.Rave.Tsdv.Loader
             string columnName = indices.First().Column;
             return string.Format("{0}!${1}${2}:${3}${4}", tabName, columnName, min, columnName, max);
         }
-        private string GetColumnName(int columnNumber)
+
+        private void AddColumnResources(SpreadsheetDocument doc, string resourceTabName)
         {
-            var dividend = columnNumber;
-            var columnName = string.Empty;
-
-            while (dividend > 0)
-            {
-                var modulo = (dividend - 1) % 26;
-                columnName = Convert.ToChar('A' + modulo) + columnName;
-                dividend = (dividend - modulo) / 26;
-            }
-
-            return columnName;
+            
         }
     }
 }

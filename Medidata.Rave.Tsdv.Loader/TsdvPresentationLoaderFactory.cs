@@ -50,6 +50,7 @@ namespace Medidata.Rave.Tsdv.Loader
                                       new AutoFilterSheetDecorator(),
                                       new AutoFitColumnSheetDecorator(),
                                       new MdsolVersionSheetDecorator(), 
+                                      new ColumnDataValidationSheetDecorator(), 
                                   };
             var sheetBuilder = new SheetBuilder(converterManager, sheetDecorators);
             var sheetParser = new SheetParser(converterManager);
