@@ -67,6 +67,13 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlanSetting { Block = "111", Repeated = true, BlockSubjectCount = 100 },
                 new BlockPlanSetting { Block = "ccc"});
 
+            loader.Sheet<TierField>().Data.Add(new TierField
+            {
+                FieldOid = "Form1Field1",
+                FormOid = "Form1",
+                Selected = true,
+                TierName = "Tier1"
+            });
             // Case 3
             // Add dynamic columns and add extra properties to model object.
             loader.Sheet<TierFolder>().Definition
@@ -107,9 +114,9 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     DependingKey = null,
                     List = new List<ColumnResourceItem>()
                     {
-                        new ColumnResourceItem {Category = "Forms", Value = "Form1"},
-                        new ColumnResourceItem {Category = "Forms", Value = "Form2"},
-                        new ColumnResourceItem {Category = "Forms", Value = "Form3"}
+                        new ColumnResourceItem {Category = "FormOIDSource", Value = "Form1"},
+                        new ColumnResourceItem {Category = "FormOIDSource", Value = "Form2"},
+                        new ColumnResourceItem {Category = "FormOIDSource", Value = "Form3"}
                     }
                 },
                 new ColumnResource()
@@ -118,15 +125,15 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     DependingKey = null,
                     List = new List<ColumnResourceItem>()
                     {
-                        new ColumnResourceItem {Category = "Form1", Value = "Form1Field1"},
-                        new ColumnResourceItem {Category = "Form2", Value = "Form2Field2"},
-                        new ColumnResourceItem {Category = "Form3", Value = "Form3Field2"},
-                        new ColumnResourceItem {Category = "Form1", Value = "Form1Field2"},
-                        new ColumnResourceItem {Category = "Form1", Value = "Form1Field3"},
+                        new ColumnResourceItem {Category = "FieldOid.Form1", Value = "Form1Field1"},
+                        new ColumnResourceItem {Category = "FieldOid.Form2", Value = "Form2Field2"},
+                        new ColumnResourceItem {Category = "FieldOid.Form3", Value = "Form3Field2"},
+                        new ColumnResourceItem {Category = "FieldOid.Form1", Value = "Form1Field2"},
+                        new ColumnResourceItem {Category = "FieldOid.Form1", Value = "Form1Field3"},
 
-                        new ColumnResourceItem {Category = "Form2", Value = "Form2Field1"},
-                        new ColumnResourceItem {Category = "Form3", Value = "Form3Field1"},
-                        new ColumnResourceItem {Category = "Form2", Value = "Form2Field3"},
+                        new ColumnResourceItem {Category = "FieldOid.Form2", Value = "Form2Field1"},
+                        new ColumnResourceItem {Category = "FieldOid.Form3", Value = "Form3Field1"},
+                        new ColumnResourceItem {Category = "FieldOid.Form2", Value = "Form2Field3"},
                     }
                 },
             };

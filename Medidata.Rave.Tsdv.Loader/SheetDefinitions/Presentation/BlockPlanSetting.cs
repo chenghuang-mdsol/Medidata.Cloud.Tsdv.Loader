@@ -7,16 +7,16 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
     [SheetName("BlockPlanSettings")]
     public class BlockPlanSetting : SheetModel
     {
-        [ColumnHeaderName("tsdv_BlockPlanName")]
+        [ColumnInfo("tsdv_BlockPlanName")]
         public string BlockPlanName { get; set; }
 
-        [ColumnHeaderName("tsdv_Block")]
+        [ColumnInfo("tsdv_Block")]
         public string Block { get; set; }
 
-        [ColumnHeaderName("tsdv_BlockSubjectCount")]
+        [ColumnInfo("tsdv_BlockSubjectCount")]
         public int BlockSubjectCount { get; set; }
 
-        [ColumnHeaderName("tsdv_Repeated")]
+        [ColumnInfo("tsdv_Repeated")]
         public bool Repeated { get; set; }
     }
 }

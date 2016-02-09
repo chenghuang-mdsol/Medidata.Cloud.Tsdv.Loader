@@ -1,3 +1,4 @@
+
 namespace Medidata.Cloud.ExcelLoader
 {
     public class ColumnDefinition : IColumnDefinition
@@ -5,5 +6,6 @@ namespace Medidata.Cloud.ExcelLoader
         public string PropertyName { get; set; }
         public string Header { get; set; }
         public bool ExtraProperty { get; set; }
+        public string ColumnSource { get; set; }
     }
 }

@@ -33,11 +33,12 @@ namespace Medidata.Cloud.ExcelLoader
 
             var props = type.GetPropertyDescriptors();
             var colDefinitions = from prop in props
-                                 let headerAtt = prop.Attributes.OfType<ColumnHeaderNameAttribute>().SingleOrDefault()
+                                 let headerAtt = prop.Attributes.OfType<ColumnInfoAttribute>().SingleOrDefault()
                                  select new ColumnDefinition
                                         {
                                             PropertyName = prop.Name,
                                             Header = headerAtt != null ? headerAtt.Header : prop.Name,
+                                            ColumnSource = headerAtt != null ? headerAtt.Source : string.Empty,
                                             ExtraProperty = false
                                         };
 
