@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader.Validations;
@@ -28,16 +28,20 @@ namespace Medidata.Cloud.ExcelLoader.Tests.Validations.Rules
         public void CheckFiresValidateMethod()
         {
             var loader = _fixture.Create<IExcelLoader>();
+            var context = _fixture.Create<IDictionary<string, object>>();
+            var shouldContinue = _fixture.Create<bool>();
             var outMessage = _fixture.CreateMany<IValidationMessage>().ToList();
-            _sut.Expect(
-                x => x.Validate(Arg<IExcelLoader>.Is.Same(loader),
-                    out Arg<IList<IValidationMessage>>.Out(outMessage).Dummy,
-                    Arg<Action>.Is.Anything));
+            _sut.Stub(x => x.Validate(Arg<IExcelLoader>.Is.Same(loader),
+                                     Arg<IDictionary<string, object>>.Is.Same(context),
+                                     out Arg<bool>.Out(shouldContinue).Dummy))
+                .Return(outMessage);
 
-            var result = _sut.Check(loader);
+            var result = _sut.Check(loader, context);
 
-            _sut.VerifyAllExpectations();
-            Assert.AreEqual(result.Messages, outMessage);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Messages);
+            Assert.AreEqual(shouldContinue, result.ShouldContinue);
+            CollectionAssert.AreEquivalent(result.Messages as ICollection, outMessage);
         }
     }
 }

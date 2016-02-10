@@ -89,7 +89,7 @@
     <Compile Include="SheetDefinitions\SheetNameAttribute.cs" />
     <Compile Include="SheetParser.cs" />
     <Compile Include="ExcelLoader.cs" />
-    <Compile Include="Validations\DefaultSequentialRuleValidator.cs" />
+    <Compile Include="Validations\SequentialRuleValidator.cs" />
     <Compile Include="Validations\IValidationError.cs" />
     <Compile Include="Validations\IValidationMessage.cs" />
     <Compile Include="Validations\IValidationResult.cs" />
@@ -97,6 +97,7 @@
     <Compile Include="Validations\IValidationRuleResult.cs" />
     <Compile Include="Validations\IValidationWarning.cs" />
     <Compile Include="Validations\IValidator.cs" />
+    <Compile Include="Validations\ParallelRuleValidator.cs" />
     <Compile Include="Validations\Rules\ValidationRuleBase.cs" />
     <Compile Include="Validations\Rules\ValidationRuleResult.cs" />
     <Compile Include="Validations\ValidationError.cs" />

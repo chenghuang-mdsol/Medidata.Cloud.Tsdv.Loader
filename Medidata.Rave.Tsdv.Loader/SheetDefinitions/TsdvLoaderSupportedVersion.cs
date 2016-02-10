@@ -1,6 +1,6 @@
 using System;
 
-namespace Medidata.Rave.Tsdv.Loader
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions
 {
     [Flags]
     public enum TsdvLoaderSupportedVersion

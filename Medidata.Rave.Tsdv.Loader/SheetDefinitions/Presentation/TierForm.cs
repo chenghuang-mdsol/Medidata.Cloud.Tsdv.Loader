@@ -10,10 +10,10 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
         [ColumnInfo("tsdv_TierName")]
         public string TierName { get; set; }
 
-        [ColumnInfo("Forms", "Forms.FormOID")]
-        public string Forms { get; set; }
+        [ColumnInfo("Forms", "Forms.FormOid")]
+        public string Form { get; set; }
 
-        [ColumnInfo("FormOID", "FormOIDSource")]
+        [ColumnInfo("FormOid", "FormOidSource")]
         public string FormOid { get; set; }
 
         [ColumnInfo("tsdv_FieldsSelected")]
