@@ -5,9 +5,8 @@ using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
-using Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation;
 
-namespace Medidata.Rave.Tsdv.Loader
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
 {
     public class TsdvPresentationLoaderFactory : ITsdvExcelLoaderFactory
     {
