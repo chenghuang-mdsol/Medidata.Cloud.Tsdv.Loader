@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/junshao/Medidata.Cloud.Tsdv.Loader</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Medidata TSDV Excel report unloading and downloading</description>
-    <releaseNotes>Add validation rules.</releaseNotes>
+    <releaseNotes>Add validation rules and feature of "cell value from dorp down list".</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>TSDV parser loader</tags>
   </metadata>
