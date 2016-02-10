@@ -3,12 +3,13 @@ using Medidata.Cloud.ExcelLoader;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.ColumnResources;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
+using Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation;
 
-namespace Medidata.Rave.Tsdv.Loader
+namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
-    public class TsdvLoaderV1Factory : TsdvPresentationLoaderFactory
+    public class TsdvLoaderFactory : TsdvPresentationLoaderFactory
     {
-        public TsdvLoaderV1Factory(ILocalization localization, IColumnResourceManager resources) : base(localization,resources) {}
+        public TsdvLoaderFactory(ILocalization localization, IColumnResourceManager resources) : base(localization,resources) {}
 
         protected override IExcelLoader DefineTsdvSheets(TsdvLoaderSupportedVersion version, IExcelLoader loader)
         {
