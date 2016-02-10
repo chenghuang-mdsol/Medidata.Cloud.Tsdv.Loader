@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
 using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
-using Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
 {
@@ -28,11 +28,13 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
             return loader;
         }
 
+        [ExcludeFromCodeCoverage]
         protected virtual IEnumerable<ICellTypeValueConverter> GetCustomCellTypeValueConverters()
         {
             return Enumerable.Empty<ICellTypeValueConverter>();
         }
 
+        [ExcludeFromCodeCoverage]
         internal virtual IExcelLoader CreateTsdvExcelLoader()
         {
             var customConverters = GetCustomCellTypeValueConverters().ToArray();
