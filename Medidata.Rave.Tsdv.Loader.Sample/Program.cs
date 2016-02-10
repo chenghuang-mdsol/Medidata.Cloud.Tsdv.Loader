@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
@@ -68,7 +66,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlanSetting { Block = "111", Repeated = true, BlockSubjectCount = 100 },
                 new BlockPlanSetting { Block = "ccc"});
 
-            loader.Sheet<TierField>().Data.Add(new TierField
+            loader.Sheet<TierFormField>().Data.Add(new TierFormField
             {
                 FieldOid = "Visit2",
                 FormOid = "VISIT",
