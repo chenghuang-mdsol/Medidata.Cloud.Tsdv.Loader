@@ -4,7 +4,7 @@ using Medidata.Cloud.ExcelLoader.Validations;
 using Medidata.Cloud.ExcelLoader.Validations.Rules;
 using Medidata.Interfaces.Localization;
 
-namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
+namespace Medidata.Rave.Tsdv.Loader.Validations
 {
     public abstract class I18NValidationRuleBase : ValidationRuleBase
     {
@@ -30,7 +30,7 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
 
         private string ComposeLocalizedMessage(string messageId, params object[] args)
         {
-            if (string.IsNullOrEmpty(messageId)) return messageId;
+            if (string.IsNullOrEmpty(messageId)) throw new ArgumentException("messageId");
             var localizedString = Localization.GetLocalString(messageId);
             return args == null || args.Length == 0 ? localizedString : string.Format(localizedString, args);
         }

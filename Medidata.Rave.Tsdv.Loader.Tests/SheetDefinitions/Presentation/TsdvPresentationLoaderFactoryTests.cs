@@ -38,6 +38,13 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.SheetDefinitions.Presentation
             _sut.Stub(x => x.CreateTsdvExcelLoader()).Return(_loader);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Ctor_NullLocalization()
+        {
+            _sut = new TsdvPresentationLoaderFactory(null);
+        }
+
         private void StubSheet<T>(IExcelLoader loader) where T: SheetModel
         {
             var sheetDefinition = _fixture.Create<ISheetDefinition>();
