@@ -14,6 +14,6 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
         public string Form { get; set; }
 
         [ColumnHeaderName("FormOID")]
-        public string FormOID { get; set; }
+        public string FormOid { get; set; }
     }
 }
