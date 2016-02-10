@@ -1,11 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
     [ExcludeFromCodeCoverage]
-    [SheetName("TierForms")]
-    public class TierForm : SheetModel
+    [SheetName("TierFormFolders")]
+    public class TierFormFolder : SheetModel
     {
         [ColumnInfo("tsdv_TierName")]
         public string TierName { get; set; }
