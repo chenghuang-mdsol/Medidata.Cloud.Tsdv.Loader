@@ -5,7 +5,7 @@ using System.Linq;
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
-using Medidata.Rave.Tsdv.Loader.ColumnResources;
+using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Microsoft.Practices.Unity;
@@ -101,38 +101,38 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
 
     }
 
-    public class SampleColumnResourceManager : IColumnResourceManager
+    public class SampleNamedRangeManager : INamedRangeManager
     {
-        public List<ColumnResource> Resources { get; set; }
+        public List<NamedRange> Resources { get; set; }
 
-        public SampleColumnResourceManager()
+        public SampleNamedRangeManager()
         {
-            Resources = new List<ColumnResource>()
+            Resources = new List<NamedRange>()
             {
-                new ColumnResource()
+                new NamedRange()
                 {
                     ResourceName = "Forms",
                     DependingKey = null,
-                    List = new List<ColumnResourceItem>()
+                    List = new List<NamedRangeItem>()
                     {
-                        new ColumnResourceItem {Category = "FormOidSource", Value = "VISIT"},
-                        new ColumnResourceItem {Category = "FormOidSource", Value = "SOMEDATE"},
-                        new ColumnResourceItem {Category = "FormOidSource", Value = "UNSCHEDULED"}
+                        new NamedRangeItem {Category = "FormOidSource", Value = "VISIT"},
+                        new NamedRangeItem {Category = "FormOidSource", Value = "SOMEDATE"},
+                        new NamedRangeItem {Category = "FormOidSource", Value = "UNSCHEDULED"}
                     }
                 },
-                new ColumnResource()
+                new NamedRange()
                 {
                     ResourceName = "FormFields",
                     DependingKey = null,
-                    List = new List<ColumnResourceItem>()
+                    List = new List<NamedRangeItem>()
                     {
-                        new ColumnResourceItem {Category = "FieldOid.VISIT", Value = "Visit1"},
-                        new ColumnResourceItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate"},
-                        new ColumnResourceItem {Category = "FieldOid.UNSCHEDULED", Value = "Unscheduled"},
-                        new ColumnResourceItem {Category = "FieldOid.VISIT", Value = "Visit2"},
-                        new ColumnResourceItem {Category = "FieldOid.VISIT", Value = "Visit3"},
-                        new ColumnResourceItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate2"},
-                        new ColumnResourceItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate3"},
+                        new NamedRangeItem {Category = "FieldOid.VISIT", Value = "Visit1"},
+                        new NamedRangeItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate"},
+                        new NamedRangeItem {Category = "FieldOid.UNSCHEDULED", Value = "Unscheduled"},
+                        new NamedRangeItem {Category = "FieldOid.VISIT", Value = "Visit2"},
+                        new NamedRangeItem {Category = "FieldOid.VISIT", Value = "Visit3"},
+                        new NamedRangeItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate2"},
+                        new NamedRangeItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate3"},
                     }
                 },
             };

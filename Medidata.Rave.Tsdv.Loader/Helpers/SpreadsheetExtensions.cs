@@ -27,13 +27,8 @@ namespace Medidata.Rave.Tsdv.Loader.Helpers
             if (doc.WorkbookPart == null) throw new ArgumentNullException("WorkbookPart");
             var wbPart = doc.WorkbookPart;
             Sheet sheet = wbPart.Workbook.Descendants<Sheet>().FirstOrDefault(s => s.Name == sheetName);
-            if (sheet == null)
-            {
-                result = null;
-                return false;
-            }
             result = sheet;
-            return true;
+            return result != null;
         }
 
 

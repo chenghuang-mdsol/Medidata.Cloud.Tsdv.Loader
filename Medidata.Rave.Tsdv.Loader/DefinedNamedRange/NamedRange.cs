@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 
-namespace Medidata.Rave.Tsdv.Loader.ColumnResources
+namespace Medidata.Rave.Tsdv.Loader.DefinedNamedRange
 {
-    public class ColumnResource
+    public class NamedRange
     {
         public string ResourceName { get; set; }
         public string DependingKey { get; set; }
         public bool IsDependent { get { return !string.IsNullOrEmpty(DependingKey); } }
-        public List<ColumnResourceItem> List { get; set; }
+        public List<NamedRangeItem> List { get; set; }
     }
 }

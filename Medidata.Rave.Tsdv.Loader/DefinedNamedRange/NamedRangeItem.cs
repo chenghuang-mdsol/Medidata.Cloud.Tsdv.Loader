@@ -1,6 +1,6 @@
-﻿namespace Medidata.Rave.Tsdv.Loader.ColumnResources
+﻿namespace Medidata.Rave.Tsdv.Loader.DefinedNamedRange
 {
-    public class ColumnResourceItem
+    public class NamedRangeItem
     {
         public string Category { get; set; }
         public string Value { get; set; }

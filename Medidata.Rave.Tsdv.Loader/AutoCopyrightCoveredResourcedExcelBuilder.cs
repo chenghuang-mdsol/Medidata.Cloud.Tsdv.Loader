@@ -5,18 +5,17 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Medidata.Cloud.ExcelLoader.Helpers;
-using Medidata.Rave.Tsdv.Loader.ColumnResources;
+using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
 using Medidata.Rave.Tsdv.Loader.Helpers;
 
 namespace Medidata.Rave.Tsdv.Loader
 {
     public class AutoCopyrightCoveredResourcedExcelBuilder : AutoCopyrightCoveredExcelBuilder
     {
-        //Move "__Resources__" to config
         private const string resourceTabName = "__Resources__";
-        private readonly List<ColumnResource> _resources;
+        private readonly List<NamedRange> _resources;
 
-        public AutoCopyrightCoveredResourcedExcelBuilder(IColumnResourceManager resources)
+        public AutoCopyrightCoveredResourcedExcelBuilder(INamedRangeManager resources)
         {
             if (resources == null)
             {
@@ -36,46 +35,51 @@ namespace Medidata.Rave.Tsdv.Loader
         {
             if (doc == null) throw new ArgumentNullException("doc");
             var sheets = doc.WorkbookPart.Workbook.Sheets ?? doc.WorkbookPart.Workbook.AppendChild(new Sheets());
-            if (doc.SheetExist(tabName))
+            //Use the existing sheet in the template
+            Sheet sheet;
+            WorksheetPart worksheetPart;
+            SheetData sheetData;
+            if (!doc.TryGetFirstSheetByName(tabName, out sheet))
             {
-                return;
+                //Create new sheet if not in the tempalte
+                worksheetPart = doc.WorkbookPart.AddNewPart<WorksheetPart>();
+                var sheetId = 9999;
+                var rows = AddResourceColumns(doc, tabName);
+                sheetData = new SheetData(rows);
+                worksheetPart.Worksheet = new Worksheet(sheetData);
+                worksheetPart.Worksheet.AddMdsolNamespaceDeclaration();
+                sheet = new Sheet
+                {
+                    Id = doc.WorkbookPart.GetIdOfPart(worksheetPart),
+                    SheetId = (uint) sheetId,
+                    Name = tabName
+                };
+                sheets.Append(sheet);
+
+            }
+            else
+            {
+                //Get the existing sheet in the template
+                worksheetPart = (WorksheetPart)doc.WorkbookPart.GetPartById(sheet.Id);
+                var rows = AddResourceColumns(doc, tabName);
+                sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+                sheetData.Append(rows);
+                worksheetPart.Worksheet.AddMdsolNamespaceDeclaration();
             }
 
-
-            var worksheetPart = doc.WorkbookPart.AddNewPart<WorksheetPart>();
-
-            worksheetPart.Worksheet = CreateWorksheet(doc, tabName);
-
-            //Make sure it's the last tab
-            var sheetId = 9999;
-            var sheet = new Sheet
-            {
-                Id = doc.WorkbookPart.GetIdOfPart(worksheetPart),
-                SheetId = (uint) sheetId,
-                Name = tabName
-            };
-
-            sheets.Append(sheet);
+            
+            
         }
 
 
-        private Worksheet CreateWorksheet(SpreadsheetDocument doc, string tabName)
-        {
-            var sheetData = AddResourceColumns(doc, tabName);
-            var worksheet = new Worksheet(sheetData);
-            worksheet.AddMdsolNamespaceDeclaration();
-            return worksheet;
-        }
-
-
-        private SheetData AddResourceColumns(SpreadsheetDocument doc, string tabName)
+        private List<Row> AddResourceColumns(SpreadsheetDocument doc, string tabName)
         {
             foreach (var resource in _resources)
             {
                 resource.List = resource.List.OrderBy(o => o.Category).ThenBy(o => o.Value).ToList();
             }
 
-            var sd = new SheetData();
+            List<Row> rows = new List<Row>();
 
             var headerRow = new Row();
             for (var i = 0; i < _resources.Count; i++)
@@ -88,7 +92,7 @@ namespace Medidata.Rave.Tsdv.Loader
                 };
                 headerRow.Append(headerCell);
             }
-            sd.Append(headerRow);
+            rows.Add(headerRow);
 
             var resourceCount = _resources.Count;
             var maxOfResourceItems = _resources.Max(r => r.List.Count);
@@ -127,10 +131,10 @@ namespace Medidata.Rave.Tsdv.Loader
                     }
                     contentRow.Append(contentCell);
                 }
-                sd.Append(contentRow);
+                rows.Add(contentRow);
             }
             AddDefinedNames(doc, definedNameDict, tabName);
-            return sd;
+            return rows;
         }
 
         private void AddDefinedNames(SpreadsheetDocument doc, Dictionary<string, List<ResourceIndex>> definedNameDict,
