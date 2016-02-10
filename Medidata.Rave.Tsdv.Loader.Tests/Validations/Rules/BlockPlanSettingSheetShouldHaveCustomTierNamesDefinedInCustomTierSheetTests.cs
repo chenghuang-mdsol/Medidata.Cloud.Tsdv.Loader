@@ -54,7 +54,7 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
             loader.Sheet<CustomTier>().Stub(x => x.Data).Return(customDatas);
         }
 
-        private void StubBloclPlanSettingsExtraColumns(IExcelLoader loader, string extraPropName)
+        private void StubBlockPlanSettingsExtraColumns(IExcelLoader loader, string extraPropName)
         {
             loader.Stub(x => x.Sheet<BlockPlanSetting>())
                   .Return(this.GetFixture().Create<ISheetInfo<BlockPlanSetting>>());
@@ -77,7 +77,7 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         [TestMethod]
         public void Validate_ShouldPass_WhenTierNameIsArchitectDefined()
         {
-            StubBloclPlanSettingsExtraColumns(_loader, "Architect Defined");
+            StubBlockPlanSettingsExtraColumns(_loader, "Architect Defined");
 
             var result = _sut.Check(_loader, null);
 
@@ -89,7 +89,7 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         [TestMethod]
         public void Validate_ShouldPass_WhenTierNameIsNoForms()
         {
-            StubBloclPlanSettingsExtraColumns(_loader, "No Forms");
+            StubBlockPlanSettingsExtraColumns(_loader, "No Forms");
 
             var result = _sut.Check(_loader, null);
 
@@ -101,7 +101,7 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         [TestMethod]
         public void Validate_ShouldPass_WhenTierNameIsAllForms()
         {
-            StubBloclPlanSettingsExtraColumns(_loader, "All Forms");
+            StubBlockPlanSettingsExtraColumns(_loader, "All Forms");
 
             var result = _sut.Check(_loader, null);
 
@@ -113,7 +113,7 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         [TestMethod]
         public void Validate_ShouldPass_WhenTierNameIsInCustomTiers()
         {
-            StubBloclPlanSettingsExtraColumns(_loader, "CustomTier2");
+            StubBlockPlanSettingsExtraColumns(_loader, "CustomTier2");
 
             var result = _sut.Check(_loader, null);
 
@@ -126,7 +126,7 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         public void Validate_ShouldNotPass_WhenTierNameIsNotInCustomTiers()
         {
             var badTierName = this.GetFixture().Create<string>();
-            StubBloclPlanSettingsExtraColumns(_loader, badTierName);
+            StubBlockPlanSettingsExtraColumns(_loader, badTierName);
 
             var result = _sut.Check(_loader, null);
 
