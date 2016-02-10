@@ -6,6 +6,7 @@ using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 using Medidata.Rave.Tsdv.Loader.ColumnResources;
+using Medidata.Rave.Tsdv.Loader.SheetDefinitions;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
@@ -114,9 +115,9 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                     DependingKey = null,
                     List = new List<ColumnResourceItem>()
                     {
-                        new ColumnResourceItem {Category = "FormOIDSource", Value = "VISIT"},
-                        new ColumnResourceItem {Category = "FormOIDSource", Value = "SOMEDATE"},
-                        new ColumnResourceItem {Category = "FormOIDSource", Value = "UNSCHEDULED"}
+                        new ColumnResourceItem {Category = "FormOidSource", Value = "VISIT"},
+                        new ColumnResourceItem {Category = "FormOidSource", Value = "SOMEDATE"},
+                        new ColumnResourceItem {Category = "FormOidSource", Value = "UNSCHEDULED"}
                     }
                 },
                 new ColumnResource()
@@ -130,9 +131,7 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                         new ColumnResourceItem {Category = "FieldOid.UNSCHEDULED", Value = "Unscheduled"},
                         new ColumnResourceItem {Category = "FieldOid.VISIT", Value = "Visit2"},
                         new ColumnResourceItem {Category = "FieldOid.VISIT", Value = "Visit3"},
-
                         new ColumnResourceItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate2"},
-                        new ColumnResourceItem {Category = "FieldOid.UNSCHEDULED", Value = "Unscheduled"},
                         new ColumnResourceItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate3"},
                     }
                 },
