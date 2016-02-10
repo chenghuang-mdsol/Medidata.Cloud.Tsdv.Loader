@@ -21,6 +21,7 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
             var tierNamesInBlockPlanSettings = excelLoader.Sheet<BlockPlanSetting>()
                                                           .Definition
                                                           .ColumnDefinitions
+                                                          .Where(x => x.ExtraProperty)
                                                           .Select(x => x.PropertyName);
             var tierNamesInCustomTiers = excelLoader.Sheet<CustomTier>()
                                                     .Data

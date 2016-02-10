@@ -24,6 +24,7 @@ namespace Medidata.Rave.Tsdv.Loader.Validations.Rules
                                                                     out bool shouldContinue)
         {
             var messages = (from tierFolder in excelLoader.Sheet<TierFormFolder>().Definition.ColumnDefinitions
+                            where tierFolder.ExtraProperty
                             let folderOid = tierFolder.PropertyName
                             where !_helper.ExistsFolderOid(folderOid, context)
                             select CreateErrorMessage("Cannot find folder OID '{0}'.", folderOid))
