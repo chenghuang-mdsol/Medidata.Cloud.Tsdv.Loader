@@ -56,9 +56,8 @@
     <Compile Include="SheetDefinitions\v1\BlockPlanSetting.cs" />
     <Compile Include="SheetDefinitions\v1\CustomTier.cs" />
     <Compile Include="SheetDefinitions\v1\Rule.cs" />
-    <Compile Include="SheetDefinitions\v1\TierField.cs" />
-    <Compile Include="SheetDefinitions\v1\TierFolder.cs" />
-    <Compile Include="SheetDefinitions\v1\TierForm.cs" />
+    <Compile Include="SheetDefinitions\v1\TierFormField.cs" />
+    <Compile Include="SheetDefinitions\v1\TierFormFolder.cs" />
     <Compile Include="TranslateHeaderDecorator.cs" />
     <Compile Include="SheetDefinitions\Presentation\TsdvPresentationLoaderFactory.cs" />
     <Compile Include="SheetDefinitions\v1\TsdvLoaderFactory.cs" />
@@ -77,6 +76,15 @@
     <Compile Include="SheetDefinitions\Presentation\TierFolder.cs" />
     <Compile Include="SheetDefinitions\Presentation\TierForm.cs" />
     <Compile Include="SheetDefinitions\TsdvLoaderSupportedVersion.cs" />
+    <Compile Include="Validations\I18NValidationRuleBase.cs" />
+    <Compile Include="Validations\IValidationHelper.cs" />
+    <Compile Include="Validations\Rules\BlockPlanSettingSheetShouldHaveCustomTierNamesDefinedInCustomTierSheet.cs" />
+    <Compile Include="Validations\Rules\BlockPlanSettingSheetShouldHaveMatchedBlockSubjectCount.cs" />
+    <Compile Include="Validations\Rules\TierFormFieldSheetShouldHaveAllFormsExisting.cs" />
+    <Compile Include="Validations\Rules\TierFormFieldSheetShouldHaveAllTierNamesDefinedInCustomTierSheet.cs" />
+    <Compile Include="Validations\Rules\TierFormFieldSheetShouldHaveCorrectFieldFormMapping.cs" />
+    <Compile Include="Validations\Rules\TierFormFolderSheetShouldHaveAllFoldersExisting.cs" />
+    <Compile Include="Validations\Rules\TierFormFolderSheetShouldHaveAllTierNameDefinedInCustomTierSheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Medidata.Rave.Tsdv.Loader.nuspec" />
