@@ -4,8 +4,8 @@ using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
     [ExcludeFromCodeCoverage]
-    [SheetName("TierFields")]
-    public class TierField : SheetModel
+    [SheetName("TierFormFields")]
+    public class TierFormField : SheetModel
     {
         [ColumnInfo("tsdv_TierName")]
         public string TierName { get; set; }

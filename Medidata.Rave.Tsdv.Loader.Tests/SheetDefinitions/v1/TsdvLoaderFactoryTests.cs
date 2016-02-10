@@ -29,9 +29,8 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.SheetDefinitions.v1
             _loader = _fixture.Create<IExcelLoader>();
             StubSheet<BlockPlanSetting>(_loader);
             StubSheet<CustomTier>(_loader);
-            StubSheet<TierForm>(_loader);
-            StubSheet<TierField>(_loader);
-            StubSheet<TierFolder>(_loader);
+            StubSheet<TierFormField>(_loader);
+            StubSheet<TierFormFolder>(_loader);
             StubSheet<Rule>(_loader);
 
             _sut.Stub(x => x.CreateTsdvExcelLoader()).Return(_loader);
@@ -54,9 +53,8 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.SheetDefinitions.v1
 
             _loader.AssertWasCalled(x => x.Sheet<BlockPlanSetting>());
             _loader.AssertWasCalled(x => x.Sheet<CustomTier>());
-            _loader.AssertWasCalled(x => x.Sheet<TierForm>());
-            _loader.AssertWasCalled(x => x.Sheet<TierField>());
-            _loader.AssertWasCalled(x => x.Sheet<TierFolder>());
+            _loader.AssertWasCalled(x => x.Sheet<TierFormField>());
+            _loader.AssertWasCalled(x => x.Sheet<TierFormFolder>());
             _loader.AssertWasCalled(x => x.Sheet<Rule>());
             Assert.AreSame(_loader, result);
         }
@@ -76,9 +74,8 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.SheetDefinitions.v1
 
             _loader.AssertWasNotCalled(x => x.Sheet<BlockPlanSetting>());
             _loader.AssertWasNotCalled(x => x.Sheet<CustomTier>());
-            _loader.AssertWasNotCalled(x => x.Sheet<TierForm>());
-            _loader.AssertWasNotCalled(x => x.Sheet<TierField>());
-            _loader.AssertWasNotCalled(x => x.Sheet<TierFolder>());
+            _loader.AssertWasNotCalled(x => x.Sheet<TierFormField>());
+            _loader.AssertWasNotCalled(x => x.Sheet<TierFormFolder>());
             _loader.AssertWasNotCalled(x => x.Sheet<Rule>());
         }
     }
