@@ -7,19 +7,19 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
     [SheetName("TierForms")]
     public class TierForm : SheetModel
     {
-        [ColumnHeaderName("tsdv_TierName")]
+        [ColumnInfo("tsdv_TierName")]
         public string TierName { get; set; }
 
-        [ColumnHeaderName("Forms")]
+        [ColumnInfo("Forms", "Forms.FormOid")]
         public string Form { get; set; }
 
-        [ColumnHeaderName("FormOID")]
+        [ColumnInfo("FormOid", "FormOidSource")]
         public string FormOid { get; set; }
 
-        [ColumnHeaderName("tsdv_FieldsSelected")]
+        [ColumnInfo("tsdv_FieldsSelected")]
         public bool FieldsSelected { get; set; }
 
-        [ColumnHeaderName("tsdv_FoldersSelected")]
+        [ColumnInfo("tsdv_FoldersSelected")]
         public bool FoldersSelected { get; set; }
     }
 }

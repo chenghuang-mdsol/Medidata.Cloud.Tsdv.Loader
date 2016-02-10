@@ -7,13 +7,13 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
     [SheetName("CustomTiers")]
     public class CustomTier : SheetModel
     {
-        [ColumnHeaderName("tsdv_TierName")]
+        [ColumnInfo("tsdv_TierName")]
         public string TierName { get; set; }
 
-        [ColumnHeaderName("tsdv_TierDescription")]
+        [ColumnInfo("tsdv_TierDescription")]
         public string TierDescription { get; set; }
 
-        [ColumnHeaderName("tsdv_LinkedToProdStudy")]
+        [ColumnInfo("tsdv_LinkedToProdStudy")]
         public bool LinkedToProdStudy { get; set; }
     }
 }
