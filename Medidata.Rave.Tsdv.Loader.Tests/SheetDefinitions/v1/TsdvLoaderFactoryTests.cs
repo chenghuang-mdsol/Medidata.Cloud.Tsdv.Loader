@@ -2,6 +2,7 @@
 using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
 using Medidata.Interfaces.Localization;
+using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,7 +25,8 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.SheetDefinitions.v1
             _fixture = new Fixture().Customize(new AutoRhinoMockCustomization());
 
             var localization = _fixture.Create<ILocalization>();
-            _sut = MockRepository.GeneratePartialMock<TsdvLoaderFactory>(localization);
+            var namedRangeManager = _fixture.Create<INamedRangeManager>();
+            _sut = MockRepository.GeneratePartialMock<TsdvLoaderFactory>(localization, namedRangeManager);
 
             _loader = _fixture.Create<IExcelLoader>();
             StubSheet<BlockPlanSetting>(_loader);
