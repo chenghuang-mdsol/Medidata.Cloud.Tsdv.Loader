@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Medidata.Cloud.ExcelLoader.Validations.Rules
 {
     public abstract class ValidationRuleBase : IValidationRule
     {
-        public virtual IValidationRuleResult Check(IExcelLoader excelLoader)
+        public virtual IValidationRuleResult Check(IExcelLoader excelLoader, IDictionary<string, object> context)
         {
-            var shouldContinue = false;
-            Action next = () => { shouldContinue = true; };
-            IList<IValidationMessage> messages;
-            Validate(excelLoader, out messages, next);
+            bool shouldContinue;
+            var messages = Validate(excelLoader, context, out shouldContinue);
             return new ValidationRuleResult {Messages = messages, ShouldContinue = shouldContinue};
         }
 
-        internal abstract void Validate(IExcelLoader excelLoader, out IList<IValidationMessage> message, Action next);
+        protected internal abstract IEnumerable<IValidationMessage> Validate(IExcelLoader excelLoader, IDictionary<string, object> context, out bool shouldContinue);
     }
 }
