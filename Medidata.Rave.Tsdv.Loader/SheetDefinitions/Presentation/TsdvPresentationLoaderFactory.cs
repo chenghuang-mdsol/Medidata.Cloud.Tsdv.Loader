@@ -5,7 +5,7 @@ using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
-using Medidata.Rave.Tsdv.Loader.ColumnResources;
+using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
@@ -13,8 +13,8 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
     public class TsdvPresentationLoaderFactory : ITsdvExcelLoaderFactory
     {
         private readonly ILocalization _localization;
-        private readonly IColumnResourceManager _resources;
-        public TsdvPresentationLoaderFactory(ILocalization localization, IColumnResourceManager resources = null)
+        private readonly INamedRangeManager _resources;
+        public TsdvPresentationLoaderFactory(ILocalization localization, INamedRangeManager resources = null)
         {
             if (localization == null) throw new ArgumentNullException("localization");
             _localization = localization;
