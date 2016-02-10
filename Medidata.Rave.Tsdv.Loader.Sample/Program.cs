@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.Helpers;
 using Medidata.Cloud.ExcelLoader.SheetDefinitions;
+using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions;
 using Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1;
 using Microsoft.Practices.Unity;
@@ -65,6 +68,13 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 new BlockPlanSetting { Block = "111", Repeated = true, BlockSubjectCount = 100 },
                 new BlockPlanSetting { Block = "ccc"});
 
+            loader.Sheet<TierField>().Data.Add(new TierField
+            {
+                FieldOid = "Visit2",
+                FormOid = "VISIT",
+                Selected = true,
+                TierName = "Tier1"
+            });
             // Case 3
             // Add dynamic columns and add extra properties to model object.
             loader.Sheet<TierFolder>().Definition
@@ -86,6 +96,46 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
                 loader.Save(fs);
             }
             Console.WriteLine("Saved");
+        }
+
+
+    }
+
+    public class SampleNamedRangeManager : INamedRangeManager
+    {
+        public List<NamedRange> Resources { get; set; }
+
+        public SampleNamedRangeManager()
+        {
+            Resources = new List<NamedRange>()
+            {
+                new NamedRange()
+                {
+                    ResourceName = "Forms",
+                    DependingKey = null,
+                    List = new List<NamedRangeItem>()
+                    {
+                        new NamedRangeItem {Category = "FormOidSource", Value = "VISIT"},
+                        new NamedRangeItem {Category = "FormOidSource", Value = "SOMEDATE"},
+                        new NamedRangeItem {Category = "FormOidSource", Value = "UNSCHEDULED"}
+                    }
+                },
+                new NamedRange()
+                {
+                    ResourceName = "FormFields",
+                    DependingKey = null,
+                    List = new List<NamedRangeItem>()
+                    {
+                        new NamedRangeItem {Category = "FieldOid.VISIT", Value = "Visit1"},
+                        new NamedRangeItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate"},
+                        new NamedRangeItem {Category = "FieldOid.UNSCHEDULED", Value = "Unscheduled"},
+                        new NamedRangeItem {Category = "FieldOid.VISIT", Value = "Visit2"},
+                        new NamedRangeItem {Category = "FieldOid.VISIT", Value = "Visit3"},
+                        new NamedRangeItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate2"},
+                        new NamedRangeItem {Category = "FieldOid.SOMEDATE", Value = "SomeDate3"},
+                    }
+                },
+            };
         }
     }
 }

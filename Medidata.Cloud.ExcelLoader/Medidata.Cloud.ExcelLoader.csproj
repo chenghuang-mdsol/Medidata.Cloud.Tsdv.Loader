@@ -47,7 +47,8 @@
     <Compile Include="ICellTypeValueConverterManager.cs" />
     <Compile Include="IExcelLoader.cs" />
     <Compile Include="ISheetInfo.cs" />
-    <Compile Include="SheetDefinitions\ColumnHeaderNameAttribute.cs" />
+    <Compile Include="SheetDecorators\ColumnDataValidationSheetDecorator.cs" />
+    <Compile Include="SheetDefinitions\ColumnInfoAttribute.cs" />
     <Compile Include="SheetDefinitions\SheetModel.cs" />
     <Compile Include="CellTypeConverters\BooleanConverter.cs" />
     <Compile Include="CellTypeValueConverterManager.cs" />

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -41,7 +42,7 @@ namespace Medidata.Cloud.ExcelLoader
                 {
                     sheetInfo.SheetBuilder.BuildSheet(sheetInfo, sheetInfo.SheetDefinition, doc);
                 }
-
+                PostBuildSheets(doc);
                 workbookPart.Workbook.Save();
             }
         }
@@ -50,6 +51,11 @@ namespace Medidata.Cloud.ExcelLoader
         {
             if (outStream == null) throw new ArgumentNullException("outStream");
             return SpreadsheetDocument.Create(outStream, SpreadsheetDocumentType.Workbook);
+        }
+
+        protected virtual void PostBuildSheets(SpreadsheetDocument doc)
+        {
+            
         }
 
         private class SheetInfo : List<SheetModel>

@@ -7,10 +7,10 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
     [SheetName("TierFolders")]
     public class TierFolder : SheetModel
     {
-        [ColumnHeaderName("tsdv_TierName")]
+        [ColumnInfo("tsdv_TierName")]
         public string TierName { get; set; }
 
-        [ColumnHeaderName("FormOID")]
+        [ColumnInfo("FormOID", "FormOIDSource")]
         public string FormOid { get; set; }
     }
 }
