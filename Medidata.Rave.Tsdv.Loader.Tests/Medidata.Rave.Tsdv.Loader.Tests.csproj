@@ -40,6 +40,10 @@
       <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Medidata.Cloud.ExcelLoader, Version=0.1.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Medidata.Cloud.ExcelLoader.0.1.13.0\lib\net40\Medidata.Cloud.ExcelLoader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Medidata.Interfaces, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Medidata.Interfaces.0.1.3\lib\net40\Medidata.Interfaces.dll</HintPath>
       <Private>True</Private>
@@ -93,10 +97,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Medidata.Cloud.ExcelLoader\Medidata.Cloud.ExcelLoader.csproj">
-      <Project>{9b06a417-162e-45d4-ad93-7e274857599c}</Project>
-      <Name>Medidata.Cloud.ExcelLoader</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Medidata.Rave.Tsdv.Loader\Medidata.Rave.Tsdv.Loader.csproj">
       <Project>{ABC3AD09-99B9-4CCF-B771-75B9597C05AE}</Project>
       <Name>Medidata.Rave.Tsdv.Loader</Name>
