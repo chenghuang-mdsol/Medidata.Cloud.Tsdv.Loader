@@ -58,10 +58,9 @@ namespace Medidata.Rave.Tsdv.Loader.Sample
             loader.Sheet<BlockPlanSetting>().Data.Add(
                 new BlockPlanSetting
                 {
-                    Block = "fakeNameByAnonymousClass",
-                    BlockSubjectCount = 99
+                    Block = "fakeNameByAnonymousClass"
                 },
-                new BlockPlanSetting { Block = "111", Repeated = true, BlockSubjectCount = 100 },
+                new BlockPlanSetting { Block = "111", Repeated = true },
                 new BlockPlanSetting { Block = "ccc"});
 
             loader.Sheet<TierFormField>().Data.Add(new TierFormField

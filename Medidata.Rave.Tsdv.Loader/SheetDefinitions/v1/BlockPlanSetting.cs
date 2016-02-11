@@ -10,9 +10,6 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         [ColumnInfo("tsdv_Block")]
         public string Block { get; set; }
 
-        [ColumnInfo("tsdv_BlockSubjectCount")]
-        public int BlockSubjectCount { get; set; }
-
         [ColumnInfo("tsdv_Repeated")]
         public bool Repeated { get; set; }
     }

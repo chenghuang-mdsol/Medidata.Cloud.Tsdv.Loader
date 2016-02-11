@@ -86,7 +86,7 @@
     <Compile Include="TestHelpers\TestHelper.cs" />
     <Compile Include="Validations\I18NValidationRuleBaseTests.cs" />
     <Compile Include="Validations\Rules\BlockPlanSettingSheetShouldHaveCustomTierNamesDefinedInCustomTierSheetTests.cs" />
-    <Compile Include="Validations\Rules\BlockPlanSettingSheetShouldHaveMatchedBlockSubjectCountTests.cs" />
+    <Compile Include="Validations\Rules\BlockPlanSettingSheetShouldHaveMoreThanZeroTiersTests.cs" />
     <Compile Include="Validations\Rules\TierFormFieldSheetShouldHaveAllFormsExistingTests.cs" />
     <Compile Include="Validations\Rules\TierFormFieldSheetShouldHaveAllTierNamesDefinedInCustomTierSheetTests.cs" />
     <Compile Include="Validations\Rules\TierFormFieldSheetShouldHaveCorrectFieldFormMappingTests.cs" />

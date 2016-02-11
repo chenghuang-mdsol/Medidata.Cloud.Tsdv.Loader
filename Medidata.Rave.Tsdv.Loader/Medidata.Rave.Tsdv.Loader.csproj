@@ -80,7 +80,7 @@
     <Compile Include="Validations\I18NValidationRuleBase.cs" />
     <Compile Include="Validations\IValidationHelper.cs" />
     <Compile Include="Validations\Rules\BlockPlanSettingSheetShouldHaveCustomTierNamesDefinedInCustomTierSheet.cs" />
-    <Compile Include="Validations\Rules\BlockPlanSettingSheetShouldHaveMatchedBlockSubjectCount.cs" />
+    <Compile Include="Validations\Rules\BlockPlanSettingSheetShouldHaveMoreThanZeroTiers.cs" />
     <Compile Include="Validations\Rules\TierFormFieldSheetShouldHaveAllFormsExisting.cs" />
     <Compile Include="Validations\Rules\TierFormFieldSheetShouldHaveAllTierNamesDefinedInCustomTierSheet.cs" />
     <Compile Include="Validations\Rules\TierFormFieldSheetShouldHaveCorrectFieldFormMapping.cs" />
