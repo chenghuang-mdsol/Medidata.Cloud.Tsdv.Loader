@@ -6,7 +6,7 @@
     <title>Medidata.Rave.Tsdv.Loader</title>
     <authors>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</authors>
     <owners>jshao@mdsol.com,echen@mdsol.com,chuang@mdsol.com</owners>
-    <projectUrl>https://github.com/junshao/Medidata.Cloud.Tsdv.Loader</projectUrl>
+    <projectUrl>https://github.com/mdsol/Tsdv_Loader</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Medidata TSDV Excel report unloading and downloading</description>
     <releaseNotes>Depends on ExcelLoader via NuGet package and supports named ranges.</releaseNotes>
