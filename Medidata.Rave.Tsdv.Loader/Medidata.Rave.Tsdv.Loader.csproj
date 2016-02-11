@@ -46,9 +46,6 @@
   <ItemGroup>
     <Compile Include="AutoCopyrightCoveredExcelBuilder.cs" />
     <Compile Include="AutoCopyrightCoveredResourcedExcelBuilder.cs" />
-    <Compile Include="DefinedNamedRange\NamedRange.cs" />
-    <Compile Include="DefinedNamedRange\NamedRangeItem.cs" />
-    <Compile Include="DefinedNamedRange\INamedRangeManager.cs" />
     <Compile Include="Helpers\SpreadsheetExtensions.cs" />
     <Compile Include="ITsdvExcelLoaderFactory.cs" />
     <Compile Include="MdsolVersionSheetDecorator.cs" />

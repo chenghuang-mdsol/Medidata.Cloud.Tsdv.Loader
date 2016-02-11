@@ -6,19 +6,19 @@ using Medidata.Cloud.ExcelLoader;
 using Medidata.Cloud.ExcelLoader.CellTypeConverters;
 using Medidata.Cloud.ExcelLoader.SheetDecorators;
 using Medidata.Interfaces.Localization;
-using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
+using Medidata.Cloud.ExcelLoader.DefinedNamedRange;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
 {
     public class TsdvPresentationLoaderFactory : ITsdvExcelLoaderFactory
     {
         private readonly ILocalization _localization;
-        private readonly INamedRangeManager _resources;
-        public TsdvPresentationLoaderFactory(ILocalization localization, INamedRangeManager resources = null)
+        private readonly INamedRangeProvider _namedRangeProvider;
+        public TsdvPresentationLoaderFactory(ILocalization localization, INamedRangeProvider namedRangeProvider = null)
         {
             if (localization == null) throw new ArgumentNullException("localization");
             _localization = localization;
-            _resources = resources;
+            _namedRangeProvider = namedRangeProvider;
         }
 
         public IExcelLoader Create(TsdvLoaderSupportedVersion version)
@@ -40,7 +40,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.Presentation
             var customConverters = GetCustomCellTypeValueConverters().ToArray();
             var converterManager = new CellTypeValueConverterManager(customConverters);
             //var excelBuilder = new AutoCopyrightCoveredExcelBuilder();
-            var excelBuilder = new AutoCopyrightCoveredResourcedExcelBuilder(_resources);
+            var excelBuilder = new AutoCopyrightCoveredResourcedExcelBuilder(_namedRangeProvider);
             var excelParser = new ExcelParser();
 
             var sheetDecorators = new ISheetBuilderDecorator[]

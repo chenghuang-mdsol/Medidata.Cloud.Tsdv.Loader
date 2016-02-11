@@ -4,8 +4,8 @@ using System.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Medidata.Cloud.ExcelLoader.DefinedNamedRange;
 using Medidata.Cloud.ExcelLoader.Helpers;
-using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
 using Medidata.Rave.Tsdv.Loader.Helpers;
 
 namespace Medidata.Rave.Tsdv.Loader
@@ -15,13 +15,13 @@ namespace Medidata.Rave.Tsdv.Loader
         private const string resourceTabName = "__Resources__";
         private readonly List<NamedRange> _resources;
 
-        public AutoCopyrightCoveredResourcedExcelBuilder(INamedRangeManager resources)
+        public AutoCopyrightCoveredResourcedExcelBuilder(INamedRangeProvider namedRangeProvider)
         {
-            if (resources == null)
+            if (namedRangeProvider == null)
             {
-                throw new ArgumentNullException("resources");
+                throw new ArgumentNullException("namedRangeProvider");
             }
-            _resources = resources.Resources;
+            _resources = namedRangeProvider.GetNamedRanges().ToList();
         }
 
         protected override void PostBuildSheets(SpreadsheetDocument doc)

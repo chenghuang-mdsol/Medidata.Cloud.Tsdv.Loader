@@ -1,12 +1,12 @@
 ﻿using Medidata.Cloud.ExcelLoader;
+using Medidata.Cloud.ExcelLoader.DefinedNamedRange;
 using Medidata.Interfaces.Localization;
-using Medidata.Rave.Tsdv.Loader.DefinedNamedRange;
 
 namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
 {
     public class TsdvLoaderFactory : Presentation.TsdvPresentationLoaderFactory
     {
-        public TsdvLoaderFactory(ILocalization localization, INamedRangeManager resources) : base(localization,resources) {}
+        public TsdvLoaderFactory(ILocalization localization, INamedRangeProvider namedRangeProvider) : base(localization,namedRangeProvider) {}
 
         protected override IExcelLoader DefineTsdvSheets(TsdvLoaderSupportedVersion version, IExcelLoader loader)
         {
