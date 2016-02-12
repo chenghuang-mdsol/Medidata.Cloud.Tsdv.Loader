@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/mdsol/Tsdv_Loader</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Medidata TSDV Excel report unloading and downloading</description>
-    <releaseNotes>Depends on ExcelLoader via NuGet package and supports named ranges.</releaseNotes>
+    <releaseNotes>Change sheet definition of BlockSubjectSetting.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>TSDV parser loader</tags>
   </metadata>

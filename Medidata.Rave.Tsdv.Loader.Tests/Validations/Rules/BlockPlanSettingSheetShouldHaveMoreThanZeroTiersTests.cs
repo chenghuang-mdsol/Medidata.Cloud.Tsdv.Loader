@@ -11,16 +11,16 @@ using Rhino.Mocks;
 namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
 {
     [TestClass]
-    public class BlockPlanSettingSheetShouldHaveMatchedBlockSubjectCountTests
+    public class BlockPlanSettingSheetShouldHaveMoreThanZeroTiersTests
     {
         private IExcelLoader _loader;
-        private BlockPlanSettingSheetShouldHaveMatchedBlockSubjectCount _sut;
+        private BlockPlanSettingSheetShouldHaveMoreThanZeroTiers _sut;
 
         [TestInitialize]
         public void Init()
         {
             var localization = TestHelper.CreateStubLocalization();
-            _sut = new BlockPlanSettingSheetShouldHaveMatchedBlockSubjectCount(localization);
+            _sut = new BlockPlanSettingSheetShouldHaveMoreThanZeroTiers(localization);
             _loader = this.GetFixture().Create<IExcelLoader>();
         }
 
@@ -28,21 +28,18 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         [ExpectedException(typeof(ArgumentNullException))]
         public void Ctor_NullLocalization()
         {
-            _sut = new BlockPlanSettingSheetShouldHaveMatchedBlockSubjectCount(null);
+            _sut = new BlockPlanSettingSheetShouldHaveMoreThanZeroTiers(null);
         }
 
         [TestMethod]
-        public void Validate_ShouldNotPass_WhenBlockSubjectCountIsZero()
+        public void Validate_ShouldNotPass_WhenTierCountIsZero()
         {
             _loader.Stub(x => x.Sheet<BlockPlanSetting>())
                    .Return(this.GetFixture().Create<ISheetInfo<BlockPlanSetting>>());
 
             var blockPlanSettings = new[]
                                     {
-                                        new BlockPlanSetting
-                                        {
-                                            BlockSubjectCount = 0
-                                        }
+                                        new BlockPlanSetting()
                                     };
             _loader.Sheet<BlockPlanSetting>().Stub(x => x.Data).Return(blockPlanSettings);
 
@@ -54,15 +51,15 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
         }
 
         [TestMethod]
-        public void Validate_ShouldNotPass_WhenBlockSubjectCountMismatched()
+        public void Validate_ShouldNotPass_WhenTierCountIsNotZero()
         {
             _loader.Stub(x => x.Sheet<BlockPlanSetting>())
                    .Return(this.GetFixture().Create<ISheetInfo<BlockPlanSetting>>());
 
-            var blockPlanSetting = new BlockPlanSetting {BlockSubjectCount = 3};
+            var blockPlanSetting = new BlockPlanSetting ();
             dynamic blockPlanSettingDyn = blockPlanSetting;
-            blockPlanSettingDyn.ExtraProp1 = 1;
-            blockPlanSettingDyn.ExtraProp2 = 1;
+            blockPlanSettingDyn.ExtraProp1 = 0;
+            blockPlanSettingDyn.ExtraProp2 = 0;
 
             _loader.Sheet<BlockPlanSetting>().Stub(x => x.Data).Return(new[] {blockPlanSetting});
 
@@ -79,7 +76,7 @@ namespace Medidata.Rave.Tsdv.Loader.Tests.Validations.Rules
             _loader.Stub(x => x.Sheet<BlockPlanSetting>())
                    .Return(this.GetFixture().Create<ISheetInfo<BlockPlanSetting>>());
 
-            var blockPlanSetting = new BlockPlanSetting {BlockSubjectCount = 3};
+            var blockPlanSetting = new BlockPlanSetting ();
             dynamic blockPlanSettingDyn = blockPlanSetting;
             blockPlanSettingDyn.ExtraProp1 = 1;
             blockPlanSettingDyn.ExtraProp2 = 2;
