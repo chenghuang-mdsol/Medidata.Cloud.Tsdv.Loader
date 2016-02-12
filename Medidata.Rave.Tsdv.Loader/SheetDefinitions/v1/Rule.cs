@@ -31,7 +31,7 @@ namespace Medidata.Rave.Tsdv.Loader.SheetDefinitions.v1
         [ColumnInfo("tsdv_FieldOid")]
         public string FieldOid { get; set; }
 
-        [ColumnInfo("tsdv_SubjectStatus")]
+        [ColumnInfo("tsdv_SubjectStatus", "SubjectStatusSource")]
         public string SubjectStatus { get; set; }
 
         [ColumnInfo("tsdv_StepCondition")]
